@@ -20,16 +20,22 @@ class ImageProcessor {
 };
 
 // classe per il ridimensionamento dell'immagine
-class ImmagineResized : public ImageProcessor {
+class ImageResized : public ImageProcessor {
  public:
-  ImmagineResized(std::string source, std::string destination);
+  ImageResized(std::string source, std::string destination);
   sf::Image transform(const sf::Image& input) override;
 };
 
 // classe per lo Zoom dell'immagine
-class ImmagineZoomed : public ImageProcessor {
+class ImageZoomed : public ImageProcessor {
  public:
-  ImmagineZoomed(std::string source, std::string destination);
+  ImageZoomed(std::string source, std::string destination);
+  sf::Image transform(const sf::Image& input) override;
+};
+
+class ImageNoised : public ImageProcessor {
+ public:
+  ImageNoised(std::string source, std::string destination);
   sf::Image transform(const sf::Image& input) override;
 };
 

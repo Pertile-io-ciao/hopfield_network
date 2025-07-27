@@ -2,9 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <ctime>  // per time()
 #include <iostream>
 #include <string>
 #include <vector>
+
 // lato immagine
 int l = 64;
 
@@ -41,8 +43,8 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
     }
 
     // Calcola la luminanza percepita
-    double luminanza = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b);
-    int h = (luminanza < 127) ? 1 : -1;
+    double luminance = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b);
+    int h = (luminance < 127) ? 1 : -1;
     result.push_back(h);
   }
 
@@ -145,3 +147,46 @@ sf::Image image_from_vector(const std::vector<int>& dates,
 
   return imagebw;
 }
+
+std::vector<int> noise(std::vector<int> v, float prob) {
+  std::vector<int> result = v;
+
+  std::srand(static_cast<unsigned>(std::time(0)));
+
+  for (size_t i = 0; i < result.size(); ++i) {
+    float casual = static_cast<float>(std::rand()) / RAND_MAX;
+    if (casual < prob) {
+      if (result[i] == 1) {
+        result[i] = -1;
+      } else {
+        result[i] = 1;
+      }
+    }
+  }
+
+  return result;
+}
+/*std::vector<int> tagliaverticale(std::vector<int> v, int l, int inizio,
+                                 int fine) {
+  for (int i = 0; i < l; ++i) {
+    for (int j = 0; j < l; ++j) {
+      if (j >= inizio && j <= fine) {
+        v[i * l + j] = 1;
+      }
+    }
+  }
+  return v;
+}  // si potrebbe implementare dando errore quando inizio e fine non siano della
+   // grandezza adeguata*/
+
+/*std::vector<int> tagliaorizzontale(std::vector<int> v, int l, int inizio,
+                                   int fine) {
+  for (int i = 0; i < l; ++i) {
+    for (int j = 0; j < l; ++j) {
+      if (i >= inizio && i <= fine) {
+        v[i * l + j] = 1;
+      }
+    }
+  }
+  return v;
+}*/

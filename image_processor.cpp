@@ -49,10 +49,10 @@ void ImageProcessor::process() {  // metodo process
 }
 
 // classe derivata
-ImmagineResized::ImmagineResized(std::string source, std::string destination)
+ImageResized::ImageResized(std::string source, std::string destination)
     : ImageProcessor(source, destination) {}
 // inizializza la sottoclasse passando i percorsi della classe base
-sf::Image ImmagineResized::transform(const sf::Image& input) {
+sf::Image ImageResized::transform(const sf::Image& input) {
   std::vector<sf::Color> colors = vector_from_image(
       input);  // vettore di sf::Color(immagine convertita in un vettore)
   std::vector<int> vector1 =
@@ -68,10 +68,10 @@ sf::Image ImmagineResized::transform(const sf::Image& input) {
   return image;
 }
 
-ImmagineZoomed::ImmagineZoomed(std::string source, std::string destination)
+ImageZoomed::ImageZoomed(std::string source, std::string destination)
     : ImageProcessor(source, destination) {}
 
-sf::Image ImmagineZoomed::transform(const sf::Image& input) {
+sf::Image ImageZoomed::transform(const sf::Image& input) {
   std::vector<sf::Color> colori =
       vector_from_image(input);                    // vettore di sf::Color
   std::vector<int> vector1 = blacknwhite(colori);  // -1 / 1
@@ -80,9 +80,25 @@ sf::Image ImmagineZoomed::transform(const sf::Image& input) {
   return image;
 }
 
+ImageNoised::ImageNoised(std::string source, std::string destination)
+    : ImageProcessor(source, destination) {}
+
+sf::Image ImageNoised::transform(const sf::Image& input) {
+  std::vector<sf::Color> colori = vector_from_image(input);
+  std::vector<int> vector1 = blacknwhite(colori);
+  std::vector<int> vector2 = zoom(vector1, 4);  // zoom
+  std::vector<int> vector3 = noise(vector2, 0.1f); // applica rumore al vettore zoommato
+  sf::Image image = image_from_vector(vector3);
+  return image;
+}
+
+   
+
 int main() {
-  ImmagineResized interp("images/source", "images/resized");
+  ImageResized interp("images/source", "images/resized");
   interp.process();
-  ImmagineZoomed zoomma("images/resized", "images/zoomed");
+  ImageZoomed zoomma("images/resized", "images/zoomed");
   zoomma.process();
+  ImageNoised corrump("images/zoomed", "images/noised");
+  corrump.process();
 }
