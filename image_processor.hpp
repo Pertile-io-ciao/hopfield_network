@@ -26,7 +26,6 @@ class ImmagineResized : public ImageProcessor {
   sf::Image transform(const sf::Image& input) override;
 };
 
-
 // classe per lo Zoom dell'immagine
 class ImmagineZoomed : public ImageProcessor {
  public:
