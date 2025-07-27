@@ -86,9 +86,8 @@ ImageNoised::ImageNoised(std::string source, std::string destination)
 sf::Image ImageNoised::transform(const sf::Image& input) {
   std::vector<sf::Color> colori = vector_from_image(input);
   std::vector<int> vector1 = blacknwhite(colori);
-  std::vector<int> vector2 = zoom(vector1, 4);  // zoom
-  std::vector<int> vector3 = noise(vector2, 0.1f); // applica rumore al vettore zoommato
-  sf::Image image = image_from_vector(vector3);
+  std::vector<int> vector2 = noise(vector1, 0.08f); // applica rumore al vettore zoommato
+  sf::Image image = image_from_vector(vector2);
   return image;
 }
 
@@ -97,8 +96,8 @@ sf::Image ImageNoised::transform(const sf::Image& input) {
 int main() {
   ImageResized interp("images/source", "images/resized");
   interp.process();
-  ImageZoomed zoomma("images/resized", "images/zoomed");
-  zoomma.process();
-  ImageNoised corrump("images/zoomed", "images/noised");
+  ImageNoised corrump("images/resized", "images/noised");
   corrump.process();
+  ImageZoomed zoomma("images/noised", "images/zoomed_w_noise");
+  zoomma.process();
 }
