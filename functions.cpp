@@ -166,6 +166,26 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 
   return result;
 }
+//regola di hebb per calcolare la matrice dei pesi
+std::vector<std::vector<int>> hebb(const std::vector<std::vector<int>>& v){ // v è una matrice p x n
+    int p= v.size(); //numero di pattern che voglio memorizzare
+    int n= v[0].size(); //numero di neuroni
+    std::vector<std::vector<int>> W(n, std::vector<int>(n, 0)); // inizializza la matrice n x n, tutta 0
+    for (int i = 0; i < n; ++i) {  // due cicli per considerare ogni neurone
+        for (int j = 0; j < n; ++j) {
+            int sum = 0;
+            for (int k = 0; k < p; ++k) {
+                sum += v[k][i] * v[k][j];   //la sommatoria della regola
+             }
+            if (i != j) {
+                W[i][j] = sum/n;  // regola completa
+            } else {
+              W[i][j] = 0; // niente auto-connessioni
+         }
+    }
+    }
+    return W; 
+};
 /*std::vector<int> tagliaverticale(std::vector<int> v, int l, int inizio,
                                  int fine) {
   for (int i = 0; i < l; ++i) {
