@@ -6,8 +6,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <fstream>
+#include <sstream>  //per load matrix
+#include <fstream> //per load matrix
 
 // lato immagine
 int l = 64;
