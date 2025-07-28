@@ -18,3 +18,5 @@ std::vector<int> zoom(const std::vector<int>& v, int n);
 std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
 
 std::vector<std::vector<int>> hebb(const std::vector<std::vector<int>>& v);
+void save_matrix (const std::vector<std::vector<int>>& matrix);
+std::vector<std::vector<int>> load_matrix();

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
+#include <fstream>
 
 // lato immagine
 int l = 64;
@@ -186,6 +188,39 @@ std::vector<std::vector<int>> hebb(const std::vector<std::vector<int>>& v){ // v
     }
     return W; 
 };
+// salva matrice
+void save_matrix (const std::vector<std::vector<int>>& matrix) {
+  std::ofstream out("weight_matrix.txt"); //Se il file non esiste, lo crea. Se esiste, lo sovrascrive.
+    for (const auto& row : matrix) {    // lo dispone bene pure graficamente con spazi per dividere le
+        for (int value : row) {         //colonne e \n per ogni riga
+            out << value << " ";
+        }
+        out << "\n";
+    }
+}
+
+//il contrario di quella sopra
+std::vector<std::vector<int>> load_matrix() {
+    std::ifstream in("weight_matrix.txt");           // Apro il file in lettura
+    std::vector<std::vector<int>> W;           // Matrice da riempire
+    std::string line;
+
+    while (std::getline(in, line)) {                // Leggo una riga alla volta
+        std::istringstream iss(line);               // Creo uno stream dalla stringa
+        std::vector<int> row;
+        int value;
+
+        while (iss >> value) {                      // Estraggo gli interi
+            row.push_back(value);
+        }
+
+        if (!row.empty()) {
+            W.push_back(row);                  // Aggiungo la riga alla matrice
+        }
+    }
+
+    return W;
+}
 /*std::vector<int> tagliaverticale(std::vector<int> v, int l, int inizio,
                                  int fine) {
   for (int i = 0; i < l; ++i) {
