@@ -83,8 +83,9 @@ int main() {
 }
 /*ho molte domande: il main dovrebbe stare nel main.cpp?
   su graphics.hpp non ho scritto nulla, che ci devo scrivere? (questo forse ce
-  la posso fare) ci sono dell cose inglese da cambiare per compilare con cmake,
-  mi dava una sprta di conflitto perche cerano due main-->ho tolto
-  imageprocessor.cpp dagli eseguibili, pero cosi non mi convince di andare ogni
-  volta a cambiarli... domani commento tutto per bene!
+  la posso fare) 
+  ci sono dell cose inglese da cambiare 
+  per compilare con cmake, mi dava una sprta di conflitto perche cerano due main-->ho tolto
+  imageprocessor.cpp dagli eseguibili, pero cosi non mi convince di andare ogni volta a cambiarli... 
+  domani commento tutto per bene!
   */
