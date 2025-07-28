@@ -1,17 +1,11 @@
 # ninja log v5
-1	966	1753635371545688851	CMakeFiles/image_processor.dir/functions.cpp.o	accd6bc2538d4c3b
-1	1091	1753635371668761491	CMakeFiles/image_processor.dir/image_processor.cpp.o	6e68e5d7788f6b39
-1092	1252	1753635371830294331	image_processor	77047dd1a157eb3
-5	1228	1753638447031034640	CMakeFiles/image_processor.dir/image_processor.cpp.o	6e68e5d7788f6b39
-3	984	1753638574030204672	CMakeFiles/image_processor.dir/image_processor.cpp.o	6e68e5d7788f6b39
-2	786	1753638688852668648	CMakeFiles/image_processor.dir/functions.cpp.o	accd6bc2538d4c3b
-786	955	1753638689021765319	image_processor	77047dd1a157eb3
-3	920	1753638882941670904	CMakeFiles/image_processor.dir/image_processor.cpp.o	6e68e5d7788f6b39
-920	1056	1753638883077545213	image_processor	77047dd1a157eb3
-5	1719	1753652790872275174	CMakeFiles/image_processor.dir/image_processor.cpp.o	6e68e5d7788f6b39
-1719	2107	1753652791259529189	image_processor	77047dd1a157eb3
-4	1072	1753652859288310434	CMakeFiles/image_processor.dir/functions.cpp.o	accd6bc2538d4c3b
-4	1217	1753652859432156541	CMakeFiles/image_processor.dir/image_processor.cpp.o	6e68e5d7788f6b39
-1217	1483	1753652859696522357	image_processor	77047dd1a157eb3
+2	305	1753694170115814279	image_processor	b7d3897193ab932d
 3	1767	1753691313325244086	CMakeFiles/image_processor.dir/image_processor.cpp.o	6e68e5d7788f6b39
-1767	2133	1753691313693244061	image_processor	77047dd1a157eb3
+1	720	1753694278637408433	build.ninja	aea8093caae5013e
+4	1072	1753652859288310434	CMakeFiles/image_processor.dir/functions.cpp.o	accd6bc2538d4c3b
+3	1541	1753694138478059686	CMakeFiles/image_processor.dir/graphics.cpp.o	41f3afb4948abedd
+2	654	1753694278637408433	build.ninja	aea8093caae5013e
+2	1316	1753694401633816156	CMakeFiles/image_processor.dir/graphics.cpp.o	41f3afb4948abedd
+1317	1520	1753694401835509740	image_processor	b7d3897193ab932d
+2	981	1753694673315965188	CMakeFiles/image_processor.dir/graphics.cpp.o	41f3afb4948abedd
+981	1186	1753694673518545685	image_processor	b7d3897193ab932d

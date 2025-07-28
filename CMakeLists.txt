@@ -27,9 +27,9 @@ string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined")
 # trova SFML
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
-add_executable(image_processor 
-     image_processor.cpp
+add_executable(image_processor
      functions.cpp
+     graphics.cpp
       )
 
 

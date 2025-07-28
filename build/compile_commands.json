@@ -1,14 +1,14 @@
 [
 {
   "directory": "/home/marghe/hopfield_network/build",
-  "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/image_processor.dir/image_processor.cpp.o -c /home/marghe/hopfield_network/image_processor.cpp",
-  "file": "/home/marghe/hopfield_network/image_processor.cpp",
-  "output": "CMakeFiles/image_processor.dir/image_processor.cpp.o"
-},
-{
-  "directory": "/home/marghe/hopfield_network/build",
   "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/image_processor.dir/functions.cpp.o -c /home/marghe/hopfield_network/functions.cpp",
   "file": "/home/marghe/hopfield_network/functions.cpp",
   "output": "CMakeFiles/image_processor.dir/functions.cpp.o"
+},
+{
+  "directory": "/home/marghe/hopfield_network/build",
+  "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/image_processor.dir/graphics.cpp.o -c /home/marghe/hopfield_network/graphics.cpp",
+  "file": "/home/marghe/hopfield_network/graphics.cpp",
+  "output": "CMakeFiles/image_processor.dir/graphics.cpp.o"
 }
 ]
