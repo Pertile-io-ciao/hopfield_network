@@ -258,11 +258,23 @@ MEMORYCHECK_COMMAND:FILEPATH=MEMORYCHECK_COMMAND-NOTFOUND
 //File that contains suppressions for the memory checker
 MEMORYCHECK_SUPPRESSIONS_FILE:FILEPATH=
 
+//The directory containing a CMake configuration file for SDL2.
+SDL2_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/SDL2
+
+//The directory containing a CMake configuration file for SDL2_ttf.
+SDL2_ttf_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/SDL2_ttf
+
 //The directory containing a CMake configuration file for SFML.
 SFML_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/SFML
 
 //Name of the computer/site where compile is being run
 SITE:STRING=THINKBOOK2
+
+//The directory containing a CMake configuration file for TGUI.
+TGUI_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/TGUI
+
+//The directory containing a CMake configuration file for glfw3.
+glfw3_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/glfw3
 
 //Value Computed by CMake
 regression_BINARY_DIR:STATIC=/home/marghe/hopfield_network/build

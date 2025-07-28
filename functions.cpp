@@ -205,17 +205,17 @@ std::vector<std::vector<int>> load_matrix() {
     std::vector<std::vector<int>> W;           // Matrice da riempire
     std::string line;
 
-    while (std::getline(in, line)) {                // Leggo una riga alla volta
-        std::istringstream iss(line);               // Creo uno stream dalla stringa
+    while (std::getline(in, line)) {       // Leggo una riga alla volta
+        std::istringstream iss(line);      // Creo uno stream dalla stringa
         std::vector<int> row;
         int value;
 
-        while (iss >> value) {                      // Estraggo gli interi
+        while (iss >> value) {            // Estraggo gli interi
             row.push_back(value);
         }
 
         if (!row.empty()) {
-            W.push_back(row);                  // Aggiungo la riga alla matrice
+            W.push_back(row);            // Aggiungo la riga alla matrice
         }
     }
 
