@@ -98,6 +98,8 @@ int main() {
   interp.process();
   ImageNoised corrump("images/resized", "images/noised");
   corrump.process();
-  ImageZoomed zoomma("images/noised", "images/zoomed_w_noise");
-  zoomma.process();
+  ImageZoomed zoom_w_noise("images/noised", "images/zoomed_w_noise");
+  zoom_w_noise.process();
+  ImageZoomed zoom("images/resized", "images/zoomed");
+  zoom.process();
 }
