@@ -1,45 +1,77 @@
 #include <SFML/Graphics.hpp>
-#include "graphics.hpp"
+#include <iostream>
+#include <vector>
 
-// Funzione per disegnare le texture nella finestra
-int disegna(sf::Texture& texture1, sf::Texture& texture2, sf::Texture& texture3, sf::Texture& texture4, sf::Texture& distorta) {
-    // Crea una finestra di rendering
-    sf::RenderWindow window(sf::VideoMode(1900, 800), "Rete neurale di Hopfield");
+// Funzione per verificare se un punto è dentro uno sprite
+bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
+    return sprite.getGlobalBounds().contains(mousePos);
+}
 
-    // Crea gli sprite associati alle texture
-    sf::Sprite sprite1(texture1);
-    sf::Sprite sprite2(texture2);
-    sf::Sprite sprite3(texture3);
-    sf::Sprite sprite4(texture4);
-    sf::Sprite sprited(distorta);
+int main() {
+    sf::RenderWindow window(sf::VideoMode(1900, 800), "hopfield_network");
 
-    // Imposta le posizioni degli sprite
-    sprite1.setPosition(0.f, 0.f);
-    sprite2.setPosition(500.f, 0.f);
-    sprite3.setPosition(1000.f, 0.f);
-    sprite4.setPosition(1500.f, 0.f);
-    sprited.setPosition(600.f, 400.f); // Posizione per l'immagine distorta
+    // Percorsi delle immagini
+    std::vector<std::string> file_names = {"img1.png", "img2.png", "img3.png", "img4.png"};
+    std::string zoomed = "images/zoomed/";
+    std::string zoomed_w_noise = "images/zoomed_w_noise/";
 
-    // Loop principale della finestra
+    std::vector<sf::Texture> textures(4);
+    std::vector<sf::Sprite> sprites(4);
+    std::vector<std::string> noisedpath(4);
+
+    // Carica immagini originali
+    for (int i = 0; i < 4; ++i) {
+        if (!textures[i].loadFromFile(zoomed + file_names[i])) {
+            std::cerr << "Errore nel caricamento di: " << zoomed_w_noise + file_names[i] << "\n";
+            return -1;
+        }
+        sprites[i].setTexture(textures[i]);
+        sprites[i].setPosition(i * 475.f, 0.f);  // distanza tra immagini
+        noisedpath[i] = zoomed_w_noise + file_names[i];
+    }
+
+    sf::Texture texturenoised;
+    sf::Sprite spritenoised;
+    bool is_noised = false;
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            // Chiudi la finestra se viene richiesto
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                for (int i = 0; i < 4; ++i) {
+                    if (isSpriteClicked(sprites[i], mousePos)) {
+                        // Carica immagine corrotta corrispondente
+                        if (!texturenoised.loadFromFile(noisedpath[i])) {
+                            std::cerr << "Errore nel caricamento dell'immagine corrotta: " << noisedpath[i] << "\n";
+                        } else {
+                            spritenoised.setTexture(texturenoised);
+                            // Centra la versione corrotta nella parte bassa
+                            float x = (window.getSize().x - texturenoised.getSize().x) / 2.f;
+                            float y = 500.f; // posizione verticale bassa
+                            spritenoised.setPosition(x, y);
+                            is_noised = true;
+                        }
+                    }
+                }
+            }
         }
 
-        // Pulisce la finestra con il colore nero
         window.clear(sf::Color::Black);
 
-        // Disegna tutti gli sprite
-        window.draw(sprite1);
-        window.draw(sprite2);
-        window.draw(sprite3);
-        window.draw(sprite4);
-        window.draw(sprited); // Assicurati di disegnare anche l'immagine distorta
+        // Disegna immagini originali
+        for (auto& sprite : sprites) {
+            window.draw(sprite);
+        }
 
-        // Visualizza il contenuto disegnato
+        // Disegna immagine distorta se presente
+        if (is_noised) {
+            window.draw(spritenoised);
+        }
+
         window.display();
     }
 
