@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp> 
-#include <TGUI/TGUI.hpp>
+
 #include <iostream>
 #include <vector>
 
@@ -10,11 +10,7 @@ bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
 
 int main() {
   sf::RenderWindow window(sf::VideoMode(1900, 800), "hopfield_network");
-  tgui::Gui gui(window);
-  auto menuBar = tgui::MenuBar::create();
-  menuBar->setSize({"100%",25});
-  tgui add(menuBar);
-
+  
 
   // Percorsi delle immagini
   std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png",
