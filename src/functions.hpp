@@ -20,3 +20,6 @@ std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
 std::vector<std::vector<int>> hebb(const std::vector<std::vector<int>>& v);
 void save_matrix (const std::vector<std::vector<int>>& matrix);
 std::vector<std::vector<int>> load_matrix();
+
+std::vector<int> hopfield_update(const std::vector<int>& x,const std::vector<std::vector<double>>& W);
+double energy_function(const std::vector<int>& x, const std::vector<std::vector<double>>& W);

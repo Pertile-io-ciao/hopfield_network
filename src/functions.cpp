@@ -221,6 +221,35 @@ std::vector<std::vector<int>> load_matrix() {
 
     return W;
 }
+//aggiornamento del neurone
+std::vector<int> hopfield_update(const std::vector<int>& x,const std::vector<std::vector<double>>& W) {
+    int n = x.size();
+    std::vector<int> x_new(n);
+
+    for (int i = 0; i < n; ++i) {
+        double sum = 0.0;           //doppio ciclo per prendere ogni neurone
+        for (int j = 0; j < n; ++j) {
+            sum += W[i][j] * x[j];
+        }
+       x_new[i]=(sum >= 0) ? 1 : -1;  // ±1 per ogni neurone; come la funzione segno
+    }
+
+    return x_new;
+}
+//funzione dell'energia
+double energy_function(const std::vector<int>& x, const std::vector<std::vector<double>>& W) {
+    int n = x.size();
+    double energy = 0.0;
+
+    for (int i = 0; i < n; ++i) {       // solito cicletto for doppio
+        for (int j = 0; j < n; ++j) {
+            energy += W[i][j] * x[i] * x[j];
+        }
+    }
+
+    return -0.5 * energy;
+}
+
 /*std::vector<int> tagliaverticale(std::vector<int> v, int l, int inizio,
                                  int fine) {
   for (int i = 0; i < l; ++i) {
