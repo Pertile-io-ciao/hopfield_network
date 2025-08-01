@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp> 
-
 #include <iostream>
 #include <vector>
 
@@ -18,19 +17,20 @@ sf::Font font;
 if (!font.loadFromFile("resources/arial.ttf")) {
     std::cerr << "Errore nel caricamento del font\n";
 }
-
+//inizializzo 
 bool showPopup = false;
 bool showNoisedImage = false;
 int selectedImageIndex = -1;
-
-sf::RectangleShape popupBox(sf::Vector2f(300.f, 200.f));
+//pop up
+sf::RectangleShape popupBox(sf::Vector2f(300.f, 250.f));
 popupBox.setFillColor(sf::Color(64, 224, 208, 255)); 
-popupBox.setPosition(800.f, 300.f); // centro approssimativo
+popupBox.setPosition(800.f, 300.f); 
 
-std::vector<sf::Text> popupOptions(3);
-std::vector<std::string> optionLabels = {"Noised", "Vertical Cut", "Orizontal Cut"};
+//opzioni del pop up
+std::vector<sf::Text> popupOptions(4);
+std::vector<std::string> optionLabels = {"Noised", "Vertical Cut", "Orizontal Cut", "Reverse"};
 
-for (int i = 0; i < 3; ++i) {
+for (int i = 0; i < 4; ++i) {
     popupOptions[i].setFont(font);
     popupOptions[i].setString(optionLabels[i]);
     popupOptions[i].setCharacterSize(24);
@@ -39,11 +39,10 @@ for (int i = 0; i < 3; ++i) {
 }
 
   // Percorsi delle immagini
-  std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png",
-                                         "totoro.png"};
+  std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png", "totoro.png"};
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
-
+//inizializzo i 4 sprites che andranno in alto (quelli normali)
   std::vector<sf::Texture> textures(4);
   std::vector<sf::Sprite> sprites(4);
   std::vector<std::string> noisedpath(4);
@@ -56,14 +55,16 @@ for (int i = 0; i < 3; ++i) {
       return -1;
     }
     sprites[i].setTexture(textures[i]);
-    sprites[i].setPosition(i * 475.f+109.5f, 0.f);  // distanza tra immagini
-    noisedpath[i] = zoomed_w_noise + file_names[i];
+    sprites[i].setPosition(i * 475.f+109.5f, 0.f);  // distanza tra immagini, le ho centrate
+    noisedpath[i] = zoomed_w_noise + file_names[i];     //<-- prende l'immagine noised e zoomata e la salva
   }
-
+  //inizializzo lo strite noised
   sf::Texture texturenoised;
   sf::Sprite spritenoised;
   bool is_noised = false;
 
+
+  //ciclo principale che racchiude tutta la grafica che si vede a schermo
   while (window.isOpen()) {
     sf::Event event;      //carica tutti gli eventi utente (mouse, tastiera...)
       while (window.pollEvent(event)) {
@@ -75,20 +76,18 @@ for (int i = 0; i < 3; ++i) {
         
         sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));    //mappa i miei spostamenti
         
-        if (showPopup) {
+        if (showPopup) { //inizializzato a false (sopra)
             if (showPopup) {
-        for (int i = 0; i < 3; ++i) {
-            sf::FloatRect bounds = popupOptions[i].getGlobalBounds();
-            if (bounds.contains(mousePos)) {
-                if (i == 0 && selectedImageIndex != -1) {  
-                    // Se clicco la prima opzione e un'immagine è selezionata,
-                    // carica la texture noised e mostra l'immagine
+        for (int i = 0; i < 4; ++i) {   //ciclo per le opzioni
+            sf::FloatRect bounds = popupOptions[i].getGlobalBounds(); //.getGlobalBounds() restituisce un sf::FloatRect, cioè un rettangolo che rappresenta la posizione e le dimensioni dell'oggetto
+            if (bounds.contains(mousePos)) { //se premi l'opzione (i confini son definiti nella riga sopra)
+                if (i == 0 && selectedImageIndex != -1) {  // se premo noised (1 opzione) e ho gia selezionato un immagine
                     if (!texturenoised.loadFromFile(noisedpath[selectedImageIndex])) {
                         std::cerr << "Errore nel caricamento dell'immagine corrotta: "
                                   << noisedpath[selectedImageIndex] << "\n";
                     } else {
                         spritenoised.setTexture(texturenoised);
-                        float x = (window.getSize().x - texturenoised.getSize().x) / 2.f;
+                        float x = 283.f; //sto considerando che ci siano 3 immagini centrate ( noised; aggiornamento; finale)
                         float y = 500.f;
                         spritenoised.setPosition(x, y);
                         showNoisedImage = true;
