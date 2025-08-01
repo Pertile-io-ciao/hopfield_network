@@ -38,6 +38,25 @@ for (int i = 0; i < 4; ++i) {
     popupOptions[i].setPosition(popupBox.getPosition().x + 30.f, popupBox.getPosition().y + 30.f + i * 50.f);
 }
 
+//inizializzo load image (pulsante alto a destra)
+sf::RectangleShape load_images(sf::Vector2f(300.f, 40.f));
+load_images.setFillColor(sf::Color(64, 224, 208, 255)); 
+load_images.setPosition(1600.f, 0.f); 
+
+
+sf::Text load_imagestxt;
+ load_imagestxt.setFont(font);
+ load_imagestxt.setString("Load images from your pc");
+ load_imagestxt.setCharacterSize(15);
+ load_imagestxt.setFillColor(sf::Color::Black);
+ 
+sf::FloatRect textBounds = load_imagestxt.getLocalBounds();
+load_imagestxt.setOrigin(textBounds.left + textBounds.width / 2.f,
+                textBounds.top + textBounds.height / 2.f);
+
+sf::Vector2f boxCenter = load_images.getPosition() + load_images.getSize() / 2.f;
+load_imagestxt.setPosition(boxCenter);
+
   // Percorsi delle immagini
   std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png", "totoro.png"};
   std::string zoomed = "resources/images/zoomed/";
@@ -121,6 +140,9 @@ for (int i = 0; i < 4; ++i) {
     for (auto& sprite : sprites) {
       window.draw(sprite);
     }
+
+    window.draw(load_images);
+    window.draw(load_imagestxt);
 
     // Disegna immagine distorta se presente
     if (is_noised) {
