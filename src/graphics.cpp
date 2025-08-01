@@ -55,7 +55,7 @@ for (int i = 0; i < 4; ++i) {
       return -1;
     }
     sprites[i].setTexture(textures[i]);
-    sprites[i].setPosition(i * 475.f+109.5f, 0.f);  // distanza tra immagini, le ho centrate
+    sprites[i].setPosition(i * 475.f+109.5f, 80.f);  // distanza tra immagini, le ho centrate
     noisedpath[i] = zoomed_w_noise + file_names[i];     //<-- prende l'immagine noised e zoomata e la salva
   }
   //inizializzo lo strite noised
@@ -88,7 +88,7 @@ for (int i = 0; i < 4; ++i) {
                     } else {
                         spritenoised.setTexture(texturenoised);
                         float x = 283.f; //sto considerando che ci siano 3 immagini centrate ( noised; aggiornamento; finale)
-                        float y = 500.f;
+                        float y = 450.f;
                         spritenoised.setPosition(x, y);
                         showNoisedImage = true;
                     }
