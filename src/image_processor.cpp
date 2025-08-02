@@ -93,7 +93,7 @@ sf::Image ImageNoised::transform(const sf::Image& input) {
 
    
 
-int main() {
+/*int main() {
   ImageResized interp("images/source", "images/resized");
   interp.process();
   ImageNoised corrump("images/resized", "images/noised");
@@ -102,4 +102,4 @@ int main() {
   zoom_w_noise.process();
   ImageZoomed zoom("images/resized", "images/zoomed");
   zoom.process();
-}
+}*/

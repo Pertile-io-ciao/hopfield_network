@@ -27,17 +27,17 @@ string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined")
 # trova SFML
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
-# trova TGUI
-find_package(TGUI REQUIRED)
 
-add_executable(image_processor
-     functions.cpp
-     graphics.cpp
+add_executable(hopfield_network
+     src/main.cpp
+     src/image_processor.cpp
+     src/functions.cpp
+     src/graphics.cpp
       )
 
 
 # Linka SFML
-target_link_libraries(image_processor PRIVATE sfml-graphics sfml-window sfml-system tgui)
+target_link_libraries(hopfield_network PRIVATE sfml-graphics sfml-window sfml-system)
 
 # se il testing e' abilitato...
 #   per disabilitare il testing, passare -DBUILD_TESTING=OFF a cmake durante la fase di configurazione
