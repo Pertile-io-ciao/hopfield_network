@@ -12,6 +12,8 @@ bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
 // dimensioni dello sprite .contains(mousePos) verifica se il punto (mouse) è
 // dentro il rettangolo
 
+std::vector<bool> optionSelected(4, false);
+
 int draw() {
   const float virtualWidth = 1900.f;
   const float virtualHeight = 800.f;
@@ -41,7 +43,7 @@ int draw() {
   int selectedImageIndex = -1;   // indica quale immagine è staat cliccata
 
   // crazione pop up
-  sf::RectangleShape popupBox(sf::Vector2f(300.f, 250.f));  // rettangolo
+  sf::RectangleShape popupBox(sf::Vector2f(300.f, 280.f));  // rettangolo
                                                             // grafico
   popupBox.setFillColor(
       sf::Color(64, 224, 208, 255));   // imposta il colore (RGBA)
@@ -62,6 +64,14 @@ int draw() {
   }
   // imposta stile, font, dimensione, colore e posizione a ciascuna voce del pop
   // up
+
+  sf::Text applyButton;
+  applyButton.setFont(font);
+  applyButton.setString("Apply");
+  applyButton.setCharacterSize(24);
+  applyButton.setFillColor(sf::Color::White);
+  applyButton.setPosition(popupBox.getPosition().x + 100.f,
+                          popupBox.getPosition().y + 230.f);
 
   // inizializzo load image (pulsante in alto a destra)
   sf::RectangleShape load_images(sf::Vector2f(300.f, 40.f));
@@ -161,30 +171,88 @@ int draw() {
                                            // sf::FloatRect, cioè un rettangolo
                                            // che rappresenta la posizione e le
                                            // dimensioni dell'oggetto
-              if (bounds.contains(
-                      mousePos)) {  // se premi l'opzione (i confini son
-                                    // definiti nella riga sopra)
-                if (i == 0 && selectedImageIndex !=
-                                  -1) {  // se premo noised (1 opzione) e ho gia
-                                         // selezionato un immagine
+                                           /* if (bounds.contains(
+                                                    mousePos)) {  // se premi l'opzione (i confini son
+                                                                  // definiti nella riga sopra)
+                                              if (i == 0 && selectedImageIndex !=
+                                                                -1) {  // se premo noised (1 opzione) e ho
+                                            gia
+                                                                       // selezionato un immagine
+                                                if (!texturenoised.loadFromFile(
+                                                        noisedpath[selectedImageIndex])) {
+                                                  std::cerr
+                                                      << "Error loading noised image: "
+                                                      << noisedpath[selectedImageIndex] << "\n";
+                                                } else {
+                                                  spritenoised.setTexture(texturenoised);
+                                                  float x =
+                                                      283.f;  // sto considerando che ci siano 3 immagini
+                                                              // centrate ( noised; aggiornamento; finale)
+                                                  float y = 450.f;
+                                                  spritenoised.setPosition(x, y);
+                                                  showNoisedImage = true;
+                                                }
+                                              }
+                             
+                                              showPopup = false;  // chiudi popup dopo il click
+                                              break;
+                                            }*/
+              if (bounds.contains(mousePos)) {
+                optionSelected[i] = !optionSelected[i];  // toggle: ON <-> OFF
+              }
+            }
+            // Controllo clic su "Apply"
+            if (applyButton.getGlobalBounds().contains(mousePos)) {
+              if (selectedImageIndex != -1) {
+                std::string imageToLoad = "";
+                bool applied = false;
+
+                // Ordine di priorità: Noised → Vertical → Orizontal → Reverse
+                if (optionSelected[0]) {
+                  imageToLoad = zoomed_w_noise + file_names[selectedImageIndex];
+                  applied = true;
+                } else if (optionSelected[1]) {
+                  imageToLoad = "resources/images/vertical_cut/" +
+                                file_names[selectedImageIndex];
+                  applied = true;
+                } else if (optionSelected[2]) {
+                  imageToLoad = "resources/images/orizontal_cut/" +
+                                file_names[selectedImageIndex];
+                  applied = true;
+                } else if (optionSelected[3]) {
+                  imageToLoad = "resources/images/reverse/" +
+                                file_names[selectedImageIndex];
+                  applied = true;
+                }
+
+                // Se nessuna opzione selezionata, non fare nulla
+                if (!applied) {
+                  std::cout << "Nessuna opzione selezionata.\n";
+                  return 0;
+                }
+
+                // Prova a caricare l'immagine modificata
+                if (!texturenoised.loadFromFile(imageToLoad)) {
+                  std::cerr
+                      << "Immagine modificata non trovata: " << imageToLoad
+                      << "\n";
+
+                  // Fallback: carica immagine originale
                   if (!texturenoised.loadFromFile(
-                          noisedpath[selectedImageIndex])) {
+                          zoomed + file_names[selectedImageIndex])) {
                     std::cerr
-                        << "Error loading noised image: "
-                        << noisedpath[selectedImageIndex] << "\n";
+                        << "Errore anche nel caricamento immagine originale\n";
+                    return -1;
                   } else {
-                    spritenoised.setTexture(texturenoised);
-                    float x =
-                        283.f;  // sto considerando che ci siano 3 immagini
-                                // centrate ( noised; aggiornamento; finale)
-                    float y = 450.f;
-                    spritenoised.setPosition(x, y);
-                    showNoisedImage = true;
+                    std::cout << "Caricata immagine originale come fallback.\n";
                   }
                 }
 
-                showPopup = false;  // chiudi popup dopo il click
-                break;
+                // Mostra immagine (modificata o originale)
+                spritenoised.setTexture(texturenoised);
+                spritenoised.setPosition(283.f, 450.f);
+                showNoisedImage = true;
+                showPopup = false;
               }
             }
           }
@@ -218,9 +286,16 @@ int draw() {
 
       if (showPopup) {
         window.draw(popupBox);
-        for (auto& text : popupOptions) {
+        /*for (auto& text : popupOptions) {
           window.draw(text);
+        }*/
+        for (int i = 0; i < 4; ++i) {
+          popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
+                                                         : sf::Color::Black);
+          window.draw(popupOptions[i]);
         }
+
+        window.draw(applyButton);
       }
       if (showNoisedImage) {
         window.draw(spritenoised);
