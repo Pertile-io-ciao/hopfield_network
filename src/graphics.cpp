@@ -2,10 +2,15 @@
 #include <iostream>
 #include <vector>
 
-// Funzione per verificare se un punto è dentro uno sprite
+// funzione per verificare se un punto è dentro uno sprite
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
 }
+// sf::Sprite& sprite riferimento costante a uno sprite
+// sf::Vector2f mousePos posizione del mouse in coordinate float
+// sprite.getGlobalBounds() restituisce un sf::FloatRect con posizione e
+// dimensioni dello sprite .contains(mousePos) verifica se il punto (mouse) è
+// dentro il rettangolo
 
 int draw() {
   const float virtualWidth = 1900.f;
@@ -20,21 +25,29 @@ int draw() {
 
   sf::View view(sf::FloatRect(0, 0, virtualWidth, virtualHeight));
   window.setView(view);
+  // sf::View è la vista virtuale
+  // sf::FloatRect area visibile della vista
+  // window.setView(view) assegna la vista alla finestra
+
   // il font serve nei pop up
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
     std::cerr << "Error in font loading\n";
   }
-  // inizializzo
-  bool showPopup = false;
-  bool showNoisedImage = false;
-  int selectedImageIndex = -1;
-  // pop up
-  sf::RectangleShape popupBox(sf::Vector2f(300.f, 250.f));
-  popupBox.setFillColor(sf::Color(64, 224, 208, 255));
-  popupBox.setPosition(800.f, 300.f);
 
-  // opzioni del pop up
+  // inizializzo, sono le variabili di stato
+  bool showPopup = false;        // mostra/nasconde un pop-up
+  bool showNoisedImage = false;  // mostra l'immagine corrrotta
+  int selectedImageIndex = -1;   // indica quale immagine è staat cliccata
+
+  // crazione pop up
+  sf::RectangleShape popupBox(sf::Vector2f(300.f, 250.f));  // rettangolo
+                                                            // grafico
+  popupBox.setFillColor(
+      sf::Color(64, 224, 208, 255));   // imposta il colore (RGBA)
+  popupBox.setPosition(800.f, 300.f);  // posizione in coordinate virtuali
+
+  // opzioni del pop up (testo)
   std::vector<sf::Text> popupOptions(4);
   std::vector<std::string> optionLabels = {"Noised", "Vertical Cut",
                                            "Orizontal Cut", "Reverse"};
@@ -47,12 +60,15 @@ int draw() {
     popupOptions[i].setPosition(popupBox.getPosition().x + 30.f,
                                 popupBox.getPosition().y + 30.f + i * 50.f);
   }
+  // imposta stile, font, dimensione, colore e posizione a ciascuna voce del pop
+  // up
 
-  // inizializzo load image (pulsante alto a destra)
+  // inizializzo load image (pulsante in alto a destra)
   sf::RectangleShape load_images(sf::Vector2f(300.f, 40.f));
   load_images.setFillColor(sf::Color(64, 224, 208, 255));
   load_images.setPosition(1600.f, 0.f);
 
+  // impostazioni del testo
   sf::Text load_imagestxt;
   load_imagestxt.setFont(font);
   load_imagestxt.setString("Load images from your pc");
@@ -72,12 +88,14 @@ int draw() {
                                          "totoro.png"};
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
-  // inizializzo i 4 sprites che andranno in alto (quelli normali)
-  std::vector<sf::Texture> textures(4);
-  std::vector<sf::Sprite> sprites(4);
-  std::vector<std::string> noisedpath(4);
 
-  // Carica immagini originali
+  // inizializzo i 4 sprites che andranno in alto (quelli normali)
+  std::vector<sf::Texture> textures(4);  // carica immagini
+  std::vector<sf::Sprite> sprites(4);    // oggetti sulla finestra grafica
+  std::vector<std::string> noisedpath(
+      4);  // percorsi delle versioni corrotte delle immagini
+
+  // carica immagini originali
   for (int i = 0; i < 4; ++i) {
     if (!textures[i].loadFromFile(zoomed + file_names[i])) {
       std::cerr << "Errore nel caricamento di: "
@@ -91,42 +109,48 @@ int draw() {
         zoomed_w_noise +
         file_names[i];  //<-- prende l'immagine noised e zoomata e la salva
   }
-  // inizializzo lo strite noised
+
+  // inizializzo lo sprite noised
   sf::Texture texturenoised;
   sf::Sprite spritenoised;
   bool is_noised = false;
 
   // ciclo principale che racchiude tutta la grafica che si vede a schermo
   while (window.isOpen()) {
-    sf::Event event;  // carica tutti gli eventi utente (mouse, tastiera...)
-    while (window.pollEvent(event)) {
+    sf::Event event;                 // struttura x gestire eventi
+    while (window.pollEvent(event))  // prende tutti gli eventi disponibili
+    {
+      // gestione ridimensionamento (mantiene le proporzioni)
       if (event.type == sf::Event::Resized) {
-    float windowRatio = static_cast<float>(event.size.width) / event.size.height;
-    float viewRatio = virtualWidth / virtualHeight;
+        float windowRatio =
+            static_cast<float>(event.size.width) / event.size.height;
+        float viewRatio = virtualWidth / virtualHeight;
 
-    sf::FloatRect viewport;
+        sf::FloatRect viewport;
 
-    if (windowRatio > viewRatio) {
-        float scale = viewRatio / windowRatio;
-        viewport = { (1.f - scale) / 2.f, 0.f, scale, 1.f };
-    } else {
-        float scale = windowRatio / viewRatio;
-        viewport = { 0.f, (1.f - scale) / 2.f, 1.f, scale };
-    }
+        if (windowRatio > viewRatio) {
+          float scale = viewRatio / windowRatio;
+          viewport = {(1.f - scale) / 2.f, 0.f, scale, 1.f};
+        } else {
+          float scale = windowRatio / viewRatio;
+          viewport = {0.f, (1.f - scale) / 2.f, 1.f, scale};
+        }
 
-    view.setViewport(viewport);
-    window.setView(view);
-}
+        view.setViewport(viewport);
+        window.setView(view);
+      }
 
       if (event.type == sf::Event::Closed)
         window.close();  // chiude la finestra se premo x
 
+      // gestione click
       if (event.type == sf::Event::MouseButtonPressed &&
           event.mouseButton.button ==
               sf::Mouse::Left) {  // premere pulsante sinistro
 
-        sf::Vector2f mousePos = window.mapPixelToCoords(
-            sf::Mouse::getPosition(window));  // mappa i miei spostamenti
+        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(
+            window));  // mapPixelToCoords converte posizione del mouse da pixel
+                       // a coordinate della vista
 
         if (showPopup) {  // inizializzato a false (sopra)
           if (showPopup) {
@@ -146,7 +170,7 @@ int draw() {
                   if (!texturenoised.loadFromFile(
                           noisedpath[selectedImageIndex])) {
                     std::cerr
-                        << "Errore nel caricamento dell'immagine corrotta: "
+                        << "Error loading noised image: "
                         << noisedpath[selectedImageIndex] << "\n";
                   } else {
                     spritenoised.setTexture(texturenoised);
