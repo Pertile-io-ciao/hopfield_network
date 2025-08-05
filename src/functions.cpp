@@ -150,24 +150,7 @@ sf::Image image_from_vector(const std::vector<int>& dates,
   return imagebw;
 }
 
-std::vector<int> noise(std::vector<int> v, float prob) {
-  std::vector<int> result = v;
 
-  std::srand(static_cast<unsigned>(std::time(0)));
-
-  for (size_t i = 0; i < result.size(); ++i) {
-    float casual = static_cast<float>(std::rand()) / RAND_MAX;
-    if (casual < prob) {
-      if (result[i] == 1) {
-        result[i] = -1;
-      } else {
-        result[i] = 1;
-      }
-    }
-  }
-
-  return result;
-}
 //regola di hebb per calcolare la matrice dei pesi
 std::vector<std::vector<int>> hebb(const std::vector<std::vector<int>>& v){ // v è una matrice p x n
     int p= v.size(); //numero di pattern che voglio memorizzare
@@ -188,6 +171,7 @@ std::vector<std::vector<int>> hebb(const std::vector<std::vector<int>>& v){ // v
     }
     return W; 
 };
+
 // salva matrice
 void save_matrix (const std::vector<std::vector<int>>& matrix) {
   std::ofstream out("weight_matrix.txt"); //Se il file non esiste, lo crea. Se esiste, lo sovrascrive.
@@ -250,11 +234,30 @@ double energy_function(const std::vector<int>& x, const std::vector<std::vector<
     return -0.5 * energy;
 }
 
-/*std::vector<int> tagliaverticale(std::vector<int> v, int l, int inizio,
-                                 int fine) {
+std::vector<int> noise(std::vector<int> v, float prob) {
+  std::vector<int> result = v;
+
+  std::srand(static_cast<unsigned>(std::time(0)));
+
+  for (size_t i = 0; i < result.size(); ++i) {
+    float casual = static_cast<float>(std::rand()) / RAND_MAX;
+    if (casual < prob) {
+      if (result[i] == 1) {
+        result[i] = -1;
+      } else {
+        result[i] = 1;
+      }
+    }
+  }
+
+  return result;
+}
+
+std::vector<int> vertical_cut(std::vector<int> v, int l, int start,
+                                 int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
-      if (j >= inizio && j <= fine) {
+      if (j >= start && j <= end) {
         v[i * l + j] = 1;
       }
     }
@@ -263,14 +266,14 @@ double energy_function(const std::vector<int>& x, const std::vector<std::vector<
 }  // si potrebbe implementare dando errore quando inizio e fine non siano della
    // grandezza adeguata*/
 
-/*std::vector<int> tagliaorizzontale(std::vector<int> v, int l, int inizio,
-                                   int fine) {
+std::vector<int> orizontal_cut(std::vector<int> v, int l, int start,
+                                   int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
-      if (i >= inizio && i <= fine) {
+      if (i >= start && i <= end) {
         v[i * l + j] = 1;
       }
     }
   }
   return v;
-}*/
+}

@@ -39,8 +39,8 @@ int draw() {
 
   // inizializzo, sono le variabili di stato
   bool showPopup = false;        // mostra/nasconde un pop-up
-  bool showNoisedImage = false;  // mostra l'immagine corrrotta
-  int selectedImageIndex = -1;   // indica quale immagine è staat cliccata
+  bool showNoisedImage = false;  // mostra l'immagine corrotta
+  int selectedImageIndex = -1;   // indica quale immagine è stata cliccata
 
   // crazione pop up
   sf::RectangleShape popupBox(sf::Vector2f(300.f, 280.f));  // rettangolo
@@ -79,16 +79,17 @@ int draw() {
   load_images.setPosition(1600.f, 0.f);
 
   // impostazioni del testo
-  sf::Text load_imagestxt;
+  sf::Text load_imagestxt; //crea un oggetto di tipo sf::Text (testo visualizzabile)
   load_imagestxt.setFont(font);
-  load_imagestxt.setString("Load images from your pc");
+  load_imagestxt.setString("Load images from your pc");//imposta la striscia di testo da mostrare
   load_imagestxt.setCharacterSize(15);
   load_imagestxt.setFillColor(sf::Color::Black);
 
-  sf::FloatRect textBounds = load_imagestxt.getLocalBounds();
+  sf::FloatRect textBounds = load_imagestxt.getLocalBounds();//rettangolo (FloatRect) che rappresenta le dimensioni locali del testo
   load_imagestxt.setOrigin(textBounds.left + textBounds.width / 2.f,
                            textBounds.top + textBounds.height / 2.f);
-
+  //imposta l'origine del testo x centrarlo rispetto al rettangolo
+  
   sf::Vector2f boxCenter =
       load_images.getPosition() + load_images.getSize() / 2.f;
   load_imagestxt.setPosition(boxCenter);
@@ -171,32 +172,6 @@ int draw() {
                                            // sf::FloatRect, cioè un rettangolo
                                            // che rappresenta la posizione e le
                                            // dimensioni dell'oggetto
-                                           /* if (bounds.contains(
-                                                    mousePos)) {  // se premi l'opzione (i confini son
-                                                                  // definiti nella riga sopra)
-                                              if (i == 0 && selectedImageIndex !=
-                                                                -1) {  // se premo noised (1 opzione) e ho
-                                            gia
-                                                                       // selezionato un immagine
-                                                if (!texturenoised.loadFromFile(
-                                                        noisedpath[selectedImageIndex])) {
-                                                  std::cerr
-                                                      << "Error loading noised image: "
-                                                      << noisedpath[selectedImageIndex] << "\n";
-                                                } else {
-                                                  spritenoised.setTexture(texturenoised);
-                                                  float x =
-                                                      283.f;  // sto considerando che ci siano 3 immagini
-                                                              // centrate ( noised; aggiornamento; finale)
-                                                  float y = 450.f;
-                                                  spritenoised.setPosition(x, y);
-                                                  showNoisedImage = true;
-                                                }
-                                              }
-                             
-                                              showPopup = false;  // chiudi popup dopo il click
-                                              break;
-                                            }*/
               if (bounds.contains(mousePos)) {
                 optionSelected[i] = !optionSelected[i];  // toggle: ON <-> OFF
               }
@@ -206,20 +181,22 @@ int draw() {
               if (selectedImageIndex != -1) {
                 std::string imageToLoad = "";
                 bool applied = false;
-
                 // Ordine di priorità: Noised → Vertical → Orizontal → Reverse
                 if (optionSelected[0]) {
                   imageToLoad = zoomed_w_noise + file_names[selectedImageIndex];
                   applied = true;
-                } else if (optionSelected[1]) {
+                }
+                if (optionSelected[1]) {
                   imageToLoad = "resources/images/vertical_cut/" +
                                 file_names[selectedImageIndex];
                   applied = true;
-                } else if (optionSelected[2]) {
+                }
+                if (optionSelected[2]) {
                   imageToLoad = "resources/images/orizontal_cut/" +
                                 file_names[selectedImageIndex];
                   applied = true;
-                } else if (optionSelected[3]) {
+                }
+                if (optionSelected[3]) {
                   imageToLoad = "resources/images/reverse/" +
                                 file_names[selectedImageIndex];
                   applied = true;
