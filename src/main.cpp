@@ -10,11 +10,12 @@ int main() {
   interp.process();
   ImageNoised corrump("resources/images/resized", "resources/images/noised");
   corrump.process();
+  ImageZoomed zoom("resources/images/resized", "resources/images/zoomed");
+  zoom.process();
   ImageZoomed zoom_w_noise("resources/images/noised",
                            "resources/images/zoomed_w_noise");
   zoom_w_noise.process();
-  ImageZoomed zoom("resources/images/resized", "resources/images/zoomed");
-  zoom.process();
+  
   draw();
   return 0;
 }
