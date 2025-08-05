@@ -13,13 +13,17 @@ int draw() {
 
   sf::RenderWindow window(sf::VideoMode(virtualWidth, virtualHeight),
                           "hopfield_network", sf::Style::Close);
+  // sf::RenderWindow è classe di sfml x creare una finestra grafica
+  // sf::VideoMode definisce la grandezza (la risoluzione della finestra)
+  // sf::Style::Close è il tipo della finestra (puo essere solo chiusa, nn
+  // ridimensionata/ingrandita)
 
   sf::View view(sf::FloatRect(0, 0, virtualWidth, virtualHeight));
   window.setView(view);
   // il font serve nei pop up
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
-    std::cerr << "Errore nel caricamento del font\n";
+    std::cerr << "Error in font loading\n";
   }
   // inizializzo
   bool showPopup = false;
@@ -96,6 +100,24 @@ int draw() {
   while (window.isOpen()) {
     sf::Event event;  // carica tutti gli eventi utente (mouse, tastiera...)
     while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Resized) {
+    float windowRatio = static_cast<float>(event.size.width) / event.size.height;
+    float viewRatio = virtualWidth / virtualHeight;
+
+    sf::FloatRect viewport;
+
+    if (windowRatio > viewRatio) {
+        float scale = viewRatio / windowRatio;
+        viewport = { (1.f - scale) / 2.f, 0.f, scale, 1.f };
+    } else {
+        float scale = windowRatio / viewRatio;
+        viewport = { 0.f, (1.f - scale) / 2.f, 1.f, scale };
+    }
+
+    view.setViewport(viewport);
+    window.setView(view);
+}
+
       if (event.type == sf::Event::Closed)
         window.close();  // chiude la finestra se premo x
 
