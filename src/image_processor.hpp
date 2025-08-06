@@ -39,4 +39,6 @@ class ImageNoised : public ImageProcessor {
   sf::Image transform(const sf::Image& input) override;
 };
 
+
+
 #endif

@@ -38,12 +38,12 @@ int draw() {
   }
 
   // inizializzo, sono le variabili di stato
-  bool showPopup = false;        // mostra/nasconde un pop-up
+  // bool showPopup = false;        // mostra/nasconde un pop-up
   bool showNoisedImage = false;  // mostra l'immagine corrotta
-  int selectedImageIndex = -1;   // indica quale immagine è stata cliccata
+  //int selectedImageIndex = -1;   // indica quale immagine è stata cliccata
 
   // crazione pop up
-  sf::RectangleShape popupBox(sf::Vector2f(300.f, 280.f));  // rettangolo
+  /*sf::RectangleShape popupBox(sf::Vector2f(300.f, 280.f));  // rettangolo
                                                             // grafico
   popupBox.setFillColor(
       sf::Color(64, 224, 208, 255));   // imposta il colore (RGBA)
@@ -71,7 +71,7 @@ int draw() {
   applyButton.setCharacterSize(24);
   applyButton.setFillColor(sf::Color::White);
   applyButton.setPosition(popupBox.getPosition().x + 100.f,
-                          popupBox.getPosition().y + 230.f);
+                          popupBox.getPosition().y + 230.f);*/
 
   // inizializzo load image (pulsante in alto a destra)
   sf::RectangleShape load_images(sf::Vector2f(300.f, 40.f));
@@ -79,17 +79,22 @@ int draw() {
   load_images.setPosition(1600.f, 0.f);
 
   // impostazioni del testo
-  sf::Text load_imagestxt; //crea un oggetto di tipo sf::Text (testo visualizzabile)
+  sf::Text load_imagestxt;  // crea un oggetto di tipo sf::Text (testo
+                            // visualizzabile)
   load_imagestxt.setFont(font);
-  load_imagestxt.setString("Load images from your pc");//imposta la striscia di testo da mostrare
+  load_imagestxt.setString(
+      "Load images from your pc");  // imposta la striscia di testo da mostrare
   load_imagestxt.setCharacterSize(15);
   load_imagestxt.setFillColor(sf::Color::Black);
 
-  sf::FloatRect textBounds = load_imagestxt.getLocalBounds();//rettangolo (FloatRect) che rappresenta le dimensioni locali del testo
+  sf::FloatRect textBounds =
+      load_imagestxt
+          .getLocalBounds();  // rettangolo (FloatRect) che rappresenta le
+                              // dimensioni locali del testo
   load_imagestxt.setOrigin(textBounds.left + textBounds.width / 2.f,
                            textBounds.top + textBounds.height / 2.f);
-  //imposta l'origine del testo x centrarlo rispetto al rettangolo
-  
+  // imposta l'origine del testo x centrarlo rispetto al rettangolo
+
   sf::Vector2f boxCenter =
       load_images.getPosition() + load_images.getSize() / 2.f;
   load_imagestxt.setPosition(boxCenter);
@@ -163,123 +168,135 @@ int draw() {
             window));  // mapPixelToCoords converte posizione del mouse da pixel
                        // a coordinate della vista
 
-        if (showPopup) {  // inizializzato a false (sopra)
-          if (showPopup) {
-            for (int i = 0; i < 4; ++i) {  // ciclo per le opzioni
-              sf::FloatRect bounds =
-                  popupOptions[i]
-                      .getGlobalBounds();  //.getGlobalBounds() restituisce un
-                                           // sf::FloatRect, cioè un rettangolo
-                                           // che rappresenta la posizione e le
-                                           // dimensioni dell'oggetto
-              if (bounds.contains(mousePos)) {
-                optionSelected[i] = !optionSelected[i];  // toggle: ON <-> OFF
-              }
+        for (int i = 0; i < 4; ++i) {
+          if (isSpriteClicked(sprites[i], mousePos)) {
+            // Carica immagine corrotta corrispondente
+            if (!texturenoised.loadFromFile(noisedpath[i])) {
+              std::cerr << "Errore nel caricamento dell'immagine corrotta: "
+                        << noisedpath[i] << "\n";
+            } else {
+              spritenoised.setTexture(texturenoised);
+              is_noised = true;
             }
-            // Controllo clic su "Apply"
-            if (applyButton.getGlobalBounds().contains(mousePos)) {
-              if (selectedImageIndex != -1) {
-                std::string imageToLoad = "";
-                bool applied = false;
-                // Ordine di priorità: Noised → Vertical → Orizontal → Reverse
-                if (optionSelected[0]) {
-                  imageToLoad = zoomed_w_noise + file_names[selectedImageIndex];
-                  applied = true;
-                }
-                if (optionSelected[1]) {
-                  imageToLoad = "resources/images/vertical_cut/" +
-                                file_names[selectedImageIndex];
-                  applied = true;
-                }
-                if (optionSelected[2]) {
-                  imageToLoad = "resources/images/orizontal_cut/" +
-                                file_names[selectedImageIndex];
-                  applied = true;
-                }
-                if (optionSelected[3]) {
-                  imageToLoad = "resources/images/reverse/" +
-                                file_names[selectedImageIndex];
-                  applied = true;
-                }
 
-                // Se nessuna opzione selezionata, non fare nulla
-                if (!applied) {
-                  std::cout << "Nessuna opzione selezionata.\n";
-                  return 0;
-                }
-
-                // Prova a caricare l'immagine modificata
-                if (!texturenoised.loadFromFile(imageToLoad)) {
-                  std::cerr
-                      << "Immagine modificata non trovata: " << imageToLoad
-                      << "\n";
-
-                  // Fallback: carica immagine originale
-                  if (!texturenoised.loadFromFile(
-                          zoomed + file_names[selectedImageIndex])) {
-                    std::cerr
-                        << "Errore anche nel caricamento immagine originale\n";
-                    return -1;
-                  } else {
-                    std::cout << "Caricata immagine originale come fallback.\n";
+            /*if (showPopup) {  // inizializzato a false (sopra)
+              if (showPopup) {
+                for (int i = 0; i < 4; ++i) {  // ciclo per le opzioni
+                  sf::FloatRect bounds =
+                      popupOptions[i]
+                          .getGlobalBounds();  //.getGlobalBounds() restituisce
+              un
+                                               // sf::FloatRect, cioè un
+              rettangolo
+                                               // che rappresenta la posizione e
+              le
+                                               // dimensioni dell'oggetto
+                  if (bounds.contains(mousePos)) {
+                    optionSelected[i] = !optionSelected[i];  // toggle: ON <->
+              OFF
                   }
                 }
+                // Controllo clic su "Apply"
+                if (applyButton.getGlobalBounds().contains(mousePos)) {
+                  if (selectedImageIndex != -1) {
+                    std::string imageToLoad = "";
+                    bool applied = false;
+                    // Ordine di priorità: Noised → Vertical → Orizontal →
+              Reverse if (optionSelected[0]) { imageToLoad = zoomed_w_noise +
+              file_names[selectedImageIndex]; applied = true;
+                    }
+                    else if (optionSelected[1]) {
+                      imageToLoad = "resources/images/vertical_cut/" +
+                                    file_names[selectedImageIndex];
+                      applied = true;
+                    }
+                    else if (optionSelected[2]) {
+                      imageToLoad = "resources/images/orizontal_cut/" +
+                                    file_names[selectedImageIndex];
+                      applied = true;
+                    }
+                    else if (optionSelected[3]) {
+                      imageToLoad = "resources/images/reverse/" +
+                                    file_names[selectedImageIndex];
+                      applied = true;
+                    }
 
-                // Mostra immagine (modificata o originale)
-                spritenoised.setTexture(texturenoised);
-                spritenoised.setPosition(283.f, 450.f);
-                showNoisedImage = true;
-                showPopup = false;
+                    // Se nessuna opzione selezionata, non fare nulla
+                    if (!applied) {
+                      std::cout << "Nessuna opzione selezionata.\n";
+                      return 0;
+                    }*/
+
+            // Prova a caricare l'immagine modificata
+           
+
+              // Fallback: carica immagine originale
+              /*if (!texturenoised.loadFromFile(zoomed +
+                                              file_names[selectedImageIndex])) {
+                std::cerr
+                    << "Errore anche nel caricamento immagine originale\n";
+                return -1;
+              } else {
+                std::cout << "Caricata immagine originale come fallback.\n";
               }
-            }
-          }
-        } else {
-          // controllo clic sulle immagini
-          for (int i = 0; i < 4; ++i) {
-            if (isSpriteClicked(sprites[i], mousePos)) {
-              selectedImageIndex = i;   // salva quale immagine hai cliccato
-              showPopup = true;         // mostra il popup
-              showNoisedImage = false;  // nascondi immagine noised per ora
-              break;
-            }
+            }*/
+
+            // Mostra immagine (modificata o originale)
+            spritenoised.setTexture(texturenoised);
+            spritenoised.setPosition(283.f, 450.f);
+            showNoisedImage = true;
+            //showPopup = false;
           }
         }
       }
-
-      window.clear(sf::Color::Black);
-
-      // Disegna immagini originali
-      for (auto& sprite : sprites) {
-        window.draw(sprite);
-      }
-
-      window.draw(load_images);
-      window.draw(load_imagestxt);
-
-      // Disegna immagine distorta se presente
-      if (is_noised) {
-        window.draw(spritenoised);
-      }
-
-      if (showPopup) {
-        window.draw(popupBox);
-        /*for (auto& text : popupOptions) {
-          window.draw(text);
-        }*/
-        for (int i = 0; i < 4; ++i) {
-          popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
-                                                         : sf::Color::Black);
-          window.draw(popupOptions[i]);
-        }
-
-        window.draw(applyButton);
-      }
-      if (showNoisedImage) {
-        window.draw(spritenoised);
-      }
-
-      window.display();
     }
+    /*else {
+      // controllo clic sulle immagini
+      for (int i = 0; i < 4; ++i) {
+        if (isSpriteClicked(sprites[i], mousePos)) {
+          selectedImageIndex = i;   // salva quale immagine hai cliccato
+          showPopup = true;         // mostra il popup
+          showNoisedImage = false;  // nascondi immagine noised per ora
+          break;
+        }
+      }
+    }
+  }*/
+
+  window.clear(sf::Color::Black);
+
+  // Disegna immagini originali
+  for (auto& sprite : sprites) {
+    window.draw(sprite);
   }
-  return 0;
+
+  window.draw(load_images);
+  window.draw(load_imagestxt);
+
+  // Disegna immagine distorta se presente
+  if (is_noised) {
+    window.draw(spritenoised);
+  }
+
+  /*if (showPopup) {
+    window.draw(popupBox);
+    /*for (auto& text : popupOptions) {
+      window.draw(text);
+    }
+    for (int i = 0; i < 4; ++i) {
+      popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
+                                                     : sf::Color::Black);
+      window.draw(popupOptions[i]);
+    }
+
+    window.draw(applyButton);
+  }*/
+  if (showNoisedImage) {
+    window.draw(spritenoised);
+  }
+
+  window.display();
+}
+
+return 0;
 }
