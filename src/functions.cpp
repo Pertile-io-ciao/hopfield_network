@@ -2,12 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include <ctime>  // per time()
+#include <ctime>    // per time()
+#include <fstream>  //per load matrix
 #include <iostream>
+#include <sstream>  //per load matrix
 #include <string>
 #include <vector>
-#include <sstream>  //per load matrix
-#include <fstream> //per load matrix
 
 // lato immagine
 int l = 64;
@@ -20,7 +20,8 @@ std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   int height = image.getSize().y;
 
   std::vector<sf::Color> result;
-  result.reserve(width * height);
+  result.reserve(
+      width * height);  // metodo che serve a dare una nuova taglia al vettore
 
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
@@ -45,21 +46,22 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
     }
 
     // Calcola la luminanza percepita
-    double luminance = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b);
-    int h = (luminance < 127) ? 1 : -1;
+    double luminance = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b); 
+    int h = (luminance < 127) ? 1 : -1;  
     result.push_back(h);
   }
 
   return result;
 }
+
 std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
                                         int inH) {
   std::vector<int> output(l * l);
 
   for (int y = 0; y < l; ++y) {
     for (int x = 0; x < l; ++x) {
-      float gx = ((x + 0.5f) * inW) / l - 0.5f;
-      float gy = ((y + 0.5f) * inH) / l - 0.5f;
+      float gx = ((x + 0.5f) * inW) / l - 0.5f;  // coordinate dei pixel nell'immagine originale
+      float gy = ((y + 0.5f) * inH) / l - 0.5f;  //
 
       int x0 = std::floor(gx);
       int y0 = std::floor(gy);
@@ -150,88 +152,94 @@ sf::Image image_from_vector(const std::vector<int>& dates,
   return imagebw;
 }
 
-
-//regola di hebb per calcolare la matrice dei pesi
-std::vector<std::vector<int>> hebb(const std::vector<std::vector<int>>& v){ // v è una matrice p x n
-    int p= v.size(); //numero di pattern che voglio memorizzare
-    int n= v[0].size(); //numero di neuroni
-    std::vector<std::vector<int>> W(n, std::vector<int>(n, 0)); // inizializza la matrice n x n, tutta 0
-    for (int i = 0; i < n; ++i) {  // due cicli per considerare ogni neurone
-        for (int j = 0; j < n; ++j) {
-            int sum = 0;
-            for (int k = 0; k < p; ++k) {
-                sum += v[k][i] * v[k][j];   //la sommatoria della regola
-             }
-            if (i != j) {
-                W[i][j] = sum/n;  // regola completa
-            } else {
-              W[i][j] = 0; // niente auto-connessioni
-         }
+// regola di hebb per calcolare la matrice dei pesi
+std::vector<std::vector<int>> hebb(
+    const std::vector<std::vector<int>>& v) {  // v è una matrice p x n
+  int p = v.size();     // numero di pattern che voglio memorizzare
+  int n = v[0].size();  // numero di neuroni
+  std::vector<std::vector<int>> W(
+      n, std::vector<int>(n, 0));  // inizializza la matrice n x n, tutta 0
+  for (int i = 0; i < n; ++i) {    // due cicli per considerare ogni neurone
+    for (int j = 0; j < n; ++j) {
+      int sum = 0;
+      for (int k = 0; k < p; ++k) {
+        sum += v[k][i] * v[k][j];  // la sommatoria della regola
+      }
+      if (i != j) {
+        W[i][j] = sum / n;  // regola completa
+      } else {
+        W[i][j] = 0;  // niente auto-connessioni
+      }
     }
-    }
-    return W; 
+  }
+  return W;
 };
 
 // salva matrice
-void save_matrix (const std::vector<std::vector<int>>& matrix) {
-  std::ofstream out("weight_matrix.txt"); //Se il file non esiste, lo crea. Se esiste, lo sovrascrive.
-    for (const auto& row : matrix) {    // lo dispone bene pure graficamente con spazi per dividere le
-        for (int value : row) {         //colonne e \n per ogni riga
-            out << value << " ";
-        }
-        out << "\n";
+void save_matrix(const std::vector<std::vector<int>>& matrix) {
+  std::ofstream out("weight_matrix.txt");  // Se il file non esiste, lo crea. Se
+                                           // esiste, lo sovrascrive.
+  for (const auto& row :
+       matrix) {  // lo dispone bene pure graficamente con spazi per dividere le
+    for (int value : row) {  // colonne e \n per ogni riga
+      out << value << " ";
     }
+    out << "\n";
+  }
 }
 
-//il contrario di quella sopra
+// il contrario di quella sopra
 std::vector<std::vector<int>> load_matrix() {
-    std::ifstream in("weight_matrix.txt");           // Apro il file in lettura
-    std::vector<std::vector<int>> W;           // Matrice da riempire
-    std::string line;
+  std::ifstream in("weight_matrix.txt");  // Apro il file in lettura
+  std::vector<std::vector<int>> W;        // Matrice da riempire
+  std::string line;
 
-    while (std::getline(in, line)) {       // Leggo una riga alla volta
-        std::istringstream iss(line);      // Creo uno stream dalla stringa
-        std::vector<int> row;
-        int value;
+  while (std::getline(in, line)) {  // Leggo una riga alla volta
+    std::istringstream iss(line);   // Creo uno stream dalla stringa
+    std::vector<int> row;
+    int value;
 
-        while (iss >> value) {            // Estraggo gli interi
-            row.push_back(value);
-        }
-
-        if (!row.empty()) {
-            W.push_back(row);            // Aggiungo la riga alla matrice
-        }
+    while (iss >> value) {  // Estraggo gli interi
+      row.push_back(value);
     }
 
-    return W;
+    if (!row.empty()) {
+      W.push_back(row);  // Aggiungo la riga alla matrice
+    }
+  }
+
+  return W;
 }
-//aggiornamento del neurone
-std::vector<int> hopfield_update(const std::vector<int>& x,const std::vector<std::vector<double>>& W) {
-    int n = x.size();
-    std::vector<int> x_new(n);
+// aggiornamento del neurone
+std::vector<int> hopfield_update(const std::vector<int>& x,
+                                 const std::vector<std::vector<double>>& W) {
+  int n = x.size();
+  std::vector<int> x_new(n);
 
-    for (int i = 0; i < n; ++i) {
-        double sum = 0.0;           //doppio ciclo per prendere ogni neurone
-        for (int j = 0; j < n; ++j) {
-            sum += W[i][j] * x[j];
-        }
-       x_new[i]=(sum >= 0) ? 1 : -1;  // ±1 per ogni neurone; come la funzione segno
+  for (int i = 0; i < n; ++i) {
+    double sum = 0.0;  // doppio ciclo per prendere ogni neurone
+    for (int j = 0; j < n; ++j) {
+      sum += W[i][j] * x[j];
     }
+    x_new[i] =
+        (sum >= 0) ? 1 : -1;  // ±1 per ogni neurone; come la funzione segno
+  }
 
-    return x_new;
+  return x_new;
 }
-//funzione dell'energia
-double energy_function(const std::vector<int>& x, const std::vector<std::vector<double>>& W) {
-    int n = x.size();
-    double energy = 0.0;
+// funzione dell'energia
+double energy_function(const std::vector<int>& x,
+                       const std::vector<std::vector<double>>& W) {
+  int n = x.size();
+  double energy = 0.0;
 
-    for (int i = 0; i < n; ++i) {       // solito cicletto for doppio
-        for (int j = 0; j < n; ++j) {
-            energy += W[i][j] * x[i] * x[j];
-        }
+  for (int i = 0; i < n; ++i) {  // solito cicletto for doppio
+    for (int j = 0; j < n; ++j) {
+      energy += W[i][j] * x[i] * x[j];
     }
+  }
 
-    return -0.5 * energy;
+  return -0.5 * energy;
 }
 
 std::vector<int> noise(std::vector<int> v, float prob) {
@@ -254,7 +262,7 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 }
 
 std::vector<int> vertical_cut(std::vector<int> v, int side_lenght, int start,
-                                 int end) {
+                              int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (j >= start && j <= end) {
@@ -267,7 +275,7 @@ std::vector<int> vertical_cut(std::vector<int> v, int side_lenght, int start,
    // grandezza adeguata*/
 
 std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght, int start,
-                                   int end) {
+                               int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (i >= start && i <= end) {
