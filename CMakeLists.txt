@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(regression VERSION 0.1.0)
+project(hopfield_network VERSION 0.1.0)
 
 # abilita il supporto per i test, tra cui l'opzione BUILD_TESTING usata sotto
 include(CTest)
@@ -41,12 +41,18 @@ target_link_libraries(hopfield_network PRIVATE sfml-graphics sfml-window sfml-sy
 
 # se il testing e' abilitato...
 #   per disabilitare il testing, passare -DBUILD_TESTING=OFF a cmake durante la fase di configurazione
-#if (BUILD_TESTING)
+if (BUILD_TESTING)
 
   # aggiungi l'eseguibile sample.t
-  #add_executable(image_processor.o image_processor.hpp image_processor.cpp)
-  # aggiungi l'eseguibile sample.t alla lista dei test
-  #add_test(NAME  COMMAND )
+  # add_executable(image_processor.o image_processor.hpp image_processor.cpp)
+  add_executable(hopfield_network.t src/functions.test.cpp src/functions.cpp)
 
+  # Linka SFML
+  target_link_libraries(hopfield_network.t PRIVATE sfml-graphics sfml-window sfml-system)
+
+  # aggiungi l'eseguibile sample.t alla lista dei test
+  add_test(NAME hopfield_network.t COMMAND hopfield_network.t )
+
+  endif()
 
 
