@@ -57,3 +57,4 @@ TEST_CASE("testing the conversion from an image into a vector") {
     // AGGIUNGERE ALTRI CASI
   }
 }
+
