@@ -53,8 +53,32 @@ TEST_CASE("testing the conversion from an image into a vector") {
     input2[5] = input2[6] = input2[9] = input2[10] = input2[13] = input2[14] =
         -1;  // immagine 4x5 bianca con bordo nero
     std::vector<int> output2 = bilinear_interpolation(input2, inW, inH);
-    CHECK(output2[19] == 1);
+    CHECK(output2[259] == 1); // occhio all'indice da inserire
     // AGGIUNGERE ALTRI CASI
+  }
+
+  SUBCASE("testing the zoom function") {
+    int n{2};
+    int inW{4};
+    int inH{5};
+    std::vector<int> input2(inW * inH, 1);
+    input2[5] = input2[6] = input2[9] = input2[10] = input2[13] = input2[14] =
+        -1;  // immagine 4x5 bianca con bordo nero
+    std::vector<int> output2 = bilinear_interpolation(
+        input2, inW,
+        inH);  // ho costruito la stessa immagine del test precedente
+    std::vector<int> zoomed2 = zoom(output2, n);
+    CHECK(zoomed2[1159] == output2[259] == 1);
+    // AGGIUNGERE ALTRI CASI
+
+
+    // VECTOR_FROM_IMAGE E IMAGE_FROM_VECTOR ANCORA DA TESTARE
+
   }
 }
 
+TEST_CASE("testing the hebb rule"){
+  std::vector<int> im1{-1, 1, 1, -1};
+  std::vector<int> im2{1, -1, -1, 1};
+  
+}
