@@ -153,41 +153,97 @@ sf::Image image_from_vector(const std::vector<int>& dates,
   return imagebw;
 }
 
+std::vector<int> noise(std::vector<int> v, float prob) {
+  std::vector<int> result = v;
+
+  std::srand(static_cast<unsigned>(std::time(0)));
+
+  for (size_t i = 0; i < result.size(); ++i) {
+    float casual = static_cast<float>(std::rand()) / RAND_MAX;
+    if (casual < prob) {
+      if (result[i] == 1) {
+        result[i] = -1;
+      } else {
+        result[i] = 1;
+      }
+    }
+  }
+
+  return result;
+}
+
+std::vector<int> vertical_cut(std::vector<int> v, int side_lenght, int start,
+                              int end) {
+  for (int i = 0; i < l; ++i) {
+    for (int j = 0; j < l; ++j) {
+      if (j >= start && j <= end) {
+        v[i * l + j] = 1;
+      }
+    }
+  }
+  return v;
+}  // si potrebbe implementare dando errore quando inizio e fine non siano della
+   // grandezza adeguata*/
+
+std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght, int start,
+                               int end) {
+  for (int i = 0; i < l; ++i) {
+    for (int j = 0; j < l; ++j) {
+      if (i >= start && i <= end) {
+        v[i * l + j] = 1;
+      }
+    }
+  }
+  return v;
+}
+
+
+std::vector<std::vector<int>> vector_of_vectors(
+    const std::vector<int>& pattern) {
+  std::vector<std::vector<int>> patterns;
+  patterns.reserve(4);
+  patterns.push_back(pattern);
+  return patterns;
+}
+
 // regola di hebb per calcolare la matrice dei pesi
-//std::vector<std::vector<int>> hebb(
-//    const std::vector<std::vector<int>>& v) {  // v è una matrice p x n
-//  int p = v.size();     // numero di pattern che voglio memorizzare
-//  int n = v[0].size();  // numero di neuroni
-//  std::vector<std::vector<int>> W(
-//      n, std::vector<int>(n, 0));  // inizializza la matrice n x n, tutta 0
-//  for (int i = 0; i < n; ++i) {    // due cicli per considerare ogni neurone
-//    for (int j = 0; j < n; ++j) {
-//      int sum = 0;
-//      for (int k = 0; k < p; ++k) {
-//        sum += v[k][i] * v[k][j];
-//      }  // la sommatoria della regola
-//      if (i != j) {
-//        W[i][j] = sum / n;  // regola completa
-//      } else {
-//        W[i][j] = 0;  // niente auto-connessioni
-//      }
-//    }
-//  }
-//  return W;
-//};
+std::vector<std::vector<float>> hebb(
+    const std::vector<std::vector<int>>& pxn) {  // v è una matrice p x n
+  int n_pattern = pxn.size();     // numero di pattern che voglio memorizzare
+  int n_neurons = pxn[0].size();  // numero di neuroni
+  std::vector<std::vector<float>> W(
+      n_neurons,
+      std::vector<float>(n_neurons,
+                         0.0));  // inizializza la matrice n x n, tutta 0
+  for (int i = 0; i < n_neurons;
+       ++i) {  // due cicli per considerare ogni neurone
+    for (int j = 0; j < n_neurons; ++j) {
+      double sum = 0;
+      for (int k = 0; k < n_pattern; ++k) {
+        sum += static_cast<float>(pxn[k][i]) * static_cast<float>(pxn[k][j]);
+      }  // la sommatoria della regola
+      if (i != j) {
+        W[i][j] = sum / static_cast<float>(n_neurons);  // regola completa
+      } else {
+        W[i][j] = 0.0;  // niente auto-connessioni
+      }
+    }
+  }
+  return W;
+};
+
 
 // salva matrice
-void save_matrix(const std::vector<std::vector<int>>& matrix) {
-  std::ofstream out("weight_matrix.txt");  // Se il file non esiste, lo crea. Se
-                                           // esiste, lo sovrascrive.
-  for (const auto& row :
-       matrix) {  // lo dispone bene pure graficamente con spazi per dividere le
-    for (int value : row) {  // colonne e \n per ogni riga
-      out << value << " ";
+void save_matrix(const std::vector<std::vector<float>>& matrix) {
+    std::ofstream out("weight_matrix.txt");
+    for (const auto& row : matrix) {
+        for (float value : row) {
+            out << value << " ";
+        }
+        out << "\n";
     }
-    out << "\n";
-  }
 }
+
 
 // il contrario di quella sopra
 std::vector<std::vector<int>> load_matrix() {
@@ -243,46 +299,3 @@ double energy_function(const std::vector<int>& x,
   return -0.5 * energy;
 }
 
-std::vector<int> noise(std::vector<int> v, float prob) {
-  std::vector<int> result = v;
-
-  std::srand(static_cast<unsigned>(std::time(0)));
-
-  for (size_t i = 0; i < result.size(); ++i) {
-    float casual = static_cast<float>(std::rand()) / RAND_MAX;
-    if (casual < prob) {
-      if (result[i] == 1) {
-        result[i] = -1;
-      } else {
-        result[i] = 1;
-      }
-    }
-  }
-
-  return result;
-}
-
-std::vector<int> vertical_cut(std::vector<int> v, int side_lenght, int start,
-                              int end) {
-  for (int i = 0; i < l; ++i) {
-    for (int j = 0; j < l; ++j) {
-      if (j >= start && j <= end) {
-        v[i * l + j] = 1;
-      }
-    }
-  }
-  return v;
-}  // si potrebbe implementare dando errore quando inizio e fine non siano della
-   // grandezza adeguata*/
-
-std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght, int start,
-                               int end) {
-  for (int i = 0; i < l; ++i) {
-    for (int j = 0; j < l; ++j) {
-      if (i >= start && i <= end) {
-        v[i * l + j] = 1;
-      }
-    }
-  }
-  return v;
-}
