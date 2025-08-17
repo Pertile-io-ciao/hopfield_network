@@ -33,6 +33,7 @@ add_executable(hopfield_network
      src/image_processor.cpp
      src/functions.cpp
      src/graphics.cpp
+     src/hebb.cpp
       )
 
 
@@ -45,7 +46,7 @@ if (BUILD_TESTING)
 
   # aggiungi l'eseguibile sample.t
   # add_executable(image_processor.o image_processor.hpp image_processor.cpp)
-  add_executable(hopfield_network.t src/functions.test.cpp src/functions.cpp)
+  add_executable(hopfield_network.t src/function_test.cpp src/functions.cpp)
 
   # Linka SFML
   target_link_libraries(hopfield_network.t PRIVATE sfml-graphics sfml-window sfml-system)

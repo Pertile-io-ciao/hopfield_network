@@ -197,14 +197,15 @@ std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght, int start,
   return v;
 }
 
-
+/*
 std::vector<std::vector<int>> vector_of_vectors(
     const std::vector<int>& pattern) {
   std::vector<std::vector<int>> patterns;
-  patterns.reserve(4);
+  patterns.reserve(2);  // modificata la taglia per i test
   patterns.push_back(pattern);
   return patterns;
 }
+*/
 
 // regola di hebb per calcolare la matrice dei pesi
 std::vector<std::vector<float>> hebb(
@@ -218,9 +219,9 @@ std::vector<std::vector<float>> hebb(
   for (int i = 0; i < n_neurons;
        ++i) {  // due cicli per considerare ogni neurone
     for (int j = 0; j < n_neurons; ++j) {
-      double sum = 0;
+      float sum = 0;
       for (int k = 0; k < n_pattern; ++k) {
-        sum += static_cast<float>(pxn[k][i]) * static_cast<float>(pxn[k][j]);
+      sum += static_cast<float>(pxn[k][i]) * static_cast<float>(pxn[k][j]);
       }  // la sommatoria della regola
       if (i != j) {
         W[i][j] = sum / static_cast<float>(n_neurons);  // regola completa
@@ -231,6 +232,7 @@ std::vector<std::vector<float>> hebb(
   }
   return W;
 };
+
 
 
 // salva matrice

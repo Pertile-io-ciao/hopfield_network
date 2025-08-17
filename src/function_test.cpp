@@ -68,7 +68,7 @@ TEST_CASE("testing the conversion from an image into a vector") {
         input2, inW,
         inH);  // ho costruito la stessa immagine del test precedente
     std::vector<int> zoomed2 = zoom(output2, n);
-    CHECK(zoomed2[1159] == output2[259] == 1);
+    CHECK(zoomed2[1159] == output2[259]); //1
     // AGGIUNGERE ALTRI CASI
 
 
@@ -80,5 +80,23 @@ TEST_CASE("testing the conversion from an image into a vector") {
 TEST_CASE("testing the hebb rule"){
   std::vector<int> im1{-1, 1, 1, -1};
   std::vector<int> im2{1, -1, -1, 1};
-  
+  std::vector<std::vector<int>> patterns = {im1, im2};
+
+/*
+  SUBCASE("testing the vector_of_vectors function"){
+    std::vector<std::vector<int>> patterns1 = vector_of_vectors(im1);
+    std::vector<std::vector<int>> patterns1 = vector_of_vectors(im2);
+    CHECK(patterns1 == patterns);
+  }
+*/
+
+  SUBCASE("testing the hebb function") {
+  std::vector<std::vector<float>> weight_matrix = hebb(patterns);
+  CHECK(weight_matrix[0][0] == 0.0f);
+  CHECK(weight_matrix[1][1] == weight_matrix[0][0]);
+  CHECK(weight_matrix[0][1] == -0.5f);
+  CHECK(weight_matrix[1][0] == weight_matrix[0][1]);
+  CHECK(weight_matrix[1][2] == 0.5f);
+  CHECK(weight_matrix[2][1] == weight_matrix[1][2]);
+  }
 }

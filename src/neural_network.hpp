@@ -2,13 +2,17 @@
 #define NEURAL_NET_HPP
 
 #include <vector>
+#include <string>
 
 class hebb {
-  std::vector<std::vector<int>> weigh_matrix;
+  std::vector<std::vector<float>> weigh_matrix;
 
  public:
 
- hebb(const std::vector<std::vector<int>>& v);
+ std::string sourceFolder;
+
+ hebb(const std::vector<std::vector<int>>& v, std::string source);
+
 };
 
 #endif
