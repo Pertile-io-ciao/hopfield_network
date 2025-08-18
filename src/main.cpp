@@ -19,7 +19,7 @@ int main() {
   
   draw();
 
-  Hebb ciao("resources/images/zoomed_w_noise", "data/weight_matrix.txt");
+  Hebb ciao("resources/images/resized", "data");
   ciao.process();
   
 
