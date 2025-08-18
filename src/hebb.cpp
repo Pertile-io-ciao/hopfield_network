@@ -8,15 +8,39 @@
 
 #include "functions.hpp"
 
-Hebb::Hebb(std::string source) {
+Hebb::Hebb(std::string source, std::string destination) {
   this->sourceFolder = source;  // salva le cartelle sorgente
+  this->destinationFolder = destination;
 }
 
-void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) {
-  std::ofstream out("data/weight_matrix.txt");
+/*
+void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
+  std::ofstream out("");
   if (!out) {
-        throw std::runtime_error("Error: impossible to open file data/weight_matrix.txt");  //chat gpt
+    throw std::runtime_error(
+        "Error: impossible to open file data/weight_matrix.txt");  // chat gpt
+  }
+  for (const auto& row : matrix) {
+    for (float value : row) {
+      out << value << " ";
     }
+    out << "\n";
+  }
+  out.close();
+}
+*/
+
+void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
+  std::filesystem::path outpath(this->destinationFolder);
+  if (!std::filesystem::exists(outpath)) {
+    std::filesystem::create_directories(outpath);
+  }
+
+  std::ofstream out(outpath);
+  if (!out) {
+    throw std::runtime_error(
+        "Error: impossible to open file data/weight_matrix.txt");  // chat gpt
+  }
   for (const auto& row : matrix) {
     for (float value : row) {
       out << value << " ";
@@ -27,11 +51,13 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) {
 }
 
 // funzione che elabora tutte le immagini che sono nella cartella di origine
-void Hebb::creatematrix() {  // metodo process
+void Hebb::process() {  // metodo process
 
-  std::vector<std::vector<int>>
-      vector_of_vectors;  //{4, std::vector<int>(64*64, 0)};
-  vector_of_vectors.reserve(4);
+  std::vector<std::vector<int>> patterns;
+
+  if (!std::filesystem::exists(this->destinationFolder)) {
+    std::filesystem::create_directories(this->destinationFolder);
+  }
 
   for (const auto& entry :
        std::filesystem::directory_iterator(this->sourceFolder)) {
@@ -46,33 +72,17 @@ void Hebb::creatematrix() {  // metodo process
         sf::Image img;
         // carico immagine
         if (!img.loadFromFile(path.string())) {
-          std::cerr << "Errore caricamento immagine: " << path << "\n";
+          std::cerr << "Failed to load image: " << path << "\n";
           continue;
         }
+        else img.loadFromFile(path.string());
 
-        // Trasformazione dell'immagine
-        /*
-        sf::Image elaborated = img;
-        std::vector<sf::Color> colors = vector_from_image(elaborated);
-        std::vector<int> vector1 = blacknwhite(colors);
-        int width = elaborated.getSize().x;
-        int height = elaborated.getSize().y;
-        std::vector<int> v_interpolated =
-            bilinear_interpolation(vector1, width, height);
-        std::vector<std::vector<int>> patterns =
-            vector_of_vectors(v_interpolated);
-        std::vector<std::vector<float>> weight_matrix = hebb(patterns);
-        save_matrix(weight_matrix);
-
-        */
-
-        sf::Image elaborated = img;
-        std::vector<sf::Color> colors = vector_from_image(elaborated);
-        std::vector<int> pattern = blacknwhite(colors);
-        vector_of_vectors.push_back(pattern);
+        auto colors = vector_from_image(img);
+        auto pattern = blacknwhite(colors);
+        patterns.push_back(pattern);
       }
     }
   }
-  std::vector<std::vector<float>> weight_matrix = hebb(vector_of_vectors);
+  auto weight_matrix = hebb(patterns);
   save_matrix(weight_matrix);
 }

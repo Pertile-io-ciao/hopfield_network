@@ -1,34 +1,28 @@
 #ifndef HEBB_HPP
 #define HEBB_HPP
 
-
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
 
-
 class Hebb {
  public:
-  std::string sourceFolder;
-
-
-  Hebb(std::string source);
-  void creatematrix();
-
+  Hebb(std::string source, std::string destination);
+  void process();
 
   /**
    * Metodo specifico di trasformazione virtuale
    */
-  //sf::Image transform(const sf::Image& input);
+  // sf::Image transform(const sf::Image& input);
 
+ private:
+  std::string sourceFolder;
+  std::string destinationFolder;
 
-  private:
+  
   // spostata qui per non ridefinirla dentro process()
-  void save_matrix(const std::vector<std::vector<float>>& matrix);
+  void save_matrix(const std::vector<std::vector<float>>& matrix) const;
 };
-
-
-
 
 #endif

@@ -19,8 +19,8 @@ int main() {
   
   draw();
 
-  Hebb ciao("resources/images/zoomed_w_noise");
-  ciao.creatematrix();
+  Hebb ciao("resources/images/zoomed_w_noise", "data/weight_matrix.txt");
+  ciao.process();
   
 
   return 0;
