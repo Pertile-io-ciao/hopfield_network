@@ -13,7 +13,7 @@ int main() {
   ImageZoomed zoom("resources/images/resized", "resources/images/zoomed");
   zoom.process();
   ImageZoomed zoom_w_noise("resources/images/noised",
-                           "resources/images/zoomed_w_noise");
+                          "resources/images/zoomed_w_noise");
   zoom_w_noise.process();
   
   draw();
