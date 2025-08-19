@@ -18,7 +18,7 @@ int main() {
   zoom_w_noise.process();
   
   //crea matrice di hebb
-  Hebb ciao("resources/images/resized", "weight_matrix.txt");
+  Hebb ciao("resources/images/resized", "data/weight_matrix.txt");
   ciao.process();
   
   draw();
