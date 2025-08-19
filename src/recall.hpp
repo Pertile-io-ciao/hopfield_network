@@ -11,7 +11,7 @@ struct Status {
   float energy;
 };
 
-class recall {
+class Recall {
 
   std::string matrix_Folder;
   std::string image_Folder;
@@ -20,7 +20,7 @@ class recall {
 
  public:
 
- recall(std::string source, std::string destination);
+ Recall(std::string source, std::string destination);
  void process();
 
  Status update_status(int i, const Status& old_status, const std::vector<std::vector<float>>& W);
