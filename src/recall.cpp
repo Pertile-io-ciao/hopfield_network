@@ -50,9 +50,38 @@ void Recall::process() {
 
       }
 
-      
+      const std::vector<int>& final_pattern = status.pattern;
+    int n = static_cast<int>(final_pattern.size());
+    int side = static_cast<int>(std::round(std::sqrt(n)));
+    if (side * side != n) {
+        std::cerr << "Warning: pattern size is not a perfect square (" << n << ")\n";
+    }
 
+    sf::Image out_img;
+    out_img.create(side, side, sf::Color::Black);
 
+    for (int y = 0; y < side; ++y) {
+        for (int x = 0; x < side; ++x) {
+            int idx = y * side + x;
+            int val = final_pattern[idx];
+            // assumo pattern in {1, -1} oppure {1,0}
+            if (val == 1) out_img.setPixel(x, y, sf::Color::White);
+            else out_img.setPixel(x, y, sf::Color::Black);
+        }
+    }
+
+    // crea directory di output se necessario
+    std::filesystem::path out_p(this->image_Folder);
+    if (out_p.has_parent_path() && !std::filesystem::exists(out_p.parent_path())) {
+        std::filesystem::create_directories(out_p.parent_path());
+    }
+
+    if (!out_img.saveToFile(out_p.string())) {
+        std::cerr << "Failed to save recalled image to: " << out_p << "\n";
+    } else {
+        std::cout << "Recalled image saved to: " << out_p << "\n";
+    }
+    
     }
   }
 }
