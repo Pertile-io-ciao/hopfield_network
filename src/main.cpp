@@ -4,6 +4,7 @@
 
 #include "graphics.hpp"
 #include "image_processor.hpp"
+#include "hebb.hpp"
 
 int main() {
   ImageResized interp("resources/images/source", "resources/images/resized");
@@ -15,6 +16,10 @@ int main() {
   ImageZoomed zoom_w_noise("resources/images/noised",
                           "resources/images/zoomed_w_noise");
   zoom_w_noise.process();
+  
+  //crea matrice di hebb
+  Hebb ciao("resources/images/resized", "weight_matrix.txt");
+  ciao.process();
   
   draw();
   return 0;

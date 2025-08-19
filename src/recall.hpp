@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-struct Status {
-  std::vector<int> pattern;
-  float energy;
+struct Status { //per legare pattern ed energia
+  std::vector<int> pattern; //vettore di interi
+  float energy; //energie
 };
 
 class Recall {

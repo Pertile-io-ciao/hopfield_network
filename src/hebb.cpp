@@ -10,7 +10,7 @@
 
 Hebb::Hebb(std::string source, std::string destination) {
   this->sourceFolder = source;  // salva le cartelle sorgente
-  this->destinationFolder = destination;
+  this->destinationFolder = destination; 
 }
 
 
