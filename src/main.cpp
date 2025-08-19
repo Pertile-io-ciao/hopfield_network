@@ -4,7 +4,6 @@
 
 #include "graphics.hpp"
 #include "image_processor.hpp"
-#include "hebb.hpp"
 
 int main() {
   ImageResized interp("resources/images/source", "resources/images/resized");
@@ -18,10 +17,6 @@ int main() {
   zoom_w_noise.process();
   
   draw();
-
-  Hebb ciao("resources/images/resized", "data");
-  ciao.process();
-  
-
   return 0;
+
 }
