@@ -1,0 +1,35 @@
+Start testing: Aug 18 19:12 CEST
+----------------------------------------------------------
+1/1 Testing: hopfield_network.t
+1/1 Test: hopfield_network.t
+Command: "/home/ubuntu/hopfield_network/hopfield_network/build/Debug/hopfield_network.t"
+Directory: /home/ubuntu/hopfield_network/hopfield_network/build
+"hopfield_network.t" start time: Aug 18 19:12 CEST
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+/home/ubuntu/hopfield_network/hopfield_network/src/function_test.cpp:80:
+TEST CASE:  testing the hebb rule
+  testing the hopfield_update function
+
+/home/ubuntu/hopfield_network/hopfield_network/src/function_test.cpp:107: ERROR: CHECK( new_x[2] == 1 ) is NOT correct!
+  values: CHECK( -1 == 1 )
+
+/home/ubuntu/hopfield_network/hopfield_network/src/function_test.cpp:108: ERROR: CHECK( new_x[3] == -1 ) is NOT correct!
+  values: CHECK( 1 == -1 )
+
+===============================================================================
+[doctest] test cases:  2 |  1 passed | 1 failed | 0 skipped
+[doctest] assertions: 20 | 18 passed | 2 failed |
+[doctest] Status: FAILURE!
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Failed.
+"hopfield_network.t" end time: Aug 18 19:12 CEST
+"hopfield_network.t" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 18 19:12 CEST

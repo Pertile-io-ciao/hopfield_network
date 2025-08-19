@@ -1,12 +1,17 @@
 # ninja log v5
-3	1422	1755523526032944914	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	90d39b7b31e3fa04
-5	230	1755455128586569847	Debug/hopfield_network.t	5501f1aa3c5bb95c
-4	764	1755522375050835944	CMakeFiles/hopfield_network.dir/Debug/src/main.cpp.o	aea67c30a53a0b9e
-2	1807	1755455065593700162	CMakeFiles/hopfield_network.t.dir/Debug/src/functions.cpp.o	6a9beddf807e7747
-1422	1562	1755523526173118296	Debug/hopfield_network	3e78d89184d198c
-2	1498	1755455065289109316	CMakeFiles/hopfield_network.dir/Debug/src/graphics.cpp.o	f17c2b91b3a1b4b8
-1	1823	1755455065613351185	CMakeFiles/hopfield_network.dir/Debug/src/functions.cpp.o	421402f34081cd4f
-3	1764	1755513923542233308	CMakeFiles/hopfield_network.dir/Debug/src/image_processor.cpp.o	79022e875ce93d64
 2	5407	1755455069187445201	CMakeFiles/hopfield_network.t.dir/Debug/src/function_test.cpp.o	df20c479d40f96fe
-3	1864	1755524259309932315	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	90d39b7b31e3fa04
+3	1764	1755513923542233308	CMakeFiles/hopfield_network.dir/Debug/src/image_processor.cpp.o	79022e875ce93d64
+1	1823	1755455065613351185	CMakeFiles/hopfield_network.dir/Debug/src/functions.cpp.o	421402f34081cd4f
+2	1498	1755455065289109316	CMakeFiles/hopfield_network.dir/Debug/src/graphics.cpp.o	f17c2b91b3a1b4b8
 1865	2114	1755524259560138751	Debug/hopfield_network	3e78d89184d198c
+2	1807	1755455065593700162	CMakeFiles/hopfield_network.t.dir/Debug/src/functions.cpp.o	6a9beddf807e7747
+4	764	1755522375050835944	CMakeFiles/hopfield_network.dir/Debug/src/main.cpp.o	aea67c30a53a0b9e
+5	230	1755455128586569847	Debug/hopfield_network.t	5501f1aa3c5bb95c
+3	1864	1755524259309932315	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	90d39b7b31e3fa04
+5	2011	1755537132756717577	CMakeFiles/hopfield_network.dir/Debug/src/image_processor.cpp.o	79022e875ce93d64
+7	2178	1755537132926718298	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	90d39b7b31e3fa04
+7	2209	1755537132956718425	CMakeFiles/hopfield_network.t.dir/Debug/src/functions.cpp.o	6a9beddf807e7747
+6	2227	1755537132976718508	CMakeFiles/hopfield_network.dir/Debug/src/functions.cpp.o	421402f34081cd4f
+2228	2582	1755537133326720039	Debug/hopfield_network	3e78d89184d198c
+7	8213	1755537138956714069	CMakeFiles/hopfield_network.t.dir/Debug/src/function_test.cpp.o	df20c479d40f96fe
+8213	8393	1755537139136710439	Debug/hopfield_network.t	5501f1aa3c5bb95c

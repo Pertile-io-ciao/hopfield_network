@@ -221,7 +221,7 @@ std::vector<std::vector<float>> hebb(
     for (int j = 0; j < n_neurons; ++j) {
       float sum = 0;
       for (int k = 0; k < n_pattern; ++k) {
-      sum += static_cast<float>(pxn[k][i]) * static_cast<float>(pxn[k][j]);
+        sum += static_cast<float>(pxn[k][i]) * static_cast<float>(pxn[k][j]);
       }  // la sommatoria della regola
       if (i != j) {
         W[i][j] = sum / static_cast<float>(n_neurons);  // regola completa
@@ -233,19 +233,16 @@ std::vector<std::vector<float>> hebb(
   return W;
 };
 
-
-
 // salva matrice
 void save_matrix(const std::vector<std::vector<float>>& matrix) {
-    std::ofstream out("weight_matrix.txt");
-    for (const auto& row : matrix) {
-        for (float value : row) {
-            out << value << " ";
-        }
-        out << "\n";
+  std::ofstream out("weight_matrix.txt");
+  for (const auto& row : matrix) {
+    for (float value : row) {
+      out << value << " ";
     }
+    out << "\n";
+  }
 }
-
 
 // il contrario di quella sopra
 std::vector<std::vector<int>> load_matrix() {
@@ -269,14 +266,17 @@ std::vector<std::vector<int>> load_matrix() {
 
   return W;
 }
+
+/*
+
 // aggiornamento del neurone
 std::vector<int> hopfield_update(const std::vector<int>& x,
-                                 const std::vector<std::vector<double>>& W) {
+                                 const std::vector<std::vector<float>>& W) {
   int n = x.size();
   std::vector<int> x_new(n);
 
   for (int i = 0; i < n; ++i) {
-    double sum = 0.0;  // doppio ciclo per prendere ogni neurone
+    float sum = 0.0;  // doppio ciclo per prendere ogni neurone
     for (int j = 0; j < n; ++j) {
       sum += W[i][j] * x[j];
     }
@@ -301,3 +301,53 @@ double energy_function(const std::vector<int>& x,
   return -0.5 * energy;
 }
 
+*/
+
+std::vector<int> neuron_update(int i, const std::vector<int>& x,
+                               const std::vector<std::vector<float>>& W) {
+  int n = x.size();
+  std::vector<int> x_new(n);
+  /*
+    std::random_device r;
+    std::default_random_engine eng{r()};
+    std::uniform_real_distribution<int> dist{0, n * n};
+    int i{dist(eng)};
+  */
+  float sum = 0.0;
+  for (int j = 0; j < n; ++j) {
+    sum += W[i][j] * x[j];
+  }
+  x_new[i] =
+      (sum >= 0) ? 1 : -1;  // ±1 per ogni neurone; come la funzione segno
+
+  return x_new;
+}
+
+// funzione dell'energia
+float energy_function(const std::vector<int>& x,
+                      const std::vector<std::vector<float>>& W) {
+  int n = x.size();
+  float energy = 0.0;
+
+  for (int i = 0; i < n; ++i) {  // solito cicletto for doppio
+    for (int j = 0; j < n; ++j) {
+      energy += W[i][j] * x[i] * x[j];
+    }
+  }
+
+  return -0.5 * energy;
+}
+
+float energy_update(int i, float energy, const std::vector<int>& x,
+                    const std::vector<std::vector<float>>& W) {
+  float dE;
+  int n = x.size();
+
+  for (int k = 0; k < n; ++k) {
+    
+  }
+
+
+
+                    
+                    }

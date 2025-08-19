@@ -1,4 +1,4 @@
-#include "neural_network.hpp"
+/* #include "neural_network.hpp"
 //#include "functions.hpp"
 
 hebb::hebb(const std::vector<std::vector<int>>& v, std::string source) {
@@ -22,3 +22,4 @@ hebb::hebb(const std::vector<std::vector<int>>& v, std::string source) {
 
   this->sourceFolder = source;
 }
+  */

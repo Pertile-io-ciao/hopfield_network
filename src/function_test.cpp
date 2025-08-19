@@ -81,7 +81,7 @@ TEST_CASE("testing the hebb rule"){
   std::vector<int> im1{-1, 1, 1, -1};
   std::vector<int> im2{1, -1, -1, 1};
   std::vector<std::vector<int>> patterns = {im1, im2};
-
+  std::vector<std::vector<float>> weight_matrix = hebb(patterns);
 /*
   SUBCASE("testing the vector_of_vectors function"){
     std::vector<std::vector<int>> patterns1 = vector_of_vectors(im1);
@@ -91,7 +91,6 @@ TEST_CASE("testing the hebb rule"){
 */
 
   SUBCASE("testing the hebb function") {
-  std::vector<std::vector<float>> weight_matrix = hebb(patterns);
   CHECK(weight_matrix[0][0] == 0.0f);
   CHECK(weight_matrix[1][1] == weight_matrix[0][0]);
   CHECK(weight_matrix[0][1] == -0.5f);
@@ -99,4 +98,15 @@ TEST_CASE("testing the hebb rule"){
   CHECK(weight_matrix[1][2] == 0.5f);
   CHECK(weight_matrix[2][1] == weight_matrix[1][2]);
   }
+
+  SUBCASE("testing the hopfield_update function") {
+    std::vector<int> x{1, -1, 1, -1};
+    auto new_x = hopfield_update(x, weight_matrix);
+    CHECK(new_x[0] == -1);
+    CHECK(new_x[1] == 1);
+    CHECK(new_x[2] == 1);
+    CHECK(new_x[3] == -1);
+  }
 }
+
+

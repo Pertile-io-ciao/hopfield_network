@@ -19,13 +19,13 @@ std::vector<int> zoom(const std::vector<int>& v, int n);
 std::vector<std::vector<float>> hebb(const std::vector<std::vector<int>>& v);
 void save_matrix(const std::vector<std::vector<int>>& matrix);
 std::vector<std::vector<int>> load_matrix();
-std::vector<std::vector<int>> vector_of_vectors(
-    const std::vector<int>& pattern);
+//std::vector<std::vector<int>> vector_of_vectors(
+//    const std::vector<int>& pattern);
 
-std::vector<int> hopfield_update(const std::vector<int>& x,
-                                 const std::vector<std::vector<double>>& W);
-double energy_function(const std::vector<int>& x,
-                       const std::vector<std::vector<double>>& W);
+std::vector<int> neuron_update(int i, const std::vector<int>& x,
+                                 const std::vector<std::vector<float>>& W);
+float energy_function(const std::vector<int>& x,
+                       const std::vector<std::vector<float>> W);
 
 std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
 std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght = 64, int start = 4, int end = 12);
