@@ -5,3 +5,5 @@
 2	1768	1755610038520683791	CMakeFiles/hopfield_network.dir/src/functions.cpp.o	de5373f45ac9e715
 2	1828	1755610038578732367	CMakeFiles/hopfield_network.dir/src/hebb.cpp.o	f46ac06b093da2d0
 1828	2022	1755610038773609728	hopfield_network	a3cfd628795ef61e
+5	1560	1755612537873619713	CMakeFiles/hopfield_network.dir/src/main.cpp.o	812ebfe3b793ad12
+1560	1961	1755612538272691180	hopfield_network	a3cfd628795ef61e
