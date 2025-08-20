@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Recall.hpp"
+#include "functions.hpp"
 
 // funzione per verificare se un punto è dentro uno sprite
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
