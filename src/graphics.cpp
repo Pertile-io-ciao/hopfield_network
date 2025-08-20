@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <random>
 #include <vector>
 
 #include "Recall.hpp"
@@ -263,14 +264,48 @@ int draw() {
           }
 
           if (isSpriteClicked(spritenoised, mousePos)) {
-            Recall rec("data/weight_matrix.txt");
-            rec.initialize_from_image(noisedpath[i]);
-            int side{64};
+            Recall rec("data");
+            rec.initialize_from_image(
+                noisedpath[i]);  // inizializza il pattern corrotto
+            int side{rec.pattern_side()};
 
             texturerecall.create(side, side);
-            spriterecall.setTexture(texturerecall, true);
+            spriterecall.setTexture(texturerecall);
+            runningrecall = true;
+
+            float initial_energy = rec.get_energy();
+            std::vector<int> initial_pattern = rec.get_pattern_ref();
+
+            float final_energy = 0.0;
+            std::vector<int> final_pattern(side * side, 0);
+
+            while (initial_pattern != final_pattern) {
+              for (int k = 0; k < 256; ++k) {
+                float start_energy = rec.get_energy();
+
+                int n{rec.pattern_side()};
+                std::random_device r;
+                std::default_random_engine eng{r()};
+                std::uniform_int_distribution<int> dist{
+                    0, n * n};  // rivedi bene qui
+                int i{dist(eng)};
+                rec.update(i);
+                float end_energy = rec.get_energy();
+
+                if (end_energy > start_energy) {
+                  std::cerr << "Error: energy should not increase" << '\n';
+                }
+              }
+              float final_energy = rec.get_energy();
+              std::vector<int> final_pattern = rec.get_pattern_ref();
 
 
+
+
+               //// codice grafico ////
+
+
+            }
           }
         }
       }
