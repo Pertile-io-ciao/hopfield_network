@@ -67,6 +67,8 @@ build NightlyUpdate: phony NightlyUpdate$:Debug
 
 build hopfield_network: phony Debug/hopfield_network
 
+build hopfield_network.t: phony Debug/hopfield_network.t
+
 
 #############################################
 # Folder: /home/ubuntu/hopfield_network/hopfield_network/build

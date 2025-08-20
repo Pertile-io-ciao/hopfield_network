@@ -27,6 +27,7 @@
 /home/ubuntu/hopfield_network/hopfield_network/build/CMakeFiles/ContinuousMemCheck.dir
 /home/ubuntu/hopfield_network/hopfield_network/build/CMakeFiles/ContinuousSubmit.dir
 /home/ubuntu/hopfield_network/hopfield_network/build/CMakeFiles/hopfield_network.dir
+/home/ubuntu/hopfield_network/hopfield_network/build/CMakeFiles/hopfield_network.t.dir
 /home/ubuntu/hopfield_network/hopfield_network/build/CMakeFiles/test.dir
 /home/ubuntu/hopfield_network/hopfield_network/build/CMakeFiles/edit_cache.dir
 /home/ubuntu/hopfield_network/hopfield_network/build/CMakeFiles/rebuild_cache.dir
