@@ -1,32 +1,92 @@
 [
 {
-  "directory": "/home/marghe/hopfield_network/build",
-  "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/hopfield_network.dir/src/main.cpp.o -c /home/marghe/hopfield_network/src/main.cpp",
-  "file": "/home/marghe/hopfield_network/src/main.cpp",
-  "output": "CMakeFiles/hopfield_network.dir/src/main.cpp.o"
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -g -fsanitize=address,undefined -std=c++20 -o CMakeFiles/hopfield_network.dir/Debug/src/main.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/main.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/main.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Debug/src/main.cpp.o"
 },
 {
-  "directory": "/home/marghe/hopfield_network/build",
-  "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/hopfield_network.dir/src/image_processor.cpp.o -c /home/marghe/hopfield_network/src/image_processor.cpp",
-  "file": "/home/marghe/hopfield_network/src/image_processor.cpp",
-  "output": "CMakeFiles/hopfield_network.dir/src/image_processor.cpp.o"
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -g -fsanitize=address,undefined -std=c++20 -o CMakeFiles/hopfield_network.dir/Debug/src/image_processor.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/image_processor.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/image_processor.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Debug/src/image_processor.cpp.o"
 },
 {
-  "directory": "/home/marghe/hopfield_network/build",
-  "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/hopfield_network.dir/src/functions.cpp.o -c /home/marghe/hopfield_network/src/functions.cpp",
-  "file": "/home/marghe/hopfield_network/src/functions.cpp",
-  "output": "CMakeFiles/hopfield_network.dir/src/functions.cpp.o"
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -g -fsanitize=address,undefined -std=c++20 -o CMakeFiles/hopfield_network.dir/Debug/src/functions.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/functions.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/functions.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Debug/src/functions.cpp.o"
 },
 {
-  "directory": "/home/marghe/hopfield_network/build",
-  "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/hopfield_network.dir/src/graphics.cpp.o -c /home/marghe/hopfield_network/src/graphics.cpp",
-  "file": "/home/marghe/hopfield_network/src/graphics.cpp",
-  "output": "CMakeFiles/hopfield_network.dir/src/graphics.cpp.o"
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -g -fsanitize=address,undefined -std=c++20 -o CMakeFiles/hopfield_network.dir/Debug/src/graphics.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/graphics.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/graphics.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Debug/src/graphics.cpp.o"
 },
 {
-  "directory": "/home/marghe/hopfield_network/build",
-  "command": "/usr/bin/c++  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -std=c++20 -o CMakeFiles/hopfield_network.dir/src/hebb.cpp.o -c /home/marghe/hopfield_network/src/hebb.cpp",
-  "file": "/home/marghe/hopfield_network/src/hebb.cpp",
-  "output": "CMakeFiles/hopfield_network.dir/src/hebb.cpp.o"
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -g -fsanitize=address,undefined -std=c++20 -o CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/hebb.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/hebb.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O3 -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/Release/src/main.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/main.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/main.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Release/src/main.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O3 -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/Release/src/image_processor.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/image_processor.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/image_processor.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Release/src/image_processor.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O3 -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/Release/src/functions.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/functions.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/functions.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Release/src/functions.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O3 -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/Release/src/graphics.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/graphics.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/graphics.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Release/src/graphics.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O3 -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/Release/src/hebb.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/hebb.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/hebb.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/Release/src/hebb.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O2 -g -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/main.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/main.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/main.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/main.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O2 -g -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/image_processor.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/image_processor.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/image_processor.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/image_processor.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O2 -g -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/functions.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/functions.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/functions.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/functions.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O2 -g -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/graphics.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/graphics.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/graphics.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/graphics.cpp.o"
+},
+{
+  "directory": "/home/ubuntu/hopfield_network/hopfield_network/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\"  -fno-omit-frame-pointer -Wall -Wextra -D_GLIBCXX_ASSERTIONS -O2 -g -DNDEBUG -std=c++20 -o CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/hebb.cpp.o -c /home/ubuntu/hopfield_network/hopfield_network/src/hebb.cpp",
+  "file": "/home/ubuntu/hopfield_network/hopfield_network/src/hebb.cpp",
+  "output": "CMakeFiles/hopfield_network.dir/RelWithDebInfo/src/hebb.cpp.o"
 }
 ]

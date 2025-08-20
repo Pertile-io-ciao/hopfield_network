@@ -6,19 +6,16 @@
 
 #include "functions.hpp"
 
-Recall::Recall(std::string image, std::string matrix) {
-  this->image_Folder = image;  // salva le cartelle sorgente
+recall::recall(std::string matrix) {
+    // salva le cartelle sorgente
   this->matrix_Folder = matrix;
 }
 
-void Recall::process() {
+void recall::process() {
   std::vector<std::vector<float>> weight_matrix = load_matrix();
 
   std::filesystem::directory_entry entry(this->image_Folder);
-  /**
-   * Verifico che sia un file
-   * e che sia png
-   */
+
   if (entry.is_regular_file()) {
     auto path = entry.path();  // path=percorso
     std::string ext = path.extension().string();
@@ -86,7 +83,7 @@ void Recall::process() {
   }
 }
 
-std::vector<std::vector<float>> Recall::load_matrix() {
+std::vector<std::vector<float>> recall::load_matrix() {
   std::filesystem::path intpath =
       this->matrix_Folder + "/" + "weight_matrix.txt";
 
@@ -115,7 +112,7 @@ std::vector<std::vector<float>> Recall::load_matrix() {
   return W;
 }
 
-Status Recall::update_status(int i, const Status& old_status, const std::vector<std::vector<float>>& W) {
+Status recall::update_status(int i, const Status& old_status, const std::vector<std::vector<float>>& W) {
   //std::vector<int> old_pattern = old_status.pattern;
   //float old_energy = old_status.energy;
 

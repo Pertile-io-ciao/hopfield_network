@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+#include "Recall.hpp"
+
 // funzione per verificare se un punto è dentro uno sprite
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
@@ -40,7 +42,7 @@ int draw() {
   // inizializzo, sono le variabili di stato
   // bool showPopup = false;        // mostra/nasconde un pop-up
   bool showNoisedImage = false;  // mostra l'immagine corrotta
-  //int selectedImageIndex = -1;   // indica quale immagine è stata cliccata
+  // int selectedImageIndex = -1;   // indica quale immagine è stata cliccata
 
   // crazione pop up
   /*sf::RectangleShape popupBox(sf::Vector2f(300.f, 280.f));  // rettangolo
@@ -130,6 +132,18 @@ int draw() {
   sf::Texture texturenoised;
   sf::Sprite spritenoised;
   bool is_noised = false;
+
+  // inizializzo lo sprite in evoluzione
+  sf::Texture texturerecall;
+  sf::Sprite spriterecall;
+  bool runningrecall = false;
+
+  // inizializzo la scritta per la funzione energia
+  sf::Text energyText;
+  energyText.setFont(font);
+  energyText.setCharacterSize(18);
+  energyText.setFillColor(sf::Color::White);
+  energyText.setPosition(500.f, 1400.f);
 
   // ciclo principale che racchiude tutta la grafica che si vede a schermo
   while (window.isOpen()) {
@@ -228,24 +242,34 @@ int draw() {
                     }*/
 
             // Prova a caricare l'immagine modificata
-           
 
-              // Fallback: carica immagine originale
-              /*if (!texturenoised.loadFromFile(zoomed +
-                                              file_names[selectedImageIndex])) {
-                std::cerr
-                    << "Errore anche nel caricamento immagine originale\n";
-                return -1;
-              } else {
-                std::cout << "Caricata immagine originale come fallback.\n";
-              }
-            }*/
+            // Fallback: carica immagine originale
+            /*if (!texturenoised.loadFromFile(zoomed +
+                                            file_names[selectedImageIndex])) {
+              std::cerr
+                  << "Errore anche nel caricamento immagine originale\n";
+              return -1;
+            } else {
+              std::cout << "Caricata immagine originale come fallback.\n";
+            }
+          }*/
 
             // Mostra immagine (modificata o originale)
             spritenoised.setTexture(texturenoised);
             spritenoised.setPosition(283.f, 450.f);
             showNoisedImage = true;
-            //showPopup = false;
+            // showPopup = false;
+          }
+
+          if (isSpriteClicked(spritenoised, mousePos)) {
+            Recall rec("data/weight_matrix.txt");
+            rec.initialize_from_image(noisedpath[i]);
+            int side{64};
+
+            texturerecall.create(side, side);
+            spriterecall.setTexture(texturerecall, true);
+
+
           }
         }
       }
@@ -263,40 +287,41 @@ int draw() {
     }
   }*/
 
-  window.clear(sf::Color::Black);
+    window.clear(sf::Color::Black);
 
-  // Disegna immagini originali
-  for (auto& sprite : sprites) {
-    window.draw(sprite);
-  }
-
-  window.draw(load_images);
-  window.draw(load_imagestxt);
-
-  // Disegna immagine distorta se presente
-  if (is_noised) {
-    window.draw(spritenoised);
-  }
-
-  /*if (showPopup) {
-    window.draw(popupBox);
-    /*for (auto& text : popupOptions) {
-      window.draw(text);
-    }
-    for (int i = 0; i < 4; ++i) {
-      popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
-                                                     : sf::Color::Black);
-      window.draw(popupOptions[i]);
+    // Disegna immagini originali
+    for (auto& sprite : sprites) {
+      window.draw(sprite);
     }
 
-    window.draw(applyButton);
-  }*/
-  if (showNoisedImage) {
-    window.draw(spritenoised);
-  }
+    window.draw(load_images);
+    window.draw(load_imagestxt);
 
-  window.display();
-}
+    // Disegna immagine distorta se presente
+    if (is_noised) {
+      window.draw(spritenoised);
+    }
 
-return 0;
+    /*if (showPopup) {
+      window.draw(popupBox);
+      /*for (auto& text : popupOptions) {
+        window.draw(text);
+      }
+      for (int i = 0; i < 4; ++i) {
+        popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
+                                                       : sf::Color::Black);
+        window.draw(popupOptions[i]);
+      }
+
+      window.draw(applyButton);
+    }*/
+    if (showNoisedImage) {
+      window.draw(spritenoised);
+    }
+
+    window.display();
+
+  }  // si chiude la finestra (termina while window is open)
+
+  return 0;
 }

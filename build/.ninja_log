@@ -1,9 +1,7 @@
 # ninja log v5
-1	1254	1755610038006539264	CMakeFiles/hopfield_network.dir/src/main.cpp.o	812ebfe3b793ad12
-2	1536	1755610038288489488	CMakeFiles/hopfield_network.dir/src/graphics.cpp.o	b77792fa5d79b021
-1	1745	1755610038495805830	CMakeFiles/hopfield_network.dir/src/image_processor.cpp.o	fa428da8fea195eb
-2	1768	1755610038520683791	CMakeFiles/hopfield_network.dir/src/functions.cpp.o	de5373f45ac9e715
-2	1828	1755610038578732367	CMakeFiles/hopfield_network.dir/src/hebb.cpp.o	f46ac06b093da2d0
-1828	2022	1755610038773609728	hopfield_network	a3cfd628795ef61e
-5	1560	1755612537873619713	CMakeFiles/hopfield_network.dir/src/main.cpp.o	812ebfe3b793ad12
-1560	1961	1755612538272691180	hopfield_network	a3cfd628795ef61e
+3	2312	1755626330485270245	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	90d39b7b31e3fa04
+1	2142	1755626330319654839	CMakeFiles/hopfield_network.dir/Debug/src/image_processor.cpp.o	79022e875ce93d64
+2354	1423	1755626329594174155	Debug/hopfield_network	3e78d89184d198c
+2	2354	1755626330526674096	CMakeFiles/hopfield_network.dir/Debug/src/functions.cpp.o	421402f34081cd4f
+3	2028	1755626330195443286	CMakeFiles/hopfield_network.dir/Debug/src/graphics.cpp.o	f17c2b91b3a1b4b8
+1	1432	1755626329605438402	CMakeFiles/hopfield_network.dir/Debug/src/main.cpp.o	aea67c30a53a0b9e
