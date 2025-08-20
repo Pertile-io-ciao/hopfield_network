@@ -34,6 +34,7 @@ add_executable(hopfield_network
      src/functions.cpp
      src/graphics.cpp
      src/hebb.cpp
+     src/Recall.cpp
       )
 
 
@@ -42,18 +43,18 @@ target_link_libraries(hopfield_network PRIVATE sfml-graphics sfml-window sfml-sy
 
 # se il testing e' abilitato...
 #   per disabilitare il testing, passare -DBUILD_TESTING=OFF a cmake durante la fase di configurazione
-#if (BUILD_TESTING)
+if (BUILD_TESTING)
 
   # aggiungi l'eseguibile sample.t
   # add_executable(image_processor.o image_processor.hpp image_processor.cpp)
-  #add_executable(hopfield_network.t src/function_test.cpp src/functions.cpp)
+  add_executable(hopfield_network.t src/function_test.cpp src/functions.cpp)
 
   # Linka SFML
-  #target_link_libraries(hopfield_network.t PRIVATE sfml-graphics sfml-window sfml-system)
+  target_link_libraries(hopfield_network.t PRIVATE sfml-graphics sfml-window sfml-system)
 
   # aggiungi l'eseguibile sample.t alla lista dei test
-  #add_test(NAME hopfield_network.t COMMAND hopfield_network.t )
+  add_test(NAME hopfield_network.t COMMAND hopfield_network.t )
 
- # endif()
+  endif()
 
 

@@ -1,11 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-struct pixel {
-  double r;
-  double g;
-  double b;
-};
+//struct pixel {
+//  double r;
+//  double g;
+//  double b;
+// };
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image);
 std::vector<int> blacknwhite(const std::vector<sf::Color>& v);

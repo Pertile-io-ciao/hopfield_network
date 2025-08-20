@@ -134,6 +134,7 @@ sf::Image image_from_vector(const std::vector<int>& dates) {
   return image;
 }
 
+/*
 sf::Image image_from_vector(const std::vector<int>& dates,
                             const sf::Image& image) {
   int width = image.getSize().x;
@@ -152,6 +153,8 @@ sf::Image image_from_vector(const std::vector<int>& dates,
 
   return imagebw;
 }
+
+*/
 
 std::vector<int> noise(std::vector<int> v, float prob) {
   std::vector<int> result = v;
@@ -233,6 +236,7 @@ std::vector<std::vector<float>> hebb(
   return W;
 };
 
+/*
 // salva matrice
 void save_matrix(const std::vector<std::vector<float>>& matrix) {
   std::ofstream out("weight_matrix.txt");
@@ -266,7 +270,7 @@ std::vector<std::vector<int>> load_matrix() {
 
   return W;
 }
-
+*/
 /*
 
 // aggiornamento del neurone

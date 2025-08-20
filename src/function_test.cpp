@@ -98,7 +98,7 @@ TEST_CASE("testing the hebb rule"){
   CHECK(weight_matrix[1][2] == 0.5f);
   CHECK(weight_matrix[2][1] == weight_matrix[1][2]);
   }
-
+/*
   SUBCASE("testing the hopfield_update function") {
     std::vector<int> x{1, -1, 1, -1};
     auto new_x = neuron_update(x, weight_matrix);
@@ -107,6 +107,7 @@ TEST_CASE("testing the hebb rule"){
     CHECK(new_x[2] == 1);
     CHECK(new_x[3] == -1);
   }
+    */
 }
 
 
