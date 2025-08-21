@@ -10,12 +10,7 @@ class Hebb {
  public:
   Hebb(std::string source, std::string destination);
   void process();
-
-  /**
-   * Metodo specifico di trasformazione virtuale
-   */
-  // sf::Image transform(const sf::Image& input);
-
+  
  private:
   std::string sourceFolder;
   std::string destinationFolder;
