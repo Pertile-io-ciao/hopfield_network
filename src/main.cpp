@@ -16,12 +16,12 @@ int main() {
   ImageZoomed zoom_w_noise("resources/images/noised",
                           "resources/images/zoomed_w_noise");
   zoom_w_noise.process();
-  
+  draw();
   //crea matrice di hebb
   Hebb ciao("resources/images/resized", "data");
   ciao.process();
   
-  draw();
+  
   return 0;
 
 }

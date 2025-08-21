@@ -11,11 +11,6 @@
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
 }
-// sf::Sprite& sprite riferimento costante a uno sprite
-// sf::Vector2f mousePos posizione del mouse in coordinate float
-// sprite.getGlobalBounds() restituisce un sf::FloatRect con posizione e
-// dimensioni dello sprite .contains(mousePos) verifica se il punto (mouse) è
-// dentro il rettangolo
 
 std::vector<bool> optionSelected(4, false);
 
@@ -25,10 +20,7 @@ int draw() {
 
   sf::RenderWindow window(sf::VideoMode(virtualWidth, virtualHeight),
                           "hopfield_network", sf::Style::Close);
-  // sf::RenderWindow è classe di sfml x creare una finestra grafica
-  // sf::VideoMode definisce la grandezza (la risoluzione della finestra)
-  // sf::Style::Close è il tipo della finestra (puo essere solo chiusa, nn
-  // ridimensionata/ingrandita)
+  // stile finestra close non permette di ridimensionarla/ingrandirla
 
   sf::View view(sf::FloatRect(0, 0, virtualWidth, virtualHeight));
   window.setView(view);
@@ -39,70 +31,13 @@ int draw() {
   // il font serve nei pop up
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
-    std::cerr << "Error in font loading\n";
+    std::cerr << "error in font loading " << '\n';
   }
 
   // inizializzo, sono le variabili di stato
   // bool showPopup = false;        // mostra/nasconde un pop-up
   bool showNoisedImage = false;  // mostra l'immagine corrotta
   // int selectedImageIndex = -1;   // indica quale immagine è stata cliccata
-
-  // crazione pop up
-  /*sf::RectangleShape popupBox(sf::Vector2f(300.f, 280.f));  // rettangolo
-                                                            // grafico
-  popupBox.setFillColor(
-      sf::Color(64, 224, 208, 255));   // imposta il colore (RGBA)
-  popupBox.setPosition(800.f, 300.f);  // posizione in coordinate virtuali
-
-  // opzioni del pop up (testo)
-  std::vector<sf::Text> popupOptions(4);
-  std::vector<std::string> optionLabels = {"Noised", "Vertical Cut",
-                                           "Orizontal Cut", "Reverse"};
-
-  for (int i = 0; i < 4; ++i) {
-    popupOptions[i].setFont(font);
-    popupOptions[i].setString(optionLabels[i]);
-    popupOptions[i].setCharacterSize(24);
-    popupOptions[i].setFillColor(sf::Color::Black);
-    popupOptions[i].setPosition(popupBox.getPosition().x + 30.f,
-                                popupBox.getPosition().y + 30.f + i * 50.f);
-  }
-  // imposta stile, font, dimensione, colore e posizione a ciascuna voce del pop
-  // up
-
-  sf::Text applyButton;
-  applyButton.setFont(font);
-  applyButton.setString("Apply");
-  applyButton.setCharacterSize(24);
-  applyButton.setFillColor(sf::Color::White);
-  applyButton.setPosition(popupBox.getPosition().x + 100.f,
-                          popupBox.getPosition().y + 230.f);*/
-
-  // inizializzo load image (pulsante in alto a destra)
-  sf::RectangleShape load_images(sf::Vector2f(300.f, 40.f));
-  load_images.setFillColor(sf::Color(64, 224, 208, 255));
-  load_images.setPosition(1600.f, 0.f);
-
-  // impostazioni del testo
-  sf::Text load_imagestxt;  // crea un oggetto di tipo sf::Text (testo
-                            // visualizzabile)
-  load_imagestxt.setFont(font);
-  load_imagestxt.setString(
-      "Load images from your pc");  // imposta la striscia di testo da mostrare
-  load_imagestxt.setCharacterSize(15);
-  load_imagestxt.setFillColor(sf::Color::Black);
-
-  sf::FloatRect textBounds =
-      load_imagestxt
-          .getLocalBounds();  // rettangolo (FloatRect) che rappresenta le
-                              // dimensioni locali del testo
-  load_imagestxt.setOrigin(textBounds.left + textBounds.width / 2.f,
-                           textBounds.top + textBounds.height / 2.f);
-  // imposta l'origine del testo x centrarlo rispetto al rettangolo
-
-  sf::Vector2f boxCenter =
-      load_images.getPosition() + load_images.getSize() / 2.f;
-  load_imagestxt.setPosition(boxCenter);
 
   // Percorsi delle immagini
   std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png",
@@ -176,8 +111,8 @@ int draw() {
         window.setView(view);
       }
 
-      if (event.type == sf::Event::Closed)
-        window.close();  // chiude la finestra se premo x
+      // chiude la finestra se premo x
+      if (event.type == sf::Event::Closed) window.close();
 
       // gestione click
       if (event.type == sf::Event::MouseButtonPressed &&
@@ -192,79 +127,17 @@ int draw() {
           if (isSpriteClicked(sprites[i], mousePos)) {
             // Carica immagine corrotta corrispondente
             if (!texturenoised.loadFromFile(noisedpath[i])) {
-              std::cerr << "Errore nel caricamento dell'immagine corrotta: "
+              std::cerr << "error loading noised image: "
                         << noisedpath[i] << "\n";
             } else {
               spritenoised.setTexture(texturenoised);
               is_noised = true;
             }
 
-            /*if (showPopup) {  // inizializzato a false (sopra)
-              if (showPopup) {
-                for (int i = 0; i < 4; ++i) {  // ciclo per le opzioni
-                  sf::FloatRect bounds =
-                      popupOptions[i]
-                          .getGlobalBounds();  //.getGlobalBounds() restituisce
-              un
-                                               // sf::FloatRect, cioè un
-              rettangolo
-                                               // che rappresenta la posizione e
-              le
-                                               // dimensioni dell'oggetto
-                  if (bounds.contains(mousePos)) {
-                    optionSelected[i] = !optionSelected[i];  // toggle: ON <->
-              OFF
-                  }
-                }
-                // Controllo clic su "Apply"
-                if (applyButton.getGlobalBounds().contains(mousePos)) {
-                  if (selectedImageIndex != -1) {
-                    std::string imageToLoad = "";
-                    bool applied = false;
-                    // Ordine di priorità: Noised → Vertical → Orizontal →
-              Reverse if (optionSelected[0]) { imageToLoad = zoomed_w_noise +
-              file_names[selectedImageIndex]; applied = true;
-                    }
-                    else if (optionSelected[1]) {
-                      imageToLoad = "resources/images/vertical_cut/" +
-                                    file_names[selectedImageIndex];
-                      applied = true;
-                    }
-                    else if (optionSelected[2]) {
-                      imageToLoad = "resources/images/orizontal_cut/" +
-                                    file_names[selectedImageIndex];
-                      applied = true;
-                    }
-                    else if (optionSelected[3]) {
-                      imageToLoad = "resources/images/reverse/" +
-                                    file_names[selectedImageIndex];
-                      applied = true;
-                    }
-
-                    // Se nessuna opzione selezionata, non fare nulla
-                    if (!applied) {
-                      std::cout << "Nessuna opzione selezionata.\n";
-                      return 0;
-                    }*/
-
-            // Prova a caricare l'immagine modificata
-
-            // Fallback: carica immagine originale
-            /*if (!texturenoised.loadFromFile(zoomed +
-                                            file_names[selectedImageIndex])) {
-              std::cerr
-                  << "Errore anche nel caricamento immagine originale\n";
-              return -1;
-            } else {
-              std::cout << "Caricata immagine originale come fallback.\n";
-            }
-          }*/
-
             // Mostra immagine (modificata o originale)
             spritenoised.setTexture(texturenoised);
             spritenoised.setPosition(283.f, 450.f);
             showNoisedImage = true;
-            // showPopup = false;
           }
 
           if (isSpriteClicked(spritenoised, mousePos)) {
@@ -337,8 +210,8 @@ int draw() {
       float initial_energy = rec.get_energy();
       std::vector<int> initial_pattern = rec.get_pattern_ref();
 
-      //float final_energy = 0.0;
-      //std::vector<int> final_pattern(side * side, 0);
+      // float final_energy = 0.0;
+      // std::vector<int> final_pattern(side * side, 0);
 
       for (int k = 0; k < 256; ++k) {
         float start_energy = rec.get_energy();
@@ -391,27 +264,11 @@ int draw() {
     window.draw(sprite);
   }
 
-  window.draw(load_images);
-  window.draw(load_imagestxt);
-
   // Disegna immagine distorta se presente
   if (is_noised) {
     window.draw(spritenoised);
   }
 
-  /*if (showPopup) {
-    window.draw(popupBox);
-    /*for (auto& text : popupOptions) {
-      window.draw(text);
-    }
-    for (int i = 0; i < 4; ++i) {
-      popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
-                                                     : sf::Color::Black);
-      window.draw(popupOptions[i]);
-    }
-
-    window.draw(applyButton);
-  }*/
   if (showNoisedImage) {
     window.draw(spritenoised);
   }
