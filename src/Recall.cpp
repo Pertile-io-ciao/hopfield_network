@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <random>
+#include <cmath>
 
 #include "functions.hpp"
 
@@ -70,6 +71,14 @@ void Recall::update(int i) {
   this->energy = energy_function(this->current_pattern, this->weight_matrix);
 }
 
-float Recall::get_energy() const {
-    return this->energy;
+float Recall::get_energy() const { return this->energy; }
+
+int Recall::pattern_side() const {
+  int size{this->current_pattern.size()};
+  return sqrt(size);
+}
+
+const std::vector<int>& Recall::get_pattern_ref() const {
+  std::vector<int> pattern = this->current_pattern;
+  return pattern;
 }

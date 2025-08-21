@@ -25,7 +25,7 @@ std::vector<std::vector<int>> load_matrix();
 std::vector<int> neuron_update(int i, const std::vector<int>& x,
                                  const std::vector<std::vector<float>>& W);
 float energy_function(const std::vector<int>& x,
-                       const std::vector<std::vector<float>> W);
+                       const std::vector<std::vector<float>>& W);
 
 std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
 std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght = 64, int start = 4, int end = 12);

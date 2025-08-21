@@ -200,15 +200,6 @@ std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght, int start,
   return v;
 }
 
-/*
-std::vector<std::vector<int>> vector_of_vectors(
-    const std::vector<int>& pattern) {
-  std::vector<std::vector<int>> patterns;
-  patterns.reserve(2);  // modificata la taglia per i test
-  patterns.push_back(pattern);
-  return patterns;
-}
-*/
 
 // regola di hebb per calcolare la matrice dei pesi
 std::vector<std::vector<float>> hebb(
