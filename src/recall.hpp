@@ -8,7 +8,7 @@
 
 class Recall {
   std::string matrix_Folder;
-  std::string image_Folder;
+  std::string image_clicked;
 
   std::vector<std::vector<float>> weight_matrix;
   float energy;
@@ -23,12 +23,11 @@ class Recall {
 
   void update(int i);
 
-  bool is_converged() const;
+  //bool is_converged() const;
   int pattern_side() const;
   float get_energy() const;
 
   const std::vector<int>& get_pattern_ref() const;
-  const std::vector<uint8_t>& get_rgba_buffer_ref() const;
 };
 
 #endif

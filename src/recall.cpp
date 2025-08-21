@@ -8,7 +8,7 @@
 #include "functions.hpp"
 
 Recall::Recall(const std::string& matrix_path) {
-  this->matrix_Folder = matrix_path;
+  this->matrix_Folder = matrix_path; //data
   this->weight_matrix = load_matrix();
 }
 
@@ -17,6 +17,7 @@ std::vector<std::vector<float>> Recall::load_matrix() {
       this->matrix_Folder + "/" + "weight_matrix.txt";
 
   std::ifstream in(intpath, std::ios::in);
+  //errore se non  apre
   if (!in) { 
     throw std::runtime_error(
         "Error: impossible to open file data/weight_matrix.txt");  // chat gpt
@@ -41,10 +42,12 @@ std::vector<std::vector<float>> Recall::load_matrix() {
   return W;
 }
 
+//da immagine a pattern
 void Recall::initialize_from_image(const std::string& image_file) {
-  this->image_Folder = image_file;
-  std::filesystem::directory_entry entry(this->image_Folder);
+  this->image_clicked = image_file;
+  std::filesystem::directory_entry entry(this->image_clicked);
 
+  //guardo se l'immagine è png
   if (entry.is_regular_file()) {
     auto path = entry.path();  // path=percorso
     std::string ext = path.extension().string();
@@ -53,10 +56,7 @@ void Recall::initialize_from_image(const std::string& image_file) {
       if (!img.loadFromFile(path.string())) {
         std::cerr << "Failed to load image: " << path << "\n";
       }
-      // carico immagine
-      else
-        img.loadFromFile(path.string());
-
+      
       auto colors = vector_from_image(img);
       std::vector<int> pattern = blacknwhite(colors);
 
@@ -65,6 +65,7 @@ void Recall::initialize_from_image(const std::string& image_file) {
   }
 }
 
+//update considerando il neurone i che verrà scelto con random in graphics
 void Recall::update(int i) {
   this->current_pattern =
       neuron_update(i, this->current_pattern, this->weight_matrix);
@@ -73,11 +74,13 @@ void Recall::update(int i) {
 
 float Recall::get_energy() const { return this->energy; }
 
+//l=64
 int Recall::pattern_side() const {
   int size{this->current_pattern.size()};
   return sqrt(size);
 }
 
+//ritorna pattern aggiornato a ogni richiesta
 const std::vector<int>& Recall::get_pattern_ref() const {
   std::vector<int> pattern = this->current_pattern;
   return pattern;
