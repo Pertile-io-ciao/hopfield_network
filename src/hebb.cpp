@@ -10,8 +10,6 @@ Hebb::Hebb(std::string source, std::string destination) {
   this->destinationFolder = destination; 
 }
 
-
-
 /*
 void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
   namespace fs = std::filesystem;
@@ -41,14 +39,13 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
 */
 
 void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
-    namespace fs = std::filesystem;
 
-    fs::path outdir(destinationFolder);  //rappresenta la cartella di destinazione
+    std::filesystem::path outdir(destinationFolder);  //rappresenta la cartella di destinazione
     std::error_code ec; //cattura eventuali errori
     
     // crea la cartella di destinazione se manca
-    if (!fs::exists(outdir)) {
-        fs::create_directories(outdir, ec);
+    if (!std::filesystem::exists(outdir)) {
+        std::filesystem::create_directories(outdir, ec);
         if (ec) { //Se c’è stato un errore nella creazione della cartella, stampa un messaggio e lancia un’eccezione.
             std::string msg = "[Hebb::save_matrix] cannot create directory '" + outdir.string()
                               + "': " + ec.message();
@@ -58,7 +55,7 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
     }
 
     // percorso file completo
-    fs::path outpath = outdir / "weight_matrix.txt";
+    std::filesystem::path outpath = outdir / "weight_matrix.txt";
 
     // apri file in testo (per file molto grandi preferisci binario)
     std::ofstream out(outpath, std::ios::out);

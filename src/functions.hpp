@@ -1,3 +1,6 @@
+#ifndef FUNCTIONS_HPP
+#define FUNCTIONS_HPP
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -20,3 +23,5 @@ float energy_function(const std::vector<int>& x,
 std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
 std::vector<int> orizontal_cut(std::vector<int> v, int l=64, int side_lenght = 64, int start = 4, int end = 12);
 std::vector<int> vertical_cut(std::vector<int> v, int l=64,  int side_lenght = 64, int start = 57, int end = 61);
+
+#endif
