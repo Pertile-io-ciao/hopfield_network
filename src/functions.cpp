@@ -10,7 +10,7 @@
 #include <vector>
 
 // lato immagine
-//inline constexpr int l = 64;  // occhio alle variabili globali
+int l = 64;  // occhio alle variabili globali
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   int width = image.getSize().x;
@@ -91,7 +91,7 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input, int l, in
   return output;
 }
 
-std::vector<int> zoom(const std::vector<int>& v, int n,int l) {
+std::vector<int> zoom(const std::vector<int>& v, int n, int l) {
   int newL = l * n;
   std::vector<int> result(newL * newL);
 
