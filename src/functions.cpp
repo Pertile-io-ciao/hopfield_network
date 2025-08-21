@@ -247,34 +247,13 @@ std::vector<int> hopfield_update(const std::vector<int>& x,
 
   return x_new;
 }
-
-// funzione dell'energia
-double energy_function(const std::vector<int>& x,
-                       const std::vector<std::vector<double>>& W) {
-  int n = x.size();
-  double energy = 0.0;
-
-  for (int i = 0; i < n; ++i) {  // solito cicletto for doppio
-    for (int j = 0; j < n; ++j) {
-      energy += W[i][j] * x[i] * x[j];
-    }
-  }
-
-  return -0.5 * energy;
-}
-
 */
 
+//regola di hopfield ma che considera un neurone specifico dato come parametro, verra scritto in graphics
 std::vector<int> neuron_update(int i, const std::vector<int>& x,
                                const std::vector<std::vector<float>>& W) {
   int n = x.size();
   std::vector<int> x_new(n);
-  /*
-    std::random_device r;
-    std::default_random_engine eng{r()};
-    std::uniform_real_distribution<int> dist{0, n * n};
-    int i{dist(eng)};
-  */
   float sum = 0.0;
   for (int j = 0; j < n; ++j) {
     sum += W[i][j] * x[j];
@@ -285,7 +264,7 @@ std::vector<int> neuron_update(int i, const std::vector<int>& x,
   return x_new;
 }
 
-// funzione dell'energia
+// funzione dell'energia con float
 float energy_function(const std::vector<int>& x,
                       const std::vector<std::vector<float>>& W) {
   int n = x.size();
@@ -299,7 +278,7 @@ float energy_function(const std::vector<int>& x,
 
   return -0.5 * energy;
 }
-
+/*
 float energy_update(int i, float energy, const std::vector<int>& x,
                     const std::vector<std::vector<float>>& W) {
   float dE;
@@ -310,3 +289,4 @@ float energy_update(int i, float energy, const std::vector<int>& x,
   }
                     
  }
+*/
