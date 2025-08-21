@@ -17,7 +17,7 @@ std::vector<std::vector<float>> recall::load_matrix() {
       this->matrix_Folder + "/" + "weight_matrix.txt";
 
   std::ifstream in(intpath, std::ios::in);
-  if (!in) {
+  if (!in) { 
     throw std::runtime_error(
         "Error: impossible to open file data/weight_matrix.txt");  // chat gpt
   }

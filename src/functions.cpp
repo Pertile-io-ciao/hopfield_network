@@ -221,6 +221,7 @@ std::vector<int> hopfield_update(const std::vector<int>& x,
 
   return x_new;
 }
+  
 // funzione dell'energia
 double energy_function(const std::vector<int>& x,
                        const std::vector<std::vector<double>>& W) {
