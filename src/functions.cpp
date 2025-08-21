@@ -10,10 +10,7 @@
 #include <vector>
 
 // lato immagine
-inline constexpr int l = 64;  // occhio alle variabili globali
-
-// zoom viene passato come parametro
-// int n= 5;
+//inline constexpr int l = 64;  // occhio alle variabili globali
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   int width = image.getSize().x;
@@ -54,7 +51,7 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
   return result;
 }
 
-std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
+std::vector<int> bilinear_interpolation(const std::vector<int>& input, int l, int inW,
                                         int inH) {
   std::vector<int> output(l * l);
 
@@ -94,7 +91,7 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
   return output;
 }
 
-std::vector<int> zoom(const std::vector<int>& v, int n) {
+std::vector<int> zoom(const std::vector<int>& v, int n,int l) {
   int newL = l * n;
   std::vector<int> result(newL * newL);
 
@@ -120,12 +117,12 @@ std::vector<int> zoom(const std::vector<int>& v, int n) {
 // di size
 sf::Image image_from_vector(const std::vector<int>& dates) {
   sf::Image image;
-  int lato = (int)sqrt(dates.size());
-  image.create(lato, lato);
+  int lenght = (int)sqrt(dates.size());
+  image.create(lenght, lenght);
 
-  for (int y = 0; y < lato; ++y) {
-    for (int x = 0; x < lato; ++x) {
-      int value = dates[y * lato + x];
+  for (int y = 0; y < lenght; ++y) {
+    for (int x = 0; x < lenght; ++x) {
+      int value = dates[y * lenght + x];
       sf::Color color = (value == 1) ? sf::Color::Black : sf::Color::White;
       image.setPixel(x, y, color);
     }
@@ -133,28 +130,6 @@ sf::Image image_from_vector(const std::vector<int>& dates) {
 
   return image;
 }
-
-/*
-sf::Image image_from_vector(const std::vector<int>& dates,
-                            const sf::Image& image) {
-  int width = image.getSize().x;
-  int height = image.getSize().y;
-
-  sf::Image imagebw;
-  imagebw.create(width, height);
-
-  for (int y = 0; y < height; ++y) {
-    for (int x = 0; x < width; ++x) {
-      int value = dates[y * width + x];
-      sf::Color color = (value == 1) ? sf::Color::Black : sf::Color::White;
-      imagebw.setPixel(x, y, color);
-    }
-  }
-
-  return imagebw;
-}
-
-*/
 
 std::vector<int> noise(std::vector<int> v, float prob) {
   std::vector<int> result = v;
@@ -175,7 +150,7 @@ std::vector<int> noise(std::vector<int> v, float prob) {
   return result;
 }
 
-std::vector<int> vertical_cut(std::vector<int> v, int side_lenght, int start,
+std::vector<int> vertical_cut(std::vector<int> v, int l, int side_lenght, int start,
                               int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
@@ -188,7 +163,7 @@ std::vector<int> vertical_cut(std::vector<int> v, int side_lenght, int start,
 }  // si potrebbe implementare dando errore quando inizio e fine non siano della
    // grandezza adeguata*/
 
-std::vector<int> orizontal_cut(std::vector<int> v, int side_lenght, int start,
+std::vector<int> orizontal_cut(std::vector<int> v, int l,  int side_lenght, int start,
                                int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
@@ -227,41 +202,6 @@ std::vector<std::vector<float>> hebb(
   return W;
 };
 
-/*
-// salva matrice
-void save_matrix(const std::vector<std::vector<float>>& matrix) {
-  std::ofstream out("weight_matrix.txt");
-  for (const auto& row : matrix) {
-    for (float value : row) {
-      out << value << " ";
-    }
-    out << "\n";
-  }
-}
-
-// il contrario di quella sopra
-std::vector<std::vector<int>> load_matrix() {
-  std::ifstream in("weight_matrix.txt");  // Apro il file in lettura
-  std::vector<std::vector<int>> W;        // Matrice da riempire
-  std::string line;
-
-  while (std::getline(in, line)) {  // Leggo una riga alla volta
-    std::istringstream iss(line);   // Creo uno stream dalla stringa
-    std::vector<int> row;
-    int value;
-
-    while (iss >> value) {  // Estraggo gli interi
-      row.push_back(value);
-    }
-
-    if (!row.empty()) {
-      W.push_back(row);  // Aggiungo la riga alla matrice
-    }
-  }
-
-  return W;
-}
-*/
 /*
 
 // aggiornamento del neurone
@@ -341,8 +281,5 @@ float energy_update(int i, float energy, const std::vector<int>& x,
   for (int k = 0; k < n; ++k) {
     
   }
-
-
-
                     
-                    }
+ }
