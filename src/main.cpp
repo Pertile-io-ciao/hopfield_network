@@ -17,7 +17,7 @@ int main() {
   hp::ImageZoomed zoom_w_noise("resources/images/noised",
                           "resources/images/zoomed_w_noise");
   zoom_w_noise.process();
-  int draw();
+  pf::draw();
   //crea matrice di hebb
   hp::Hebb create_matrix("resources/images/resized", "data");
   create_matrix.process();

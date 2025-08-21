@@ -1,2 +1,0 @@
-hopfield_network.t 2 0.00561934
----
