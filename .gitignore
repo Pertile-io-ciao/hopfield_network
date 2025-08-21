@@ -1,9 +1,19 @@
 data/weight_matrix.txt/
 weight_matrix.txt/
-build/
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-compile_commands.json
+build/.ninja_deps/
+build/CMakeFiles/
+build/CMakeCache.txt/
+build/cmake_install.cmake/
+build/build.ninja/
+build/.ninja_log/
+build/CMakefiles/CMakeConfigureLog.yaml/
+build/Cmakefiles/rules.ninja/
+build/Cmakefiles/TargetDirectories.txt/
+build/CMakefiles/3.28.3/CMakeDetermineCompilerABI_C.bin/
+build/CMakefiles/3.28.3/CMakeDetermineCompilerABI_CXX.bin/
+build/CMakefiles/3.28.3/CMakeSystem.cmake/
+build/compile_commands.json/
+build/CTestTestfile.cmake/
+build/DartConfiguration.tcl/
+
 
