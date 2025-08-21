@@ -34,7 +34,7 @@ add_executable(hopfield_network
      src/functions.cpp
      src/graphics.cpp
      src/hebb.cpp
-     src/Recall.cpp
+     src/recall.cpp
       )
 
 
