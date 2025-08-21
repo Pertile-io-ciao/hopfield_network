@@ -1,4 +1,4 @@
-# Install script for directory: /home/marghe/hopfield_network
+# Install script for directory: /home/pertile/hopfield_network
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/marghe/hopfield_network/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/pertile/hopfield_network/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

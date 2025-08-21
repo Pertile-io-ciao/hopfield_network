@@ -8,7 +8,7 @@ bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
 }
 
-std::vector<bool> optionSelected(4, false);
+//std::vector<bool> optionSelected(4, false);
 
 int draw() {
   const float virtualWidth = 1900.f;
@@ -19,8 +19,11 @@ int draw() {
   
   sf::View view(sf::FloatRect(0, 0, virtualWidth, virtualHeight));
   window.setView(view);
-  
+  // sf::View è la vista virtuale
+  // sf::FloatRect area visibile della vista
+  // window.setView(view) assegna la vista alla finestra
   // il font serve nei pop up
+
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
     std::cerr << "Error in font loading\n";
@@ -29,6 +32,7 @@ int draw() {
   
   bool showNoisedImage = false;  
 
+  //Percorsi delle immagini
   std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png",
                                          "totoro.png"};
   std::string zoomed = "resources/images/zoomed/";
@@ -58,6 +62,22 @@ int draw() {
   sf::Texture texturenoised;
   sf::Sprite spritenoised;
   bool is_noised = false;
+
+  /*
+  // inizializo l'oggetto recall
+  Recall rec("data");
+
+  // inizializzo lo sprite in evoluzione
+  sf::Texture texturerecall;
+  sf::Sprite spriterecall;
+  bool runningrecall = false;
+
+  // inizializzo la scritta per la funzione energia
+  sf::Text energyText;
+  energyText.setFont(font);
+  energyText.setCharacterSize(18);
+  energyText.setFillColor(sf::Color::White);
+  energyText.setPosition(500.f, 1400.f);*/
 
   // ciclo principale che racchiude tutta la grafica che si vede a schermo
   while (window.isOpen()) {
@@ -112,13 +132,56 @@ int draw() {
             spritenoised.setPosition(283.f, 450.f);
             showNoisedImage = true;
             // showPopup = false;
+            /* //l'ho spostato di una { più in alto
+          if (isSpriteClicked(spritenoised, mousePos)) {
+            rec.initialize_from_image(
+                noisedpath[i]);  // inizializza il pattern corrotto
+            int side{rec.pattern_side()};
+
+            texturerecall.create(side, side);
+            spriterecall.setTexture(texturerecall);
+            spriterecall.setPosition(283.f, 800.f);
+            runningrecall = true;
+          }
+            float initial_energy = rec.get_energy();
+          std::vector<int> initial_pattern = rec.get_pattern_ref();
+
+          float final_energy = 0.0;
+          std::vector<int> final_pattern(side * side, 0);
+
+          while (initial_pattern != final_pattern) {
+            for (int k = 0; k < 256; ++k) {
+              float start_energy = rec.get_energy();
+
+              int n{rec.pattern_side()};
+              std::random_device r;
+              std::default_random_engine eng{r()};
+              std::uniform_int_distribution<int> dist{
+                  0, n * n - 1};  // rivedi bene qui
+              int i{dist(eng)};
+              rec.update(i);
+              float end_energy = rec.get_energy();
+
+              if (end_energy > start_energy) {
+                std::cerr << "Error: energy should not increase" << '\n';
+              }
+            }
+            float final_energy = rec.get_energy();
+            std::vector<int> final_pattern = rec.get_pattern_ref();
+
+            sf::Image img = image_from_vector(final_pattern);
+            texturerecall.loadFromImage(img);
+
+            energyText.setString("Energy: " +
+                                 std::to_string(rec.get_energy()));  // chat*/
           }
         }
       }
     }
 
     window.clear(sf::Color::Black);
-
+    //altro in  grafica prova
+    
     // Disegna immagini originali
     for (auto& sprite : sprites) {
       window.draw(sprite);
