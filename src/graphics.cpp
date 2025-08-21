@@ -1,14 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 
-namespace pf{
+namespace hp {
 // funzione per verificare se un punto è dentro uno sprite
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
 }
 
-//std::vector<bool> optionSelected(4, false);
+// std::vector<bool> optionSelected(4, false);
 
 int draw() {
   const float virtualWidth = 1900.f;
@@ -16,56 +17,58 @@ int draw() {
 
   sf::RenderWindow window(sf::VideoMode(virtualWidth, virtualHeight),
                           "hopfield_network", sf::Style::Close);
-  
+
   sf::View view(sf::FloatRect(0, 0, virtualWidth, virtualHeight));
   window.setView(view);
-  // sf::View è la vista virtuale
-  // sf::FloatRect area visibile della vista
-  // window.setView(view) assegna la vista alla finestra
-  // il font serve nei pop up
 
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
-    std::cerr << "Error in font loading\n";
+    throw std::runtime_error(
+        "Error: impossible loading font from resources/arial.ttf");
   }
 
-  
-  bool showNoisedImage = false;  
+  bool showNoisedImage = false;
 
-  //Percorsi delle immagini
+  // Percorsi delle immagini
   std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png",
                                          "totoro.png"};
+
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
+  std::string noised = "resources/images/noised/";
 
   // inizializzo i 4 sprites che andranno in alto (quelli normali)
-  std::vector<sf::Texture> textures(4);  
-  std::vector<sf::Sprite> sprites(4);    
-  std::vector<std::string> noisedpath(4);  // percorsi delle versioni corrotte delle immagini
+  std::vector<sf::Texture> textures(4);
+  std::vector<sf::Sprite> sprites(4);
+
+  std::vector<std::string> zoomed_w_noisepath(4);
+  // percorsi delle versioni corrotte delle immagini
+
+  /*forse qui dovremmo aggiungere un altro
+    path per le immagini da dare in input
+    a neuron update? (noised, non zoomed_w_noise)*/
 
   // carica immagini originali
   for (int i = 0; i < 4; ++i) {
     if (!textures[i].loadFromFile(zoomed + file_names[i])) {
-      std::cerr << "Errore nel caricamento di: "
-                << zoomed_w_noise + file_names[i] << "\n";
-      return -1;
+      throw std::runtime_error("Error: imposssible loading image from " +
+                               zoomed + file_names[i]);
     }
     sprites[i].setTexture(textures[i]);
     sprites[i].setPosition(i * 475.f + 109.5f,
                            80.f);  // distanza tra immagini, le ho centrate
-    noisedpath[i] =
+    zoomed_w_noisepath[i] =
         zoomed_w_noise +
         file_names[i];  //<-- prende l'immagine noised e zoomata e la salva
   }
 
-  // inizializzo lo sprite noised
+  // inizializzo lo sprite noised, in basso a sx
   sf::Texture texturenoised;
   sf::Sprite spritenoised;
   bool is_noised = false;
 
-  /*
   // inizializo l'oggetto recall
-  Recall rec("data");
+  // Recall rec("data");
 
   // inizializzo lo sprite in evoluzione
   sf::Texture texturerecall;
@@ -73,7 +76,7 @@ int draw() {
   bool runningrecall = false;
 
   // inizializzo la scritta per la funzione energia
-  sf::Text energyText;
+  /*sf::Text energyText;
   energyText.setFont(font);
   energyText.setCharacterSize(18);
   energyText.setFillColor(sf::Color::White);
@@ -119,19 +122,18 @@ int draw() {
         for (int i = 0; i < 4; ++i) {
           if (isSpriteClicked(sprites[i], mousePos)) {
             // Carica immagine corrotta corrispondente
-            if (!texturenoised.loadFromFile(noisedpath[i])) {
-              std::cerr << "Errore nel caricamento dell'immagine corrotta: "
-                        << noisedpath[i] << "\n";
+            if (!texturenoised.loadFromFile(zoomed_w_noisepath[i])) {
+              throw std::runtime_error("Error: impossible loading image from " +
+                                       zoomed_w_noisepath[i]);
             } else {
               spritenoised.setTexture(texturenoised);
               is_noised = true;
             }
 
             // Mostra immagine (modificata o originale)
-            spritenoised.setTexture(texturenoised);
+            // spritenoised.setTexture(texturenoised);
             spritenoised.setPosition(283.f, 450.f);
             showNoisedImage = true;
-            // showPopup = false;
             /* //l'ho spostato di una { più in alto
           if (isSpriteClicked(spritenoised, mousePos)) {
             rec.initialize_from_image(
@@ -176,12 +178,27 @@ int draw() {
                                  std::to_string(rec.get_energy()));  // chat*/
           }
         }
+
+        if (isSpriteClicked(spritenoised, mousePos)) {
+          // Carica immagine corrotta corrispondente
+          texturerecall =
+              texturenoised;  // copia la texture corrente della noised
+          spriterecall.setTexture(texturerecall);
+
+          // posiziona al centro
+          float centerX =
+              virtualWidth / 2.f - spriterecall.getGlobalBounds().width / 2.f;
+          float posY = spritenoised.getPosition().y;
+          spriterecall.setPosition(centerX, posY);
+
+          runningrecall = true;
+        }
       }
     }
+    // fase di disegno per ogni frame
+    window.clear(sf::Color::Red);
+    // altro in  grafica prova
 
-    window.clear(sf::Color::Black);
-    //altro in  grafica prova
-    
     // Disegna immagini originali
     for (auto& sprite : sprites) {
       window.draw(sprite);
@@ -196,10 +213,13 @@ int draw() {
       window.draw(spritenoised);
     }
 
+    if (runningrecall) {
+      window.draw(spriterecall);
+    }
+
     window.display();
   }
-
   return 0;
 }
 
-}
+}  // namespace hp

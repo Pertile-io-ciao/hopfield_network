@@ -3,8 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-namespace pf {
-    
+namespace hp{
+
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos);
 
 int draw();

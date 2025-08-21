@@ -104,40 +104,6 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
 }
 
 
-/*
-// funzione che elabora tutte le immagini che sono nella cartella di origine
-void Hebb::process() { 
-  std::vector<std::vector<int>> patterns;
-
-  if (!std::filesystem::exists(this->destinationFolder)) {
-    std::filesystem::create_directories(this->destinationFolder);
-  }
-
-  for (const auto& entry : //entry rappresenta ogni elemento trovato nella cartella sorgente
-       std::filesystem::directory_iterator(this->sourceFolder)) {
-    
-    if (entry.is_regular_file()) { //regular = non cartella o link
-      auto path = entry.path();  // path=percorso
-      std::string ext = path.extension().string(); //salva l'estensione del file come stringa
-      if (ext == ".png") {
-        sf::Image img;
-        if (!img.loadFromFile(path.string())) {
-          std::cerr << "Failed to load image: " << path << "\n";
-          continue; //se fallisce salta al file successivo
-        }
-        else img.loadFromFile(path.string());
-
-        auto colors = vector_from_image(img);
-        auto pattern = blacknwhite(colors);
-        patterns.push_back(pattern);
-      }
-    }
-  }
-  auto weight_matrix = hebb(patterns);
-  save_matrix(weight_matrix);
-}
-*/
-
 void Hebb::process() {
     //using namespace std; //permette di usare oggetti come vector, cout, cerr senza scrivere std::
     namespace fs = std::filesystem;
