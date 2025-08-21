@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <random>
+#include <thread>
 #include <vector>
 
 #include "Recall.hpp"
@@ -135,6 +136,9 @@ int draw() {
   sf::Sprite spritenoised;
   bool is_noised = false;
 
+  // inizializo l'oggetto recall
+  Recall rec("data");
+
   // inizializzo lo sprite in evoluzione
   sf::Texture texturerecall;
   sf::Sprite spriterecall;
@@ -264,15 +268,16 @@ int draw() {
           }
 
           if (isSpriteClicked(spritenoised, mousePos)) {
-            Recall rec("data");
             rec.initialize_from_image(
                 noisedpath[i]);  // inizializza il pattern corrotto
             int side{rec.pattern_side()};
 
             texturerecall.create(side, side);
             spriterecall.setTexture(texturerecall);
+            spriterecall.setPosition(283.f, 800.f);
             runningrecall = true;
 
+            /*
             float initial_energy = rec.get_energy();
             std::vector<int> initial_pattern = rec.get_pattern_ref();
 
@@ -287,7 +292,7 @@ int draw() {
                 std::random_device r;
                 std::default_random_engine eng{r()};
                 std::uniform_int_distribution<int> dist{
-                    0, n * n};  // rivedi bene qui
+                    0, n * n - 1};  // rivedi bene qui
                 int i{dist(eng)};
                 rec.update(i);
                 float end_energy = rec.get_energy();
@@ -299,65 +304,128 @@ int draw() {
               float final_energy = rec.get_energy();
               std::vector<int> final_pattern = rec.get_pattern_ref();
 
+              sf::Image img = image_from_vector(final_pattern);
+              texturerecall.loadFromImage(img);
 
+              energyText.setString("Energy: " +
+                                   std::to_string(rec.get_energy()));  // chat
 
+              window.clear();
+              window.draw(spriterecall);
+              window.draw(energyText);
+              window.display();
 
-               //// codice grafico ////
+              // pausa minima per visuale
+              std::this_thread::sleep_for(std::chrono::milliseconds(30));
 
+              if (initial_pattern == final_pattern) {
+                runningrecall = false;
+              }
 
             }
+            */
+            //// codice grafico ////
           }
         }
       }
     }
-    /*else {
-      // controllo clic sulle immagini
-      for (int i = 0; i < 4; ++i) {
-        if (isSpriteClicked(sprites[i], mousePos)) {
-          selectedImageIndex = i;   // salva quale immagine hai cliccato
-          showPopup = true;         // mostra il popup
-          showNoisedImage = false;  // nascondi immagine noised per ora
-          break;
+  }
+  /*else {
+    // controllo clic sulle immagini
+    for (int i = 0; i < 4; ++i) {
+      if (isSpriteClicked(sprites[i], mousePos)) {
+        selectedImageIndex = i;   // salva quale immagine hai cliccato
+        showPopup = true;         // mostra il popup
+        showNoisedImage = false;  // nascondi immagine noised per ora
+        break;
+      }
+    }
+  }
+}*/
+
+  window.clear(sf::Color::Black);
+
+  // Disegna immagini originali
+  for (auto& sprite : sprites) {
+    window.draw(sprite);
+  }
+
+  window.draw(load_images);
+  window.draw(load_imagestxt);
+
+  // Disegna immagine distorta se presente
+  if (is_noised) {
+    window.draw(spritenoised);
+  }
+
+  /*if (showPopup) {
+    window.draw(popupBox);
+    /*for (auto& text : popupOptions) {
+      window.draw(text);
+    }
+    for (int i = 0; i < 4; ++i) {
+      popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
+                                                     : sf::Color::Black);
+      window.draw(popupOptions[i]);
+    }
+
+    window.draw(applyButton);
+  }*/
+  if (showNoisedImage) {
+    window.draw(spritenoised);
+  }
+
+  window.display();
+
+  while (runningrecall == true) {
+    int side{rec.pattern_side()};
+    float initial_energy = rec.get_energy();
+    std::vector<int> initial_pattern = rec.get_pattern_ref();
+
+    float final_energy = 0.0;
+    std::vector<int> final_pattern(side * side, 0);
+
+    while (initial_pattern != final_pattern) {
+      for (int k = 0; k < 256; ++k) {
+        float start_energy = rec.get_energy();
+
+        std::random_device r;
+        std::default_random_engine eng{r()};
+        std::uniform_int_distribution<int> dist{
+            0, side * side - 1};  // rivedi bene qui
+        int i{dist(eng)};
+        rec.update(i);
+        float end_energy = rec.get_energy();
+
+        if (end_energy > start_energy) {
+          std::cerr << "Error: energy should not increase" << '\n';
         }
       }
-    }
-  }*/
+      float final_energy = rec.get_energy();
+      std::vector<int> final_pattern = rec.get_pattern_ref();
 
-    window.clear(sf::Color::Black);
+      sf::Image img = image_from_vector(final_pattern);
+      texturerecall.loadFromImage(img);
 
-    // Disegna immagini originali
-    for (auto& sprite : sprites) {
-      window.draw(sprite);
-    }
+      energyText.setString("Energy: " +
+                           std::to_string(rec.get_energy()));  // chat
 
-    window.draw(load_images);
-    window.draw(load_imagestxt);
+      // window.clear();
+      window.draw(spriterecall);
+      window.draw(energyText);
+      window.display();
 
-    // Disegna immagine distorta se presente
-    if (is_noised) {
-      window.draw(spritenoised);
-    }
+      // pausa minima per visuale
+      std::this_thread::sleep_for(std::chrono::milliseconds(30));
 
-    /*if (showPopup) {
-      window.draw(popupBox);
-      /*for (auto& text : popupOptions) {
-        window.draw(text);
+      if (initial_pattern == final_pattern) {
+        runningrecall = false;
       }
-      for (int i = 0; i < 4; ++i) {
-        popupOptions[i].setFillColor(optionSelected[i] ? sf::Color::Green
-                                                       : sf::Color::Black);
-        window.draw(popupOptions[i]);
-      }
-
-      window.draw(applyButton);
-    }*/
-    if (showNoisedImage) {
-      window.draw(spritenoised);
     }
 
-    window.display();
+    return 0;
+  }
+}  // si chiude la finestra (termina while window is open)
 
-  }  // si chiude la finestra (termina while window is open)
-
-  return 0;
-}
+// return 0;
+// }
