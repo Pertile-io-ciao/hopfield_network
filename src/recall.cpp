@@ -8,16 +8,16 @@
 #include "functions.hpp"
 
 recall::recall(const std::string& matrix_path) {
-  this->matrix_Folder = matrix_path;
+  this->matrix_folder = matrix_path;
   this->weight_matrix = load_matrix();
 }
 
 std::vector<std::vector<float>> recall::load_matrix() {
   std::filesystem::path intpath =
-      this->matrix_Folder + "/" + "weight_matrix.txt";
+      this->matrix_folder + "/" + "weight_matrix.txt";
 
   std::ifstream in(intpath, std::ios::in);
-  if (!in) {
+  if (!in) { 
     throw std::runtime_error(
         "Error: impossible to open file data/weight_matrix.txt");  // chat gpt
   }

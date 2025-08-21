@@ -7,8 +7,9 @@
 #include <vector>
 
 class recall {
-  std::string matrix_Folder;
-  std::string image_Folder;
+  public:
+  std::string matrix_folder;
+  std::string image_clicked;
 
   std::vector<std::vector<float>> weight_matrix;
   float energy;
@@ -16,19 +17,18 @@ class recall {
 
   std::vector<std::vector<float>> load_matrix();
 
- public:
+
   recall(const std::string& matrix_path);
 
   void initialize_from_image(const std::string& image_file);
 
   void update(int i);
 
-  bool is_converged() const;
+  //bool is_converged() const;
   int pattern_side() const;
   float get_energy() const;
 
   const std::vector<int>& get_pattern_ref() const;
-  const std::vector<uint8_t>& get_rgba_buffer_ref() const;
 };
 
 #endif

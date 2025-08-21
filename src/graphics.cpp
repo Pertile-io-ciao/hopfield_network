@@ -4,7 +4,7 @@
 #include <thread>
 #include <vector>
 
-#include "Recall.hpp"
+#include "recall.hpp"
 #include "functions.hpp"
 
 // funzione per verificare se un punto è dentro uno sprite
@@ -72,7 +72,7 @@ int draw() {
   bool is_noised = false;
 
   // inizializo l'oggetto recall
-  Recall rec("data");
+  recall rec("data");
 
   // inizializzo lo sprite in evoluzione
   sf::Texture texturerecall;
