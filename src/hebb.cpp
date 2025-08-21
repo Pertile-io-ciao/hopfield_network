@@ -1,8 +1,7 @@
 #include "hebb.hpp"
 
-#include <filesystem> //lavora con percorsi e cartelle
-#include <fstream> // legge/scrive file
-// <iostream> e altre son già incluse in hebb.hpp
+#include <filesystem>
+#include <fstream> 
 #include "functions.hpp"
 
 Hebb::Hebb(std::string source, std::string destination) {

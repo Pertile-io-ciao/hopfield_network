@@ -51,7 +51,7 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
   return result;
 }
 
-std::vector<int> bilinear_interpolation(const std::vector<int>& input, int l, int inW,
+std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
                                         int inH) {
   std::vector<int> output(l * l);
 
@@ -91,7 +91,7 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input, int l, in
   return output;
 }
 
-std::vector<int> zoom(const std::vector<int>& v, int n, int l) {
+std::vector<int> zoom(const std::vector<int>& v, int n) {
   int newL = l * n;
   std::vector<int> result(newL * newL);
 
@@ -115,21 +115,47 @@ std::vector<int> zoom(const std::vector<int>& v, int n, int l) {
 
 // in input ho vettore di pixel bn di immagine quadrata quindi il lato è radice
 // di size
-sf::Image image_from_vector(const std::vector<int>& dates) {
+sf::Image image_from_vector(const std::vector<int> &dates) {
   sf::Image image;
-  int lenght = (int)sqrt(dates.size());
-  image.create(lenght, lenght);
+  int lato = (int)sqrt(dates.size());
+  image.create(lato, lato);
 
-  for (int y = 0; y < lenght; ++y) {
-    for (int x = 0; x < lenght; ++x) {
-      int value = dates[y * lenght + x];
+
+  for (int y = 0; y < lato; ++y) {
+    for (int x = 0; x < lato; ++x) {
+      int value = dates[y * lato + x];
       sf::Color color = (value == 1) ? sf::Color::Black : sf::Color::White;
       image.setPixel(x, y, color);
     }
   }
 
+
   return image;
 }
+
+
+sf::Image image_from_vector(const std::vector<int>& dates,
+                            const sf::Image& image) {
+  int width = image.getSize().x;
+  int height = image.getSize().y;
+
+
+  sf::Image imagebw;
+  imagebw.create(width, height);
+
+
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
+      int value = dates[y * width + x];
+      sf::Color color = (value == 1) ? sf::Color::Black : sf::Color::White;
+      imagebw.setPixel(x, y, color);
+    }
+  }
+
+
+  return imagebw;
+}
+
 
 std::vector<int> noise(std::vector<int> v, float prob) {
   std::vector<int> result = v;
@@ -221,7 +247,7 @@ std::vector<int> hopfield_update(const std::vector<int>& x,
 
   return x_new;
 }
-  
+
 // funzione dell'energia
 double energy_function(const std::vector<int>& x,
                        const std::vector<std::vector<double>>& W) {

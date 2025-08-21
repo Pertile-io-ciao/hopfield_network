@@ -3,6 +3,7 @@
 #include <random>
 #include <thread>
 #include <vector>
+#include "prova_graphics.hpp"
 
 #include "functions.hpp"
 #include "recall.hpp"

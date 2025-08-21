@@ -70,7 +70,7 @@ build hopfield_network.t: phony RelWithDebInfo/hopfield_network.t
 
 
 #############################################
-# Folder: /home/ubuntu/hopfield_network/hopfield_network/build
+# Folder: /home/marghe/hopfield_network/build
 
 build all: phony all$:RelWithDebInfo
 
