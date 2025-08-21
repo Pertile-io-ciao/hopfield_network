@@ -328,6 +328,47 @@ int draw() {
           }
         }
       }
+    }  // end pollEvent
+
+    if (!window.isOpen()) break;
+
+    if (runningrecall == true) {
+      int side{rec.pattern_side()};
+      float initial_energy = rec.get_energy();
+      std::vector<int> initial_pattern = rec.get_pattern_ref();
+
+      //float final_energy = 0.0;
+      //std::vector<int> final_pattern(side * side, 0);
+
+      for (int k = 0; k < 256; ++k) {
+        float start_energy = rec.get_energy();
+
+        std::random_device r;
+        std::default_random_engine eng{r()};
+        std::uniform_int_distribution<int> dist{
+            0, side * side - 1};  // rivedi bene qui
+        int i{dist(eng)};
+        rec.update(i);
+        float end_energy = rec.get_energy();
+
+        if (end_energy > start_energy) {
+          std::cerr << "Error: energy should not increase" << '\n';
+        }
+      }
+      float final_energy = rec.get_energy();
+      std::vector<int> final_pattern = rec.get_pattern_ref();
+
+      sf::Image img = image_from_vector(final_pattern);
+      texturerecall.loadFromImage(img);
+
+      energyText.setString("Energy: " +
+                           std::to_string(rec.get_energy()));  // chat
+
+      // window.clear();
+
+      if (initial_pattern == final_pattern) {
+        runningrecall = false;
+      }
     }
   }
   /*else {
@@ -375,56 +416,16 @@ int draw() {
     window.draw(spritenoised);
   }
 
+  window.draw(spriterecall);
+  window.draw(energyText);
   window.display();
 
-  while (runningrecall == true) {
-    int side{rec.pattern_side()};
-    float initial_energy = rec.get_energy();
-    std::vector<int> initial_pattern = rec.get_pattern_ref();
+  // pausa minima per visuale
+  std::this_thread::sleep_for(std::chrono::milliseconds(30));
 
-    float final_energy = 0.0;
-    std::vector<int> final_pattern(side * side, 0);
+  window.display();
 
-    while (initial_pattern != final_pattern) {
-      for (int k = 0; k < 256; ++k) {
-        float start_energy = rec.get_energy();
-
-        std::random_device r;
-        std::default_random_engine eng{r()};
-        std::uniform_int_distribution<int> dist{
-            0, side * side - 1};  // rivedi bene qui
-        int i{dist(eng)};
-        rec.update(i);
-        float end_energy = rec.get_energy();
-
-        if (end_energy > start_energy) {
-          std::cerr << "Error: energy should not increase" << '\n';
-        }
-      }
-      float final_energy = rec.get_energy();
-      std::vector<int> final_pattern = rec.get_pattern_ref();
-
-      sf::Image img = image_from_vector(final_pattern);
-      texturerecall.loadFromImage(img);
-
-      energyText.setString("Energy: " +
-                           std::to_string(rec.get_energy()));  // chat
-
-      // window.clear();
-      window.draw(spriterecall);
-      window.draw(energyText);
-      window.display();
-
-      // pausa minima per visuale
-      std::this_thread::sleep_for(std::chrono::milliseconds(30));
-
-      if (initial_pattern == final_pattern) {
-        runningrecall = false;
-      }
-    }
-
-    return 0;
-  }
+  return 0;
 }  // si chiude la finestra (termina while window is open)
 
 // return 0;
