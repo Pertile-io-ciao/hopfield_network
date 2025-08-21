@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-class recall {
+class Recall {
   std::string matrix_Folder;
   std::string image_Folder;
 
@@ -17,7 +17,7 @@ class recall {
   std::vector<std::vector<float>> load_matrix();
 
  public:
-  recall(const std::string& matrix_path);
+  Recall(const std::string& matrix_path);
 
   void initialize_from_image(const std::string& image_file);
 

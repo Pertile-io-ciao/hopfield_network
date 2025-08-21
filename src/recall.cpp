@@ -7,12 +7,12 @@
 
 #include "functions.hpp"
 
-recall::recall(const std::string& matrix_path) {
+Recall::Recall(const std::string& matrix_path) {
   this->matrix_Folder = matrix_path;
   this->weight_matrix = load_matrix();
 }
 
-std::vector<std::vector<float>> recall::load_matrix() {
+std::vector<std::vector<float>> Recall::load_matrix() {
   std::filesystem::path intpath =
       this->matrix_Folder + "/" + "weight_matrix.txt";
 
@@ -41,7 +41,7 @@ std::vector<std::vector<float>> recall::load_matrix() {
   return W;
 }
 
-void recall::initialize_from_image(const std::string& image_file) {
+void Recall::initialize_from_image(const std::string& image_file) {
   this->image_Folder = image_file;
   std::filesystem::directory_entry entry(this->image_Folder);
 
@@ -65,20 +65,20 @@ void recall::initialize_from_image(const std::string& image_file) {
   }
 }
 
-void recall::update(int i) {
+void Recall::update(int i) {
   this->current_pattern =
       neuron_update(i, this->current_pattern, this->weight_matrix);
   this->energy = energy_function(this->current_pattern, this->weight_matrix);
 }
 
-float recall::get_energy() const { return this->energy; }
+float Recall::get_energy() const { return this->energy; }
 
-int recall::pattern_side() const {
+int Recall::pattern_side() const {
   int size{this->current_pattern.size()};
   return sqrt(size);
 }
 
-const std::vector<int>& recall::get_pattern_ref() const {
+const std::vector<int>& Recall::get_pattern_ref() const {
   std::vector<int> pattern = this->current_pattern;
   return pattern;
 }
