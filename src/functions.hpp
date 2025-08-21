@@ -24,8 +24,8 @@ float energy_function(const std::vector<int>& x,
 
 std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
 std::vector<int> orizontal_cut(std::vector<int> v, int start = 4,
-                               int end = 12);
-std::vector<int> vertical_cut(std::vector<int> v, int start = 57,
-                              int end = 61);
+                               int end = 7);
+std::vector<int> vertical_cut(std::vector<int> v, int start = 50,
+                              int end = 53);
 
 #endif

@@ -70,7 +70,7 @@ build hopfield_network.t: phony Debug/hopfield_network.t
 
 
 #############################################
-# Folder: /home/pertile/hopfield_network/build
+# Folder: /home/marghe/hopfield_network/build
 
 build all: phony all$:Debug
 

@@ -10,7 +10,7 @@
 #include <vector>
 
 // lato immagine
-int l = 64;  // occhio alle variabili globali
+int l = 56;  // occhio alle variabili globali
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   int width = image.getSize().x;
