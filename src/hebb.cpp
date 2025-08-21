@@ -4,6 +4,7 @@
 #include <fstream> 
 #include "functions.hpp"
 
+namespace hp{
 Hebb::Hebb(std::string source, std::string destination) {
   this->sourceFolder = source;  // salva le cartelle sorgente
   this->destinationFolder = destination; 
@@ -240,3 +241,4 @@ void Hebb::process() {
 
     //std::cout << "[Hebb::process] done\n";
 } 
+}

@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace hp{
+
 class ImageProcessor {
  public:
   std::string sourceFolder;
@@ -39,6 +41,6 @@ class ImageNoised : public ImageProcessor {
   sf::Image transform(const sf::Image& input) override;
 };
 
-
+}
 
 #endif

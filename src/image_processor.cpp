@@ -6,6 +6,8 @@
 
 #include "functions.hpp"
 
+namespace hp{
+
 // costruttore di image_processor
 ImageProcessor::ImageProcessor(std::string source, std::string destination) {
   this->sourceFolder = source;  // salva le cartelle source e destination
@@ -91,4 +93,5 @@ sf::Image ImageNoised::transform(const sf::Image& input) {
   std::vector<int> vector4 = orizontal_cut(vector3);
   sf::Image image = image_from_vector(vector4);
   return image;
+}
 }

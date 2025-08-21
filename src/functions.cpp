@@ -176,7 +176,7 @@ std::vector<int> noise(std::vector<int> v, float prob) {
   return result;
 }
 
-std::vector<int> vertical_cut(std::vector<int> v, int l, int side_lenght, int start,
+std::vector<int> vertical_cut(std::vector<int> v, int start,
                               int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
@@ -189,7 +189,7 @@ std::vector<int> vertical_cut(std::vector<int> v, int l, int side_lenght, int st
 }  // si potrebbe implementare dando errore quando inizio e fine non siano della
    // grandezza adeguata*/
 
-std::vector<int> orizontal_cut(std::vector<int> v, int l,  int side_lenght, int start,
+std::vector<int> orizontal_cut(std::vector<int> v,   int start,
                                int end) {
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {

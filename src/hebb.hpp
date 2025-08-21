@@ -6,18 +6,18 @@
 #include <string>
 #include <vector>
 
-class Hebb {
- public:
-  Hebb(std::string source, std::string destination);
-  void process();
-  
- private:
-  std::string sourceFolder;
-  std::string destinationFolder;
+namespace hp {
+  class Hebb {
+   public:
+    Hebb(std::string source, std::string destination);
+    void process();
 
-  
-  // spostata qui per non ridefinirla dentro process()
-  void save_matrix(const std::vector<std::vector<float>>& matrix) const;
-};
+   private:
+    std::string sourceFolder;
+    std::string destinationFolder;
 
+    // spostata qui per non ridefinirla dentro process()
+    void save_matrix(const std::vector<std::vector<float>>& matrix) const;
+  };
+}
 #endif

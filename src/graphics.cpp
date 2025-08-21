@@ -2,15 +2,11 @@
 #include <iostream>
 #include <vector>
 
+namespace pf{
 // funzione per verificare se un punto è dentro uno sprite
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
 }
-// sf::Sprite& sprite riferimento costante a uno sprite
-// sf::Vector2f mousePos posizione del mouse in coordinate float
-// sprite.getGlobalBounds() restituisce un sf::FloatRect con posizione e
-// dimensioni dello sprite .contains(mousePos) verifica se il punto (mouse) è
-// dentro il rettangolo
 
 std::vector<bool> optionSelected(4, false);
 
@@ -20,39 +16,28 @@ int draw() {
 
   sf::RenderWindow window(sf::VideoMode(virtualWidth, virtualHeight),
                           "hopfield_network", sf::Style::Close);
-  // sf::RenderWindow è classe di sfml x creare una finestra grafica
-  // sf::VideoMode definisce la grandezza (la risoluzione della finestra)
-  // sf::Style::Close è il tipo della finestra (puo essere solo chiusa, nn
-  // ridimensionata/ingrandita)
-
+  
   sf::View view(sf::FloatRect(0, 0, virtualWidth, virtualHeight));
   window.setView(view);
-  // sf::View è la vista virtuale
-  // sf::FloatRect area visibile della vista
-  // window.setView(view) assegna la vista alla finestra
-
+  
   // il font serve nei pop up
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
     std::cerr << "Error in font loading\n";
   }
 
-  // inizializzo, sono le variabili di stato
-  // bool showPopup = false;        // mostra/nasconde un pop-up
-  bool showNoisedImage = false;  // mostra l'immagine corrotta
-  // int selectedImageIndex = -1;   // indica quale immagine è stata cliccata
+  
+  bool showNoisedImage = false;  
 
-  // Percorsi delle immagini
   std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png",
                                          "totoro.png"};
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
 
   // inizializzo i 4 sprites che andranno in alto (quelli normali)
-  std::vector<sf::Texture> textures(4);  // carica immagini
-  std::vector<sf::Sprite> sprites(4);    // oggetti sulla finestra grafica
-  std::vector<std::string> noisedpath(
-      4);  // percorsi delle versioni corrotte delle immagini
+  std::vector<sf::Texture> textures(4);  
+  std::vector<sf::Sprite> sprites(4);    
+  std::vector<std::string> noisedpath(4);  // percorsi delle versioni corrotte delle immagini
 
   // carica immagini originali
   for (int i = 0; i < 4; ++i) {
@@ -152,4 +137,6 @@ int draw() {
   }
 
   return 0;
+}
+
 }

@@ -5,21 +5,22 @@
 #include "graphics.hpp"
 #include "image_processor.hpp"
 #include "hebb.hpp"
+#include "recall.hpp"
 
 int main() {
-  ImageResized interp("resources/images/source", "resources/images/resized");
+  hp::ImageResized interp("resources/images/source", "resources/images/resized");
   interp.process();
-  ImageNoised corrump("resources/images/resized", "resources/images/noised");
+  hp::ImageNoised corrump("resources/images/resized", "resources/images/noised");
   corrump.process();
-  ImageZoomed zoom("resources/images/resized", "resources/images/zoomed");
+  hp::ImageZoomed zoom("resources/images/resized", "resources/images/zoomed");
   zoom.process();
-  ImageZoomed zoom_w_noise("resources/images/noised",
+  hp::ImageZoomed zoom_w_noise("resources/images/noised",
                           "resources/images/zoomed_w_noise");
   zoom_w_noise.process();
-  draw();
+  int draw();
   //crea matrice di hebb
-  Hebb ciao("resources/images/resized", "data");
-  ciao.process();
+  hp::Hebb create_matrix("resources/images/resized", "data");
+  create_matrix.process();
   
   
   return 0;
