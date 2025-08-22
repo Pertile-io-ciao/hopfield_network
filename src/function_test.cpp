@@ -41,6 +41,7 @@ TEST_CASE("testing the conversion from an image into a vector") {
     CHECK(result[25] == doctest::Approx(1));
     CHECK(result[30] == doctest::Approx(-1));
   }
+  
 /*
   SUBCASE("testing the bilinear interpolation function") {
     int inW{4};
@@ -75,6 +76,54 @@ TEST_CASE("testing the conversion from an image into a vector") {
     // VECTOR_FROM_IMAGE E IMAGE_FROM_VECTOR ANCORA DA TESTARE
 
   }*/
+}
+
+TEST_CASE("testing bilinear_interpolation") {
+
+    SUBCASE("uniform white image") {
+        int inW = 4, inH = 4;
+        int l=56;
+        std::vector<int> input(inW * inH, 1); // tutta bianca
+        auto output = bilinear_interpolation(input, inW, inH);
+
+        CHECK(output.size() == l*l);
+        // Tutti dovrebbero essere 1
+        for (int val : output) CHECK(val == 1);
+    }
+
+    SUBCASE("uniform black image") {
+        int inW = 4, inH = 4;
+        std::vector<int> input(inW * inH, -1); // tutta nera
+        auto output = bilinear_interpolation(input, inW, inH);
+
+        for (int val : output) CHECK(val == -1);
+    }
+
+    SUBCASE("checkerboard 2x2") {
+        int inW = 2, inH = 2;
+        int l=56;
+        std::vector<int> input = {1, -1,
+                                  -1, 1};
+        auto output = bilinear_interpolation(input, inW, inH);
+
+        CHECK(output.size() == l*l);
+        // Controllo pixel chiave: angoli
+        CHECK(output[0] == 1);                // angolo in alto a sinistra
+        CHECK(output[l-1] == -1);             // angolo in alto a destra
+        CHECK(output[(l-1)*l] == -1);         // angolo in basso a sinistra
+        CHECK(output[l*l-1] == 1);            // angolo in basso a destra
+    }/*
+
+    SUBCASE("central pixel test") {
+        int inW = 4, inH = 4;
+        int l=56;
+        std::vector<int> input(inW * inH, -1);
+        input[5] = 1; // un pixel bianco centrale
+        auto output = bilinear_interpolation(input, inW, inH);
+
+        int center = (l/2)*l + l/2;
+        CHECK(output[center] == 1); // il centro interpolato dovrebbe essere bianco
+    }*/
 }
 
 TEST_CASE("testing the hebb rule"){
