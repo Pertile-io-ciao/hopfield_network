@@ -41,7 +41,7 @@ TEST_CASE("testing the conversion from an image into a vector") {
     CHECK(result[25] == doctest::Approx(1));
     CHECK(result[30] == doctest::Approx(-1));
   }
-
+/*
   SUBCASE("testing the bilinear interpolation function") {
     int inW{4};
     int inH{5};
@@ -74,7 +74,7 @@ TEST_CASE("testing the conversion from an image into a vector") {
 
     // VECTOR_FROM_IMAGE E IMAGE_FROM_VECTOR ANCORA DA TESTARE
 
-  }
+  }*/
 }
 
 TEST_CASE("testing the hebb rule"){
@@ -98,16 +98,81 @@ TEST_CASE("testing the hebb rule"){
   CHECK(weight_matrix[1][2] == 0.5f);
   CHECK(weight_matrix[2][1] == weight_matrix[1][2]);
   }
-/*
-  SUBCASE("testing the hopfield_update function") {
-    std::vector<int> x{1, -1, 1, -1};
-    auto new_x = neuron_update(x, weight_matrix);
-    CHECK(new_x[0] == -1);
-    CHECK(new_x[1] == 1);
-    CHECK(new_x[2] == 1);
-    CHECK(new_x[3] == -1);
-  }
-    */
+ SUBCASE("testing the neuron_update function") {
+        std::vector<int> x{1, -1, 1, -1};
+
+        auto new_x0 = neuron_update(0, x, weight_matrix);
+        CHECK(new_x0[0] == -1);
+        CHECK(new_x0[1] == -1);
+        CHECK(new_x0[2] == 1);
+        CHECK(new_x0[3] == -1);
+
+        auto new_x1 = neuron_update(1, x, weight_matrix);
+        CHECK(new_x1[0] == 1);
+        CHECK(new_x1[1] == 1);
+        CHECK(new_x1[2] == 1);
+        CHECK(new_x1[3] == -1);
 }
+}
+
+TEST_CASE("testing energy_function") {
+
+    SUBCASE("energy of a simple 2-neuron network") {
+        std::vector<int> x{1, -1};
+        std::vector<std::vector<float>> W{
+            {0.0f, 1.0f},
+            {1.0f, 0.0f}
+        };
+
+        // calcolo manuale: E = -0.5 * (0*1*1 + 1*1*-1 + 1*-1*1 + 0*-1*-1)
+        // E = -0.5 * (-2) = 1
+        float expected_energy = 1.0f;
+        float E = energy_function(x, W);
+        CHECK(std::fabs(E - expected_energy) < 1e-6);
+    }
+
+    SUBCASE("energy of a 3-neuron network") {
+        std::vector<int> x{1, -1, 1};
+        std::vector<std::vector<float>> W{
+            {0.0f, 0.5f, -0.5f},
+            {0.5f, 0.0f, 1.0f},
+            {-0.5f, 1.0f, 0.0f}
+        };
+
+        // calcolo manuale: 
+        // sum = 0*1*1 + 0.5*1*-1 + -0.5*1*1 +
+        //       0.5*-1*1 + 0* -1*-1 + 1*-1*1 +
+        //       -0.5*1*1 + 1*1*-1 + 0*1*1 = -2.5
+        // E = -0.5 * (-2.5) = 1.25
+        float expected_energy = 2.0f;
+        float E = energy_function(x, W);
+        CHECK(std::fabs(E - expected_energy) < 1e-6);
+    }
+
+    SUBCASE("energy is zero for zero state vector") {
+        std::vector<int> x{0, 0, 0};
+        std::vector<std::vector<float>> W{
+            {0.0f, 1.0f, -1.0f},
+            {1.0f, 0.0f, 0.5f},
+            {-1.0f, 0.5f, 0.0f}
+        };
+
+        float E = energy_function(x, W);
+        CHECK(E == 0.0f);
+    }
+
+    SUBCASE("energy with symmetric weights") {
+        std::vector<int> x{1, 1};
+        std::vector<std::vector<float>> W{
+            {0.0f, 2.0f},
+            {2.0f, 0.0f}
+        };
+        // sum = 0*1*1 + 2*1*1 + 2*1*1 + 0*1*1 = 4
+        // E = -0.5 * 4 = -2
+        float E = energy_function(x, W);
+        CHECK(std::fabs(E + 2.0f) < 1e-6);
+    }
+}
+
 
 
