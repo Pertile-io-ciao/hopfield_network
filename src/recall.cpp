@@ -1,14 +1,14 @@
 #include "recall.hpp"
 
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <random>
-#include <cmath>
 
 #include "functions.hpp"
 
 Recall::Recall(const std::string& matrix_path) {
-  this->matrix_Folder = matrix_path; //data
+  this->matrix_Folder = matrix_path;  // data
   this->weight_matrix = load_matrix();
 }
 
@@ -17,10 +17,10 @@ std::vector<std::vector<float>> Recall::load_matrix() {
       this->matrix_Folder + "/" + "weight_matrix.txt";
 
   std::ifstream in(intpath, std::ios::in);
-  //errore se non  apre
-  if (!in) { 
+  // errore se non  apre
+  if (!in) {
     throw std::runtime_error(
-        "Error: impossible to open file data/weight_matrix.txt");  // chat gpt
+        "Error: impossible to open file data/weight_matrix.txt");  //chat gpt
   }
   std::vector<std::vector<float>> W;  // Matrice da riempire
   std::string line;
@@ -42,46 +42,51 @@ std::vector<std::vector<float>> Recall::load_matrix() {
   return W;
 }
 
-//da immagine a pattern
+// da immagine a pattern
 void Recall::initialize_from_image(const std::string& image_file) {
   this->image_clicked = image_file;
-  std::filesystem::directory_entry entry(this->image_clicked);
-
-  //guardo se l'immagine è png
+  sf::Image img;
+  if (!img.loadFromFile(image_file)) {
+    throw std::runtime_error("Failed to load image: " + image_file);
+  }
+  /*std::filesystem::directory_entry entry(this->image_clicked);
   if (entry.is_regular_file()) {
     auto path = entry.path();  // path=percorso
     std::string ext = path.extension().string();
     if (ext == ".png") {
-      sf::Image img;
-      if (!img.loadFromFile(path.string())) {
+      sf::Image img;   if (!img.loadFromFile(path.string())) {
         std::cerr << "Failed to load image: " << path << "\n";
-      }
-      
-      auto colors = vector_from_image(img);
-      std::vector<int> pattern = blacknwhite(colors);
-
-      this->current_pattern = pattern;
-    }
+      }//da mettere throw*/
+  std::vector<sf::Color> colors = vector_from_image(img);
+  std::vector<int> pattern = blacknwhite(colors);
+  this->current_pattern = pattern;
+  std::cout << "Image file: " << image_file << '\n';
+  std::cout << "Image size: " << img.getSize().x << "x" << img.getSize().y
+            << '\n';
+  std::cout << "Pattern size: " << pattern.size() << '\n';
+  if (pattern.size() != weight_matrix.size()) {
+    throw std::runtime_error("Pattern size and weight matrix size mismatch!"); 
   }
+  // this->energy = energy_function(this->current_pattern, this->weight_matrix);
 }
 
-//update considerando il neurone i che verrà scelto con random in graphics
-void Recall::update(int i) {
-  this->current_pattern =
-      neuron_update(i, this->current_pattern, this->weight_matrix);
-  this->energy = energy_function(this->current_pattern, this->weight_matrix);
+// update considerando il pattern i che verrà scelto cliccando sull'immagine in
+// graphics
+void Recall::update(int neuron_index) {
+  current_pattern = neuron_update(neuron_index, current_pattern, weight_matrix);
+  // energy = energy_function(current_pattern, weight_matrix);
 }
 
-float Recall::get_energy() const { return this->energy; }
+// float Recall::get_energy() const { return this->energy; }
 
-//l=64
+// l=56
 int Recall::pattern_side() const {
-  int size{this->current_pattern.size()};
-  return sqrt(size);
+  auto size = this->current_pattern.size();
+  return static_cast<int>(std::sqrt(static_cast<double>(size)));
 }
 
-//ritorna pattern aggiornato a ogni richiesta
+// ritorna pattern aggiornato a ogni richiesta
 const std::vector<int>& Recall::get_pattern_ref() const {
-  std::vector<int> pattern = this->current_pattern;
-  return pattern;
+  // std::vector<int> pattern = this->current_pattern;
+  return this->current_pattern;
 }

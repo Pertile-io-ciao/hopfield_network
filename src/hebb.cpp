@@ -20,8 +20,7 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
   // crea la cartella di destinazione se manca
   if (!std::filesystem::exists(outdir)) {
     if (!std::filesystem::create_directories(outdir)) {
-      throw std::runtime_error{"[Hebb::save_matrix] cannot create directory ‘" +
-                               outdir.string() + "'"};
+      throw std::runtime_error{"[Hebb::save_matrix] cannot create directory ‘" + outdir.string() + "'"};
     }
   }
   // percorso file completo
@@ -36,10 +35,8 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
     throw std::runtime_error{msg};
   }
 
-  // se la matrice è vuota, scriviamo comunque un messaggio e terminiamo
-  if (matrix.empty()) {
-    throw std::runtime_error{"empty matrix"};
-  }
+  // se la matrice è vuota, scriviamo comunque un messaggio e
+  //terminiamo if (matrix.empty()) { throw std::runtime_error{"empty matrix"}; }
   // formattazione leggibile a 6 numeri decimali
   out << std::fixed << std::setprecision(6);
 
@@ -62,10 +59,10 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
     throw std::runtime_error{"Error writing weight matrix to file"};
   }
 
-  // Stampa un messaggio di successo con le dimensioni della matrice e il
-  // percorso del file.
-  std::cout << "[Hebb::save_matrix] saved matrix to: " << outpath << " ("
-            << matrix.size() << " x " << matrix[0].size() << ")\n";
+  // Stampa un messaggio di successo con le dimensioni della matrice e il 
+  // percorso del file. 
+  std::cout << "[Hebb::save_matrix] saved matrix to: " << outpath << "(" << matrix.size() << " x " << matrix[0].size() << ")\n";
+
 }
 
 void Hebb::process() {
@@ -88,8 +85,9 @@ void Hebb::process() {
       }
       sf::Image img;
       if (!img.loadFromFile(path.string())) {
-        throw std::runtime_error{"[Hebb::process] failed to load image: " +
-                                 path.string()};
+        throw std::runtime_error{
+            "[Hebb::process] failed to load image: " + 
+            path.string()};
       }
       auto colors = vector_from_image(img);
       auto pattern = blacknwhite(colors);
@@ -115,11 +113,11 @@ void Hebb::process() {
 
   std::cout << "[Hebb::process] hebb returned matrix size: " << W.size()
             << " x " << (W.empty() ? 0 : W[0].size())
-            << "\n";  // per ora lo lascio, //ma vedi cosa fa se stampa qualcosa
-  if (W.empty()) {
+            << "\n";  // per ora lo lascio, //ma vedi cosa fa se stampa qualcosa 
+            if (W.empty()) {
     throw std::runtime_error{
         "[Hebb::process] Weight matrix is empty -> aborting"};
   }
   save_matrix(W);
 }
-} 
+}  // namespace hp
