@@ -253,7 +253,7 @@ std::vector<int> hopfield_update(const std::vector<int>& x,
 std::vector<int> neuron_update(int i, const std::vector<int>& x,
                                const std::vector<std::vector<float>>& W) {
   int n = x.size();
-  std::vector<int> x_new(n);
+  std::vector<int> x_new = x;
   float sum = 0.0;
   for (int j = 0; j < n; ++j) {
     sum += W[i][j] * x[j];
