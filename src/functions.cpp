@@ -133,8 +133,6 @@ sf::Image image_from_vector(const std::vector<int> &dates) {
   return image;
 }
 
-
-
 std::vector<int> noise(std::vector<int> v, float prob) {
   std::vector<int> result = v;
 
@@ -206,26 +204,7 @@ std::vector<std::vector<float>> hebb(
   return W;
 };
 
-/*
 
-// aggiornamento del neurone
-std::vector<int> hopfield_update(const std::vector<int>& x,
-                                 const std::vector<std::vector<float>>& W) {
-  int n = x.size();
-  std::vector<int> x_new(n);
-
-  for (int i = 0; i < n; ++i) {
-    float sum = 0.0;  // doppio ciclo per prendere ogni neurone
-    for (int j = 0; j < n; ++j) {
-      sum += W[i][j] * x[j];
-    }
-    x_new[i] =
-        (sum >= 0) ? 1 : -1;  // ±1 per ogni neurone; come la funzione segno
-  }
-
-  return x_new;
-}
-*/
 
 //regola di hopfield ma che considera un neurone specifico dato come parametro, verra scritto in graphics
 std::vector<int> neuron_update(int i, const std::vector<int>& x,
@@ -257,15 +236,4 @@ float energy_function(const std::vector<int>& x,
 
   return -0.5 * energy;
 }
-/*
-float energy_update(int i, float energy, const std::vector<int>& x,
-                    const std::vector<std::vector<float>>& W) {
-  float dE;
-  int n = x.size();
 
-  for (int k = 0; k < n; ++k) {
-    
-  }
-                    
- }
-*/
