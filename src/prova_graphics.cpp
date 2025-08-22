@@ -74,6 +74,9 @@ int draw_prova() {
 
   // inizializo l'oggetto recall
   Recall rec("data");
+  std::vector<Recall> rec_vec(4);
+  for(int i = 0; i < 4; ++i) {rec_vec[i] = rec;}
+  
 
   // inizializzo lo sprite in evoluzione
   sf::Texture texturerecall;
@@ -204,7 +207,7 @@ int draw_prova() {
     }  // end pollEvent
 
     if (!window.isOpen()) break;
-
+/**/
     if (runningrecall == true) {
       int side{rec.pattern_side()};
       float initial_energy = rec.get_energy();
@@ -244,18 +247,7 @@ int draw_prova() {
       }
     }
   }
-  /*else {
-    // controllo clic sulle immagini
-    for (int i = 0; i < 4; ++i) {
-      if (isSpriteClicked(sprites[i], mousePos)) {
-        selectedImageIndex = i;   // salva quale immagine hai cliccato
-        showPopup = true;         // mostra il popup
-        showNoisedImage = false;  // nascondi immagine noised per ora
-        break;
-      }
-    }
-  }
-}*/
+  
 
   window.clear(sf::Color::Black);
 
@@ -277,10 +269,7 @@ int draw_prova() {
   window.draw(energyText);
   window.display();
 
-  // pausa minima per visuale
-  std::this_thread::sleep_for(std::chrono::milliseconds(30));
-
-  window.display();
+  
 
   return 0;
 }  // si chiude la finestra (termina while window is open)

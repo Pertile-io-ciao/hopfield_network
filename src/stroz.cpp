@@ -1,10 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <random>
 #include <stdexcept>
 #include <vector>
 
-#include "recall.hpp"
 #include "functions.hpp"
+#include "recall.hpp"
 
 namespace hp {
 // funzione per verificare se un punto è dentro uno sprite
@@ -14,7 +15,7 @@ bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
 
 // std::vector<bool> optionSelected(4, false);
 
-int draw() {
+int draw_stroz() {
   const float virtualWidth = 1900.f;
   const float virtualHeight = 800.f;
 
@@ -72,6 +73,17 @@ int draw() {
 
   // inizializo l'oggetto recall
   Recall rec("data");
+  std::vector<Recall> rec_vec;
+  rec_vec.reserve(4);  // creo un vettore di 4 recall
+  for (int i = 0; i < 4; ++i) {
+    rec_vec.push_back(rec);
+  }
+  for (int i = 0; i < 4; ++i) {
+    rec_vec[i].initialize_from_image(
+        zoomed_w_noisepath[i]);  // a ciascun recall affido la gestione di un
+                                 // pattern
+  }
+  bool emanuele = false;
 
   // inizializzo lo sprite in evoluzione
   sf::Texture texturerecall;
@@ -137,48 +149,6 @@ int draw() {
             // spritenoised.setTexture(texturenoised);
             spritenoised.setPosition(283.f, 450.f);
             showNoisedImage = true;
-            /* //l'ho spostato di una { più in alto
-          if (isSpriteClicked(spritenoised, mousePos)) {
-            rec.initialize_from_image(
-                noisedpath[i]);  // inizializza il pattern corrotto
-            int side{rec.pattern_side()};
-
-            texturerecall.create(side, side);
-            spriterecall.setTexture(texturerecall);
-            spriterecall.setPosition(283.f, 800.f);
-            runningrecall = true;
-          }
-            float initial_energy = rec.get_energy();
-          std::vector<int> initial_pattern = rec.get_pattern_ref();
-
-          float final_energy = 0.0;
-          std::vector<int> final_pattern(side * side, 0);
-
-          while (initial_pattern != final_pattern) {
-            for (int k = 0; k < 256; ++k) {
-              float start_energy = rec.get_energy();
-
-              int n{rec.pattern_side()};
-              std::random_device r;
-              std::default_random_engine eng{r()};
-              std::uniform_int_distribution<int> dist{
-                  0, n * n - 1};  // rivedi bene qui
-              int i{dist(eng)};
-              rec.update(i);
-              float end_energy = rec.get_energy();
-
-              if (end_energy > start_energy) {
-                std::cerr << "Error: energy should not increase" << '\n';
-              }
-            }
-            float final_energy = rec.get_energy();
-            std::vector<int> final_pattern = rec.get_pattern_ref();
-
-            sf::Image img = image_from_vector(final_pattern);
-            texturerecall.loadFromImage(img);
-
-            energyText.setString("Energy: " +
-                                 std::to_string(rec.get_energy()));  // chat*/
           }
         }
 
@@ -195,6 +165,38 @@ int draw() {
           spriterecall.setPosition(centerX, posY);
 
           runningrecall = true;
+        }
+
+        for (int i = 0; i < 4; ++i) {
+          if (isSpriteClicked(spriterecall, mousePos)) {
+            int side{rec_vec[i].pattern_side()};
+            float initial_energy = rec_vec[i].get_energy();
+            std::vector<int> initial_pattern = rec_vec[i].get_pattern_ref();
+
+            for (int k = 0; k < 256; ++k) {
+              float start_energy = rec_vec[i].get_energy();
+
+              std::random_device r;
+              std::default_random_engine eng{r()};
+              std::uniform_int_distribution<int> dist{
+                  0, side * side - 1};  // rivedi bene qui
+              int n{dist(eng)};
+              rec_vec[i].update(n);
+              float end_energy = rec_vec[i].get_energy();
+
+              if (end_energy > start_energy) {
+                std::cerr << "Error: energy should not increase" << '\n';
+              }
+            }
+            float final_energy = rec.get_energy();
+            std::vector<int> final_pattern = rec.get_pattern_ref();
+
+            sf::Image img = image_from_vector(final_pattern);
+            texturerecall.loadFromImage(img);
+            spriterecall.setTexture(texturerecall);
+
+            bool emanuele = true;
+          }
         }
       }
     }
@@ -217,6 +219,10 @@ int draw() {
     }
 
     if (runningrecall) {
+      window.draw(spriterecall);
+    }
+
+    if (emanuele) {
       window.draw(spriterecall);
     }
 

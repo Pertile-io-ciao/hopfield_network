@@ -32,9 +32,9 @@ add_executable(hopfield_network
      src/main.cpp
      src/image_processor.cpp
      src/functions.cpp
-     src/graphics.cpp
      src/hebb.cpp
      src/recall.cpp
+     src/stroz.cpp
       )
 
 
