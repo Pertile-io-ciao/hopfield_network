@@ -14,8 +14,7 @@ sf::Image image_from_vector(const std::vector<int>& dates,
 std::vector<int> zoom(const std::vector<int>& v, int n = 4);
 
 std::vector<std::vector<float>> hebb(const std::vector<std::vector<int>>& v);
-void save_matrix(const std::vector<std::vector<int>>& matrix);
-std::vector<std::vector<int>> load_matrix();
+
 
 std::vector<int> neuron_update(int i, const std::vector<int>& x,
                                const std::vector<std::vector<float>>& W);
