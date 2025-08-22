@@ -9,8 +9,6 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v);
 std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
                                         int inH);
 sf::Image image_from_vector(const std::vector<int>& dates);
-sf::Image image_from_vector(const std::vector<int>& dates,
-                            const sf::Image& image);
 std::vector<int> zoom(const std::vector<int>& v, int n = 4);
 
 std::vector<std::vector<float>> hebb(const std::vector<std::vector<int>>& v);

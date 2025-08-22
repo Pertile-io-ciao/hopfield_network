@@ -134,28 +134,6 @@ sf::Image image_from_vector(const std::vector<int> &dates) {
 }
 
 
-sf::Image image_from_vector(const std::vector<int>& dates,
-                            const sf::Image& image) {
-  int width = image.getSize().x;
-  int height = image.getSize().y;
-
-
-  sf::Image imagebw;
-  imagebw.create(width, height);
-
-
-  for (int y = 0; y < height; ++y) {
-    for (int x = 0; x < width; ++x) {
-      int value = dates[y * width + x];
-      sf::Color color = (value == 1) ? sf::Color::Black : sf::Color::White;
-      imagebw.setPixel(x, y, color);
-    }
-  }
-
-
-  return imagebw;
-}
-
 
 std::vector<int> noise(std::vector<int> v, float prob) {
   std::vector<int> result = v;
