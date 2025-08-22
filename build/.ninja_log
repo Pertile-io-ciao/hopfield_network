@@ -17,3 +17,11 @@
 4310	4819	1755854023846489080	Debug/hopfield_network	f0accda022d46a97
 24	13312	1755854032325209947	CMakeFiles/hopfield_network.t.dir/Debug/src/function_test.cpp.o	365c9f3605897aec
 13313	13774	1755854032801190328	Debug/hopfield_network.t	5501f1aa3c5bb95c
+4	1208	1755854141332148644	CMakeFiles/hopfield_network.dir/Debug/src/main.cpp.o	2a44983317964ac9
+1208	1572	1755854141689911220	Debug/hopfield_network	f0accda022d46a97
+5	2304	1755854404462496901	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	5f759ed886804e2b
+2304	2672	1755854404833028831	Debug/hopfield_network	f0accda022d46a97
+3	2612	1755854649711686027	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	5f759ed886804e2b
+2612	3030	1755854650129259640	Debug/hopfield_network	f0accda022d46a97
+5	4088	1755855851610117090	CMakeFiles/hopfield_network.dir/Debug/src/hebb.cpp.o	5f759ed886804e2b
+4088	4358	1755855851880732278	Debug/hopfield_network	f0accda022d46a97
