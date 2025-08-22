@@ -272,8 +272,9 @@ float energy_function(const std::vector<int>& x,
 
   for (int i = 0; i < n; ++i) {  // solito cicletto for doppio
     for (int j = 0; j < n; ++j) {
+      if(i!=j){
       energy += W[i][j] * x[i] * x[j];
-    }
+    }}
   }
 
   return -0.5 * energy;
