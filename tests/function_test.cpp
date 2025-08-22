@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "functions.hpp"
+#include "../src/functions.hpp"
 
 TEST_CASE("testing vector_from_image") {
     SUBCASE("2x2 image with known colors") {
