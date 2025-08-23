@@ -19,7 +19,7 @@ std::vector<std::vector<float>> Recall::load_matrix() {
   std::ifstream in(intpath, std::ios::in);
   // errore se non  apre
   if (!in) {
-    throw std::runtime_error("Error: impossible to open file " + intpath.string());
+    throw std::runtime_error("[Recall::load_matrix] error: impossible to open file " + intpath.string());
  //chat gpt
   }
   std::vector<std::vector<float>> W;  // Matrice da riempire
@@ -47,16 +47,8 @@ void Recall::initialize_from_image(const std::string& image_file) {
   this->image_clicked = image_file;
   sf::Image img;
   if (!img.loadFromFile(image_file)) {
-    throw std::runtime_error("Failed to load image: " + image_file);
+    throw std::runtime_error("[Recall::initialize_from_image] failed to load image: " + image_file);
   }
-  /*std::filesystem::directory_entry entry(this->image_clicked);
-  if (entry.is_regular_file()) {
-    auto path = entry.path();  // path=percorso
-    std::string ext = path.extension().string();
-    if (ext == ".png") {
-      sf::Image img;   if (!img.loadFromFile(path.string())) {
-        std::cerr << "Failed to load image: " << path << "\n";
-      }//da mettere throw*/
   std::vector<sf::Color> colors = vector_from_image(img);
   std::vector<int> pattern = blacknwhite(colors);
   this->current_pattern = pattern;
@@ -65,7 +57,7 @@ void Recall::initialize_from_image(const std::string& image_file) {
             << '\n';
   std::cout << "Pattern size: " << pattern.size() << '\n';
   if (pattern.size() != weight_matrix.size()) {
-    throw std::runtime_error("Pattern size and weight matrix size mismatch!"); 
+    throw std::runtime_error("[Recall::initialize_from_image] pattern size and weight matrix size mismatch!"); 
   }
   // this->energy = energy_function(this->current_pattern, this->weight_matrix);
 }

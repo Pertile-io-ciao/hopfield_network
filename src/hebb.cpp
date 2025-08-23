@@ -37,7 +37,7 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
 
   // se la matrice è vuota, scriviamo comunque un messaggio e
   //terminiamo 
-  if (matrix.empty()) { throw std::runtime_error{"empty matrix"}; }
+  if (matrix.empty()) { throw std::runtime_error{"[Hebb::save_matrix] empty matrix"}; }
   
   // formattazione leggibile a 6 numeri decimali
   out << std::fixed << std::setprecision(6);
@@ -46,7 +46,7 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
 
   for (const auto& row : matrix) {
     if (row.empty()) {
-      throw std::runtime_error{"Found an empty row in the matrix!"};
+      throw std::runtime_error{"[Hebb::save_matrix] found an empty row in the matrix!"};
     }
     // scrive i valori delle righe separati da spazi
     for (size_t j = 0; j < row.size(); ++j) {
@@ -58,7 +58,7 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
   out.close();
   // problemi durante la scrittura
   if (!out) {
-    throw std::runtime_error{"Error writing weight matrix to file"};
+    throw std::runtime_error{"[Hebb::save_matrix] error writing weight matrix to file"};
   }
 
   // Stampa un messaggio di successo con le dimensioni della matrice e il 

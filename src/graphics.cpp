@@ -58,7 +58,7 @@ int draw() {
   // carica immagini originali
   for (int i = 0; i < 4; ++i) {
     if (!textures[i].loadFromFile(zoomed + file_names[i])) {
-      throw std::runtime_error("Error: impossible loading image from " +
+      throw std::runtime_error("[draw] error: impossible loading image from " +
                                zoomed + file_names[i]);
     }
     sprites[i].setTexture(textures[i]);
@@ -128,7 +128,7 @@ int draw() {
             if (isSpriteClicked(sprites[i], mousePos)) {
               // Carica immagine corrotta corrispondente
               if (!texturenoised.loadFromFile(zoomed_w_noisepath[i])) {
-                throw std::runtime_error("Error: impossible loading image from " + zoomed_w_noisepath[i]);
+                throw std::runtime_error("[draw] error: impossible loading image from " + zoomed_w_noisepath[i]);
               } else {
                 spritenoised.setTexture(texturenoised);
                 spritenoised.setPosition(283.f, 450.f);
