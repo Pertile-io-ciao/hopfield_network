@@ -67,7 +67,7 @@ void Recall::initialize_from_image(const std::string& image_file) {
   if (pattern.size() != weight_matrix.size()) {
     throw std::runtime_error("Pattern size and weight matrix size mismatch!"); 
   }
-  // this->energy = energy_function(this->current_pattern, this->weight_matrix);
+  this->energy = energy_function(this->current_pattern, this->weight_matrix);
 }
 
 // update considerando il pattern i che verrà scelto cliccando sull'immagine in
@@ -89,4 +89,8 @@ int Recall::pattern_side() const {
 const std::vector<int>& Recall::get_pattern_ref() const {
   // std::vector<int> pattern = this->current_pattern;
   return this->current_pattern;
+}
+
+float Recall::get_energy() const {
+  return this->energy;
 }

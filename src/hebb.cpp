@@ -40,7 +40,7 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
   if (matrix.empty()) { throw std::runtime_error{"empty matrix"}; }
   
   // formattazione leggibile a 6 numeri decimali
-  out << std::fixed << std::setprecision(6);
+  out << std::fixed << std::setprecision(7);
 
   // scrivo ogni riga, valori separati da spazio
 
