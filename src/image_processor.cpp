@@ -6,10 +6,15 @@
 
 #include "functions.hpp"
 
-namespace hp{
+namespace hp {
 
 // costruttore di image_processor
 ImageProcessor::ImageProcessor(std::string source, std::string destination) {
+  if (!std::filesystem::exists(source)) {
+    throw std::runtime_error(
+        "[ImageProcessor::ImageProcessor] source folder doesn't exists: " +
+        source);
+  }
   this->sourceFolder = source;  // salva le cartelle source e destination
   this->destinationFolder =
       destination;  // prendendo le immagini da elaborare da source folder e
@@ -38,6 +43,12 @@ void ImageProcessor::process() {  // metodo process
         // carico immagine
         img.loadFromFile(path.string());
 
+        if (!img.loadFromFile(path.string())) {
+          throw std::runtime_error(
+              "[ImageProcessor::process] error loading image: " +
+              path.string());
+        }
+        
         sf::Image elaborated = transform(img);  // chiama la funzione
                                                 // transform()
 
@@ -77,7 +88,7 @@ sf::Image ImageZoomed::transform(const sf::Image& input) {
   std::vector<sf::Color> colori =
       vector_from_image(input);                    // vettore di sf::Color
   std::vector<int> vector1 = blacknwhite(colori);  // -1 / 1
-  std::vector<int> vector2 = zoom(vector1);     // -1 / 1
+  std::vector<int> vector2 = zoom(vector1);        // -1 / 1
   sf::Image image = image_from_vector(vector2);
   return image;
 }
@@ -88,10 +99,11 @@ ImageNoised::ImageNoised(std::string source, std::string destination)
 sf::Image ImageNoised::transform(const sf::Image& input) {
   std::vector<sf::Color> colors = vector_from_image(input);
   std::vector<int> vector1 = blacknwhite(colors);
-  std::vector<int> vector2 = noise(vector1); // applica rumore al vettore zoommato
+  std::vector<int> vector2 =
+      noise(vector1);  // applica rumore al vettore zoommato
   std::vector<int> vector3 = vertical_cut(vector2);
   std::vector<int> vector4 = orizontal_cut(vector3);
   sf::Image image = image_from_vector(vector4);
   return image;
 }
-}
+}  // namespace hp
