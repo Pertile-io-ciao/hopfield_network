@@ -56,10 +56,6 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
     out << '\n';
   }
   out.close();
-  // problemi durante la scrittura
-  if (!out) {
-    throw std::runtime_error{"[Hebb::save_matrix] error writing weight matrix to file"};
-  }
 
   // Stampa un messaggio di successo con le dimensioni della matrice e il 
   // percorso del file. 
@@ -93,16 +89,10 @@ void Hebb::process() {
       }
       auto colors = vector_from_image(img);
       auto pattern = blacknwhite(colors);
-
-      if (pattern.empty()) {  // se il pattern è vuoto lo ignora
-        throw std::runtime_error{
-            "[Hebb::process] empty pattern generated for file: " +
-            path.filename().string()};
-      }
       patterns.push_back(std::move(pattern));
     }
   }
-
+  
   std::cout << "[Hebb::process] total patterns collected: " << patterns.size()
             << "\n";
 
@@ -122,4 +112,4 @@ void Hebb::process() {
   }
   save_matrix(W);
 }
-}  // namespace hp
+}  

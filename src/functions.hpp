@@ -6,14 +6,12 @@
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image);
 std::vector<int> blacknwhite(const std::vector<sf::Color>& v);
-std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
-                                        int inH);
-sf::Image image_from_vector(const std::vector<int>& dates);
-std::vector<int> zoom(const std::vector<int>& v, int n = 4);
+std::vector<int> bilinear_interpolation(const std::vector<int>& input, int width,
+                                        int height);
+std::vector<int> zoom(const std::vector<int>& v, int zoom_factor = 4);
+sf::Image image_from_vector(const std::vector<int>& bwvector);
 
 std::vector<std::vector<float>> hebb(const std::vector<std::vector<int>>& v);
-
-
 std::vector<int> neuron_update(int i, const std::vector<int>& x,
                                const std::vector<std::vector<float>>& W);
 float energy_function(const std::vector<int>& x,

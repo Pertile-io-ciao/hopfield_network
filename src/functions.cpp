@@ -6,6 +6,7 @@
 #include <fstream>  //per load matrix
 #include <iostream>
 #include <sstream>  //per load matrix
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -31,6 +32,9 @@ std::vector<sf::Color> vector_from_image(const sf::Image& image) {
 // mi trovo un vettore composto da tutti sf::Color che sono praticamente i pixel
 
 std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
+  if (v.empty()) {
+    throw std::runtime_error{"[blacknwhite] empty std::vector<int>"};
+  }
   std::vector<int> result;
 
   for (std::size_t i = 0; i < v.size(); ++i) {
@@ -51,29 +55,32 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
   return result;
 }
 
-std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
-                                        int inH) {
+std::vector<int> bilinear_interpolation(const std::vector<int>& input,
+                                        int width, int height) {
+  if ((size_t)(width * height) != input.size()) {
+    throw std::runtime_error{
+        "[bilinear_interpolation] input size != widht*height"};
+  }
   std::vector<int> output(l * l);
-
   for (int y = 0; y < l; ++y) {
     for (int x = 0; x < l; ++x) {
-      float gx = ((x + 0.5f) * inW) / l -
+      float gx = ((x + 0.5f) * width) / l -
                  0.5f;  // coordinate dei pixel nell'immagine originale
-      float gy = ((y + 0.5f) * inH) / l - 0.5f;  //
+      float gy = ((y + 0.5f) * height) / l - 0.5f;  //
 
       int x0 = std::floor(gx);
       int y0 = std::floor(gy);
-      int x1 = std::min(x0 + 1, inW - 1);
-      int y1 = std::min(y0 + 1, inH - 1);
+      int x1 = std::min(x0 + 1, width - 1);
+      int y1 = std::min(y0 + 1, height - 1);
 
-      x0 = std::clamp(x0, 0, inW - 1);
-      y0 = std::clamp(y0, 0, inH - 1);
+      x0 = std::clamp(x0, 0, width - 1);
+      y0 = std::clamp(y0, 0, height - 1);
 
       float dx = gx - x0;
       float dy = gy - y0;
 
       auto at = [&](int x, int y) -> float {
-        return (input[y * inW + x] > 0) ? 1.0f : 0.0f;
+        return (input[y * width + x] > 0) ? 1.0f : 0.0f;
       };
 
       float v00 = at(x0, y0);
@@ -91,8 +98,11 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input, int inW,
   return output;
 }
 
-std::vector<int> zoom(const std::vector<int>& v, int n) {
-  int newL = l * n;
+std::vector<int> zoom(const std::vector<int>& v, int zoom_factor) {
+  if ((size_t)(l * l) != v.size()) {
+    throw std::runtime_error{"[zoom] input size!= l*l."};
+  }
+  int newL = l * zoom_factor;
   std::vector<int> result(newL * newL);
 
   for (int y = 0; y < l; ++y) {
@@ -100,10 +110,10 @@ std::vector<int> zoom(const std::vector<int>& v, int n) {
       int value = v[y * l + x];
 
       // Scrivi valore in blocco n x n
-      for (int dy = 0; dy < n; ++dy) {
-        for (int dx = 0; dx < n; ++dx) {
-          int newX = x * n + dx;
-          int newY = y * n + dy;
+      for (int dy = 0; dy < zoom_factor; ++dy) {
+        for (int dx = 0; dx < zoom_factor; ++dx) {
+          int newX = x * zoom_factor + dx;
+          int newY = y * zoom_factor + dy;
           result[newY * newL + newX] = value;
         }
       }
@@ -115,20 +125,22 @@ std::vector<int> zoom(const std::vector<int>& v, int n) {
 
 // in input ho vettore di pixel bn di immagine quadrata quindi il lato è radice
 // di size
-sf::Image image_from_vector(const std::vector<int> &dates) {
+sf::Image image_from_vector(const std::vector<int>& bwvector) {
+  
   sf::Image image;
-  int lato = (int)sqrt(dates.size());
-  image.create(lato, lato);
+  int side = (int)sqrt(bwvector.size());
+   if (side * side != (int)bwvector.size()) {
+    throw std::invalid_argument{"[image_from_vector] bw image is not a perfet square"};
+  }
+  image.create(side, side);
 
-
-  for (int y = 0; y < lato; ++y) {
-    for (int x = 0; x < lato; ++x) {
-      int value = dates[y * lato + x];
+  for (int y = 0; y < side; ++y) {
+    for (int x = 0; x < side; ++x) {
+      int value = bwvector[y * side + x];
       sf::Color color = (value == 1) ? sf::Color::Black : sf::Color::White;
       image.setPixel(x, y, color);
     }
   }
-
 
   return image;
 }
@@ -152,8 +164,10 @@ std::vector<int> noise(std::vector<int> v, float prob) {
   return result;
 }
 
-std::vector<int> vertical_cut(std::vector<int> v, int start,
-                              int end) {
+std::vector<int> vertical_cut(std::vector<int> v, int start, int end) {
+  if (start < 0 || end > l || start > end) {
+    throw std::runtime_error{"[vertical_cut] start and end indices are out of range"};
+  }
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (j >= start && j <= end) {
@@ -162,11 +176,12 @@ std::vector<int> vertical_cut(std::vector<int> v, int start,
     }
   }
   return v;
-}  // si potrebbe implementare dando errore quando inizio e fine non siano della
-   // grandezza adeguata*/
+}  
 
-std::vector<int> orizontal_cut(std::vector<int> v,   int start,
-                               int end) {
+std::vector<int> orizontal_cut(std::vector<int> v, int start, int end) {
+  if (start < 0 || end > l || start > end) {
+    throw std::runtime_error{"[orizontal_cut] start and end indices are out of range"};
+  }
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (i >= start && i <= end) {
@@ -177,10 +192,12 @@ std::vector<int> orizontal_cut(std::vector<int> v,   int start,
   return v;
 }
 
-
 // regola di hebb per calcolare la matrice dei pesi
 std::vector<std::vector<float>> hebb(
     const std::vector<std::vector<int>>& pxn) {  // v è una matrice p x n
+      if (pxn.empty()) {
+    throw std::runtime_error{"[hebb] pxn (matrix were each row is a pattern) is empty"};
+  }
   int n_pattern = pxn.size();     // numero di pattern che voglio memorizzare
   int n_neurons = pxn[0].size();  // numero di neuroni
   std::vector<std::vector<float>> W(
@@ -204,12 +221,13 @@ std::vector<std::vector<float>> hebb(
   return W;
 };
 
-
-
-//regola di hopfield ma che considera un neurone specifico dato come parametro, verra scritto in graphics
+// regola di hopfield ma che considera un neurone specifico dato come parametro,
 std::vector<int> neuron_update(int i, const std::vector<int>& x,
                                const std::vector<std::vector<float>>& W) {
   int n = x.size();
+  if (i < 0 || i >= n) {
+    throw std::runtime_error{"[neuron_update] neuron index out of range"};
+  }
   std::vector<int> x_new = x;
   float sum = 0.0;
   for (int j = 0; j < n; ++j) {
@@ -225,15 +243,18 @@ std::vector<int> neuron_update(int i, const std::vector<int>& x,
 float energy_function(const std::vector<int>& x,
                       const std::vector<std::vector<float>>& W) {
   int n = x.size();
+  if ((int)W.size() != n || (int)W[0].size() != n) {
+    throw std::runtime_error{"[energy_function] W (hebb matrix) uncompatibile with input vector"};
+  }
   float energy = 0.0;
 
   for (int i = 0; i < n; ++i) {  // solito cicletto for doppio
     for (int j = 0; j < n; ++j) {
-      if(i!=j){
-      energy += W[i][j] * x[i] * x[j];
-    }}
+      if (i != j) {
+        energy += W[i][j] * x[i] * x[j];
+      }
+    }
   }
 
   return -0.5 * energy;
 }
-

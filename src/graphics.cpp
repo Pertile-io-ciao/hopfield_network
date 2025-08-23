@@ -82,9 +82,9 @@ int draw() {
   // inizializzo la scritta per la funzione energia
   sf::Text energyText;
   energyText.setFont(font);
-  energyText.setCharacterSize(30);
-  energyText.setFillColor(sf::Color::Blue);
-  energyText.setPosition(1300.f, 600.f);
+  energyText.setCharacterSize(35);
+  energyText.setFillColor(sf::Color::Black);
+  energyText.setPosition(1280.f, 530.f);
 
   // ciclo principale che racchiude tutta la grafica che si vede a schermo
   while (window.isOpen()) {
@@ -157,7 +157,7 @@ int draw() {
           texturerecall.create(imgSize.x, imgSize.y);
           texturerecall.loadFromImage(img);
           spriterecall.setTexture(texturerecall);
-          spriterecall.setPosition(800.f, 450.f);
+          spriterecall.setPosition(815.f, 450.f);
 
           runningrecall = true;  // ora la rete può partire al prossimo frame
           std::cout << "runningrecall set to true!" << '\n';
