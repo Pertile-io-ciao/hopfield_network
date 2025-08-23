@@ -185,7 +185,7 @@ int draw() {
       previous_pattern = rec.get_pattern_ref();
 
       // *** THIS CODE STAYS HERE ***
-      sf::Image img = image_from_vector(rec.get_pattern_ref());  // Remove zoom here 
+      sf::Image img = image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here 
       texturerecall.loadFromImage(img);
       spriterecall.setTexture(texturerecall);
     }
