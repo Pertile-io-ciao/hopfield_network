@@ -32,7 +32,7 @@ int draw() {
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
     throw std::runtime_error(
-        "Error: impossible loading font from resources/arial.ttf");
+        "[draw] error: impossible loading font from resources/arial.ttf");
   }
 
   bool showNoisedImage = false;
@@ -127,7 +127,7 @@ int draw() {
           if (isSpriteClicked(sprites[i], mousePos)) {
             // Carica immagine corrotta corrispondente
             if (!texturenoised.loadFromFile(zoomed_w_noisepath[i])) {
-              throw std::runtime_error("Error: impossible loading image from " +
+              throw std::runtime_error("[draw] error: impossible loading image from " +
                                        zoomed_w_noisepath[i]);
             } else {
               spritenoised.setTexture(texturenoised);
@@ -201,14 +201,13 @@ int draw() {
               converged = true;  // segna come già mostrato
             } */
       previous_pattern = rec.get_pattern_ref();
-      float energy = rec.get_energy();
-
+     
       // *** THIS CODE STAYS HERE ***
       sf::Image img =
           image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here
       texturerecall.loadFromImage(img);
       spriterecall.setTexture(texturerecall);
-      energyText.setString("Energy: " + std::to_string(rec.get_energy()));
+     
     }
 
     // fase di disegno per ogni frame
@@ -228,7 +227,6 @@ int draw() {
 
     if (runningrecall) {
       window.draw(spriterecall);
-      window.draw(energyText);
     }
 
     window.display();
