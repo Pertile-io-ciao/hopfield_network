@@ -19,8 +19,8 @@ std::vector<std::vector<float>> Recall::load_matrix() {
   std::ifstream in(intpath, std::ios::in);
   // errore se non  apre
   if (!in) {
-    throw std::runtime_error(
-        "Error: impossible to open file data/weight_matrix.txt");  //chat gpt
+    throw std::runtime_error("Error: impossible to open file " + intpath.string());
+ //chat gpt
   }
   std::vector<std::vector<float>> W;  // Matrice da riempire
   std::string line;

@@ -14,10 +14,11 @@ class Recall {
   float energy;
   std::vector<int> current_pattern;
 
-  std::vector<std::vector<float>> load_matrix();
 
  public:
   Recall(const std::string& matrix_path);
+  
+  std::vector<std::vector<float>> load_matrix();
 
   void initialize_from_image(const std::string& image_file);
 

@@ -36,7 +36,9 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
   }
 
   // se la matrice è vuota, scriviamo comunque un messaggio e
-  //terminiamo if (matrix.empty()) { throw std::runtime_error{"empty matrix"}; }
+  //terminiamo 
+  if (matrix.empty()) { throw std::runtime_error{"empty matrix"}; }
+  
   // formattazione leggibile a 6 numeri decimali
   out << std::fixed << std::setprecision(6);
 
