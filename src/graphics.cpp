@@ -38,8 +38,8 @@ int draw() {
   bool showNoisedImage = false;
 
   // Percorsi delle immagini
-  std::vector<std::string> file_names = {"gigi.png", "kusozu.png", "noface.png",
-                                         "totoro.png"};
+  std::vector<std::string> file_names = {"battilana.png", "battilana2.png", "ferrari.png",
+                                         "lanzi.png"};
 
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
@@ -171,7 +171,7 @@ int draw() {
       for (int q = 0; q < 4; ++q) {
         int side = rec.pattern_side();
         int total_neurons = side * side;
-        int neurons_per_frame = 16;
+        int neurons_per_frame = 30;
         std::vector<int> previous_pattern(total_neurons,
                                                  -1);  // Initialize with - 1
 

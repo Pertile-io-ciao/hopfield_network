@@ -65,9 +65,13 @@ build NightlyTest: phony NightlyTest$:Debug
 
 build NightlyUpdate: phony NightlyUpdate$:Debug
 
+build hopfield_lib: phony Debug/libhopfield_lib.a
+
 build hopfield_network: phony Debug/hopfield_network
 
-build hopfield_network.t: phony Debug/hopfield_network.t
+build hopfield_network_tests: phony Debug/hopfield_network_tests
+
+build libhopfield_lib.a: phony Debug/libhopfield_lib.a
 
 
 #############################################
