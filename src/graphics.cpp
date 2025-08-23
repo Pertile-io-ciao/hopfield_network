@@ -82,7 +82,7 @@ int draw() {
   // inizializzo la scritta per la funzione energia
   sf::Text energyText;
   energyText.setFont(font);
-  energyText.setCharacterSize(20);
+  energyText.setCharacterSize(30);
   energyText.setFillColor(sf::Color::Blue);
   energyText.setPosition(1300.f, 600.f);
 
@@ -147,7 +147,7 @@ int draw() {
 
                                     file_names[selected_image_index]);
 
-          int side = rec.pattern_side();
+          //int side = rec.pattern_side();
           sf::Image img = image_from_vector(
               zoom(rec.get_pattern_ref()));  // Remove zoom here
           std::cout << "Image size: " << img.getSize().x << "x"
@@ -172,12 +172,10 @@ int draw() {
         int side = rec.pattern_side();
         int total_neurons = side * side;
         int neurons_per_frame = 16;
-        static std::vector<int> previous_pattern(total_neurons,
+        std::vector<int> previous_pattern(total_neurons,
                                                  -1);  // Initialize with - 1
 
         // static bool converged = false;
-
-        static unsigned int iter = 0;
 
         for (int k = 0; k < neurons_per_frame; ++k) {
           int neuron_to_update = rand() % total_neurons;
@@ -195,7 +193,7 @@ int draw() {
         // *** THIS CODE STAYS HERE ***
         sf::Image img =
             image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here
-        texturerecall.loadFromImage(img);
+        texturerecall.update(img);  // MODIFICA
         spriterecall.setTexture(texturerecall);
       }
       rec.compute_energy();
