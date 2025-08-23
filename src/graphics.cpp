@@ -169,19 +169,21 @@ int draw() {
     if (runningrecall) {
       int side = rec.pattern_side();
       int total_neurons = side * side;
-      int neurons_per_frame = 10;
+      int neurons_per_frame = 20;
       static std::vector<int> previous_pattern(total_neurons, -1);  //Initialize with - 1
+      static bool converged = false;
 
           for (int k = 0; k < neurons_per_frame; ++k) {
-        int neuron_to_update = (start_index + k) % total_neurons;
+        int neuron_to_update = rand() % total_neurons;
         rec.update(neuron_to_update);  // usa la funzione interna di Recall
       }
 
       start_index = (start_index + neurons_per_frame) % total_neurons;
-
-      if (previous_pattern == rec.get_pattern_ref()) {
+/*
+      if (!converged && previous_pattern == rec.get_pattern_ref()) {
         std::cout << "convergence!" << '\n';
-      }
+        converged = true;  // segna come già mostrato
+      } */
       previous_pattern = rec.get_pattern_ref();
 
       // *** THIS CODE STAYS HERE ***
