@@ -23,6 +23,7 @@ class Recall {
   void initialize_from_image(const std::string& image_file);
 
   void update(int i);
+  void compute_energy();
 
   //bool is_converged() const;
   int pattern_side() const;

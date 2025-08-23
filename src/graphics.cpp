@@ -168,38 +168,38 @@ int draw() {
     }  // Closing brace for the pollEvent loop
 
     if (runningrecall) {
-      for (int q = 0; q < 4; ++q)
-      {
+      for (int q = 0; q < 4; ++q) {
         int side = rec.pattern_side();
-      int total_neurons = side * side;
-      int neurons_per_frame = 16;
-      static std::vector<int> previous_pattern(total_neurons,
-                                               -1);  // Initialize with - 1
-      
-      static bool converged = false;
+        int total_neurons = side * side;
+        int neurons_per_frame = 16;
+        static std::vector<int> previous_pattern(total_neurons,
+                                                 -1);  // Initialize with - 1
 
-      for (int k = 0; k < neurons_per_frame; ++k) {
-        int neuron_to_update = rand() % total_neurons;
-        rec.update(neuron_to_update);  // usa la funzione interna di Recall
+        // static bool converged = false;
+
+        static unsigned int iter = 0;
+
+        for (int k = 0; k < neurons_per_frame; ++k) {
+          int neuron_to_update = rand() % total_neurons;
+          rec.update(neuron_to_update);  // usa la funzione interna di Recall
+        }
+
+        start_index = (start_index + neurons_per_frame) % total_neurons;
+        /*
+              if (!converged && previous_pattern == rec.get_pattern_ref()) {
+                std::cout << "convergence!" << '\n';
+                converged = true;  // segna come già mostrato
+              } */
+        previous_pattern = rec.get_pattern_ref();
+
+        // *** THIS CODE STAYS HERE ***
+        sf::Image img =
+            image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here
+        texturerecall.loadFromImage(img);
+        spriterecall.setTexture(texturerecall);
       }
-
-      start_index = (start_index + neurons_per_frame) % total_neurons;
-      /*
-            if (!converged && previous_pattern == rec.get_pattern_ref()) {
-              std::cout << "convergence!" << '\n';
-              converged = true;  // segna come già mostrato
-            } */
-      previous_pattern = rec.get_pattern_ref();
-
-      // *** THIS CODE STAYS HERE ***
-      sf::Image img =
-          image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here
-      texturerecall.loadFromImage(img);
-      spriterecall.setTexture(texturerecall);
-      }
-      
-      energyText.setString("Energy: " +
-                           std::to_string(rec.get_energy()));
+      rec.compute_energy();
+      energyText.setString("Energy: " + std::to_string(rec.get_energy()));
     }
 
     // fase di disegno per ogni frame
