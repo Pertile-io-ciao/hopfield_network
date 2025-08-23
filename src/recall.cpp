@@ -66,7 +66,7 @@ void Recall::initialize_from_image(const std::string& image_file) {
 // graphics
 void Recall::update(int neuron_index) {
   current_pattern = neuron_update(neuron_index, current_pattern, weight_matrix);
-  // energy = energy_function(current_pattern, weight_matrix);
+  energy = energy_function(current_pattern, weight_matrix);
 }
 
 // float Recall::get_energy() const { return this->energy; }

@@ -82,7 +82,7 @@ int draw() {
   // inizializzo la scritta per la funzione energia
   sf::Text energyText;
   energyText.setFont(font);
-  energyText.setCharacterSize(40);
+  energyText.setCharacterSize(20);
   energyText.setFillColor(sf::Color::Blue);
   energyText.setPosition(1300.f, 600.f);
 
@@ -127,8 +127,9 @@ int draw() {
           if (isSpriteClicked(sprites[i], mousePos)) {
             // Carica immagine corrotta corrispondente
             if (!texturenoised.loadFromFile(zoomed_w_noisepath[i])) {
-              throw std::runtime_error("[draw] error: impossible loading image from " +
-                                       zoomed_w_noisepath[i]);
+              throw std::runtime_error(
+                  "[draw] error: impossible loading image from " +
+                  zoomed_w_noisepath[i]);
             } else {
               spritenoised.setTexture(texturenoised);
               spritenoised.setPosition(283.f, 450.f);
@@ -139,21 +140,6 @@ int draw() {
             }
           }
         }
-              for (int i = 0; i < 4; ++i) {
-            if (isSpriteClicked(sprites[i], mousePos)) {
-              // Carica immagine corrotta corrispondente
-              if (!texturenoised.loadFromFile(zoomed_w_noisepath[i])) {
-                throw std::runtime_error("[draw] error: impossible loading image from " + zoomed_w_noisepath[i]);
-              } else {
-                spritenoised.setTexture(texturenoised);
-                spritenoised.setPosition(283.f, 450.f);
-                showNoisedImage = true;
-                is_noised = true;
-                selected_image_index = i;          // immagine che sarà usata dalla rete 
-                runningrecall = false;  // la rete non parte ancora
-              }
-            }
-          }
 
         if (isSpriteClicked(spritenoised, mousePos)) {
           // Carica immagine corrotta corrispondente
@@ -182,11 +168,14 @@ int draw() {
     }  // Closing brace for the pollEvent loop
 
     if (runningrecall) {
-      int side = rec.pattern_side();
+      for (int q = 0; q < 4; ++q)
+      {
+        int side = rec.pattern_side();
       int total_neurons = side * side;
-      int neurons_per_frame = 20;
+      int neurons_per_frame = 16;
       static std::vector<int> previous_pattern(total_neurons,
                                                -1);  // Initialize with - 1
+      
       static bool converged = false;
 
       for (int k = 0; k < neurons_per_frame; ++k) {
@@ -201,13 +190,16 @@ int draw() {
               converged = true;  // segna come già mostrato
             } */
       previous_pattern = rec.get_pattern_ref();
-     
+
       // *** THIS CODE STAYS HERE ***
       sf::Image img =
           image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here
       texturerecall.loadFromImage(img);
       spriterecall.setTexture(texturerecall);
-     
+      }
+      
+      energyText.setString("Energy: " +
+                           std::to_string(rec.get_energy()));
     }
 
     // fase di disegno per ogni frame
@@ -227,6 +219,7 @@ int draw() {
 
     if (runningrecall) {
       window.draw(spriterecall);
+      window.draw(energyText);
     }
 
     window.display();
