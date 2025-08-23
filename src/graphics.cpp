@@ -151,7 +151,9 @@ int draw() {
                 zoom(rec.get_pattern_ref()));  // Remove zoom here
             std::cout << "Image size: " << img.getSize().x << "x"
                       << img.getSize().y << '\n';
-            texturerecall.create(side * 4, side * 4);  // zoom
+            sf::Vector2u imgSize = img.getSize();  // zoom
+            
+            texturerecall.create(imgSize.x, imgSize.y);
             texturerecall.loadFromImage(img);
             spriterecall.setTexture(texturerecall);
             spriterecall.setPosition(800.f, 450.f);
