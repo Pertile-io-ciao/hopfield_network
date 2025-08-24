@@ -224,7 +224,7 @@ int draw() {
 
     // fase di disegno per ogni frame
 
-    window.clear(sf::Color(205, 133, 63));
+    window.clear(sf::Color(95, 158, 160));
     // altro in  grafica prova
 
     // Disegna immagini originali
