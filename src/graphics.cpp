@@ -32,8 +32,9 @@ int draw() {
   bool showNoisedImage = false;
 
   // percorsi delle immagini
-  std::vector<std::string> file_names = {"battilana.png", "battilana2.png",
-                                         "ferrari.png", "lanzi.png"};
+  std::vector<std::string> file_names = {
+      "howardwolowitz.png", "leonardhofstadter.png", "rajkoothrappali.png",
+      "sheldoncooper.png"};
 
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
@@ -193,7 +194,11 @@ int draw() {
 
         for (int i = 0; i < 4; ++i) {
           if (previous_pattern == original_patterns[i]) {
-            std::cout << "convergence!" << '\n';
+            if (selected_image_index == 3) {
+              std::cout << "bazinga!!!" << '\n';
+            } else {
+              std::cout << "convergence!" << '\n';
+            }
             runningrecall =
                 2;  // convergenza: fine della dinamica di aggiornamento
           }
