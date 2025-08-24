@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <random> //per i cut
+#include <cstdlib>  //per i cut random
 
 
 // lato immagine
@@ -167,11 +167,12 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 }
 
 std::vector<int> vertical_cut(std::vector<int> v, int width) {
-  /*if (start < 0 || end > l || start > end) {
-    throw std::runtime_error{"[vertical_cut] start and end indices are out of range"};
-  }*/
+if (width < 0 || width > 15) {
+    throw std::runtime_error{"[vertical_cut] cut's width must be between 1 and 15"};
+}
+if (width == 0) return v;
  int start = std::rand() % (l-width);
-  int end = start + width;
+  int end = start + width-1;
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (j >= start && j <= end) {
@@ -183,12 +184,12 @@ std::vector<int> vertical_cut(std::vector<int> v, int width) {
 }  
 
 std::vector<int> orizontal_cut(std::vector<int> v, int width) {
-  /*if (start < 0 || end > l || start > end) {
-    throw std::runtime_error{"[orizontal_cut] start and end indices are out of range"};
-  }*/
-  
+if (width < 0 || width > 15) {
+    throw std::runtime_error{"[orizontal_cut] cut's width must be between 1 and 15"};
+}
+if (width == 0) return v;
  int start = std::rand() % (l-width);
-  int end = start + width;
+  int end = start + width -1;
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (i >= start && i <= end) {

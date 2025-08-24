@@ -270,61 +270,42 @@ TEST_CASE("testing noise function") {
         CHECK(flipped > 400); // accetto intervallo largo
         CHECK(flipped < 600);
     }
-}
-/*
-TEST_CASE("testing vertical_cut") {
-  extern int l;
-  l=10;
-    std::vector<int> v(l*l, -1);  // inizializzo tutta l'immagine a -1
-
-    SUBCASE("cut in the middle columns") {
-        int start = 1;
-        int end = 2;
-        auto result = vertical_cut(v, start, end);
-
-        for (int i = 0; i < l; ++i) {
-            for (int j = 0; j < l; ++j) {
-                if (j >= start && j <= end)
-                    CHECK(result[i*l + j] == 1);
-                else
-                    CHECK(result[i*l + j] == -1);
-            }
-        }
-    }
-
-    SUBCASE("cut entire columns") {
-        auto result = vertical_cut(v, 0, l-1); //start = 0 ; end = l-1
-        for (int val : result)
-            CHECK(val == 1);
-    }
-}
-
-TEST_CASE("testing orizontal_cut") {
-  extern int l;
-  l=10;
+}TEST_CASE("vertical_cut test") {
+    extern int l;
+    l = 10;
     std::vector<int> v(l*l, -1);
 
-    SUBCASE("cut in the middle rows") {
-        int start = 1;
-        int end = 2;
-        auto result = orizontal_cut(v, start, end);
+    auto result = vertical_cut(v, 3); // random start
+    int count_ones = 0;
+    for (int val : result)
+        if (val == 1) ++count_ones;
 
-        for (int i = 0; i < l; ++i) {
-            for (int j = 0; j < l; ++j) {
-                if (i >= start && i <= end)
-                    CHECK(result[i*l + j] == 1);
-                else
-                    CHECK(result[i*l + j] == -1);
-            }
-        }
+    CHECK(count_ones == 3 * l); // solo verifico che il numero di 1 sia corretto
+
+        SUBCASE("width negative") {
+        int width = -5;
+        CHECK_THROWS_AS(vertical_cut(v, width), std::runtime_error);
     }
 
-    SUBCASE("cut entire rows") {
-        auto result = orizontal_cut(v, 0, l-1);
-        for (int val : result)
-            CHECK(val == 1);
+    SUBCASE("width too large (>15)") {
+        int width = 20;
+        CHECK_THROWS_AS(vertical_cut(v, width), std::runtime_error);
     }
-}*/
+}
+
+TEST_CASE("orizontal_cut test") {
+    extern int l;
+    l = 10;
+    std::vector<int> v(l*l, -1);
+
+    auto result = orizontal_cut(v, 2); // random start
+    int count_ones = 0;
+    for (int val : result)
+        if (val == 1) ++count_ones;
+
+    CHECK(count_ones == 2 * l); // solo verifico il numero totale di 1
+}
+
 
 TEST_CASE("testing the hebb rule"){
   std::vector<int> im1{-1, 1, 1, -1};
