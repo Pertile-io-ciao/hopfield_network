@@ -7,20 +7,15 @@
 #include <vector>
 
 namespace hp {
-  class Hebb {
-   public:
-    Hebb(std::string source, std::string destination);
-    void process();
-    void save_matrix(const std::vector<std::vector<float>>& matrix) const;
+class Hebb {
+ private:
+  std::string sourceFolder;
+  std::string destinationFolder;
 
-   private:
-    std::string sourceFolder;
-    std::string destinationFolder;
-
-    // spostata qui per non ridefinirla dentro process()
-    //void save_matrix(const std::vector<std::vector<float>>& matrix) const;
-     // dichiarazione friend: permette al test di accedere ai membri privati
-    //friend void test_save_matrix_accessible();
-  };
-}
+ public:
+  Hebb(std::string source, std::string destination);
+  void process();
+  void save_matrix(const std::vector<std::vector<float>>& matrix) const;
+};
+} 
 #endif

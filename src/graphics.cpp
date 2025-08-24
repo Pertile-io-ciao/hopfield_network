@@ -18,6 +18,8 @@ bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
 
 int draw() {
   Recall rec("data");
+  int selected_image_index = -1;
+  int start_index = 0;
   const float virtualWidth = 1900.f;
   const float virtualHeight = 800.f;
 
@@ -89,9 +91,8 @@ int draw() {
   sf::Sprite spriterecall;
   int runningrecall = 0;
 
-
-    std::random_device r;
-    std::default_random_engine eng{r()};
+  std::random_device r;
+  std::default_random_engine eng{r()};
 
   // inizializzo la scritta per la funzione energia
   sf::Text energyText;
@@ -152,7 +153,7 @@ int draw() {
               showNoisedImage = true;
               is_noised = true;
               selected_image_index = i;  // immagine che sarà usata dalla rete
-              runningrecall = 0;     // la rete non parte ancora
+              runningrecall = 0;         // la rete non parte ancora
             }
           }
         }
@@ -176,28 +177,23 @@ int draw() {
 
     }  // Closing brace for the pollEvent loop
 
-    if (runningrecall==1) {
+    if (runningrecall == 1) {
       for (int q = 0; q < 4; ++q) {
         int side = rec.pattern_side();
         int total_neurons = side * side;
-        int neurons_per_frame = 150;
+        int neurons_per_frame = 100;
         std::vector<int> previous_pattern(total_neurons, -1);
 
         for (int k = 0; k < neurons_per_frame; ++k) {
           std::uniform_int_distribution<int> distrib{0, total_neurons - 1};
-
-          // Generiamo il numero casuale
+          // generiamo il numero casuale
           int neuron_to_update = distrib(eng);
 
-          rec.update(neuron_to_update);  // usa la funzione interna di Recall
+          rec.update(neuron_to_update);
         }
 
         start_index = (start_index + neurons_per_frame) % total_neurons;
-        /*
-              if (!converged && previous_pattern == rec.get_pattern_ref()) {
-                std::cout << "convergence!" << '\n';
-                converged = true;  // segna come già mostrato
-              } */
+
         previous_pattern = rec.get_pattern_ref();
 
         sf::Image img = image_from_vector(zoom(rec.get_pattern_ref()));
@@ -218,7 +214,6 @@ int draw() {
                                       energyText.getLocalBounds().height + 20));
       background.setPosition(energyText.getPosition().x - 10,
                              energyText.getPosition().y - 5);
-        
     }
 
     // fase di disegno per ogni frame
@@ -235,7 +230,7 @@ int draw() {
       window.draw(spritenoised);
     }
 
-    if (runningrecall==1 || runningrecall==2) {
+    if (runningrecall == 1 || runningrecall == 2) {
       window.draw(spriterecall);
       window.draw(background);
       window.draw(energyText);

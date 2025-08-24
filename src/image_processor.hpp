@@ -5,19 +5,18 @@
 #include <string>
 #include <vector>
 
-namespace hp{
+namespace hp {
 
 class ImageProcessor {
- public:
+ private:
   std::string sourceFolder;
   std::string destinationFolder;
 
+ public:
   ImageProcessor(std::string source, std::string destination);
   void process() const;
 
-  /**
-   * Metodo specifico di trasformazione virtuale
-   */
+ // metodo specifico di trasformazione virtuale
   virtual sf::Image transform(const sf::Image& input) const = 0;
 };
 
@@ -28,7 +27,6 @@ class ImageResized : public ImageProcessor {
   sf::Image transform(const sf::Image& input) const override;
 };
 
-// classe per lo Zoom dell'immagine
 class ImageZoomed : public ImageProcessor {
  public:
   ImageZoomed(std::string source, std::string destination);
@@ -41,6 +39,6 @@ class ImageNoised : public ImageProcessor {
   sf::Image transform(const sf::Image& input) const override;
 };
 
-}
+} 
 
 #endif

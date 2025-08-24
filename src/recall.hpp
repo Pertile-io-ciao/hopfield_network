@@ -5,15 +5,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 namespace hp{
 class Recall {
+  private:
   std::string matrix_Folder;
   std::string image_clicked;
-
   std::vector<std::vector<float>> weight_matrix;
   float energy;
   std::vector<int> current_pattern;
-
 
  public:
   Recall(const std::string& matrix_path);

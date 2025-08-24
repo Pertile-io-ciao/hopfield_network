@@ -2,16 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include <ctime>    // per time()
-#include <fstream>  //per load matrix
 #include <iostream>
 #include <random>
-#include <sstream>  //per load matrix
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-// lato immagine
 int l = 56;  // occhio alle variabili globali
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image) {
@@ -142,7 +138,6 @@ sf::Image image_from_vector(const std::vector<int>& bwvector) {
       image.setPixel(x, y, color);
     }
   }
-
   return image;
 }
 
@@ -166,7 +161,6 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 }
 
 std::vector<int> vertical_cut(std::vector<int> v, int width) {
-
   std::random_device r;
   std::default_random_engine eng{r()};
   std::uniform_int_distribution<int> distrib{0, l - width};
@@ -184,7 +178,6 @@ std::vector<int> vertical_cut(std::vector<int> v, int width) {
 }
 
 std::vector<int> orizontal_cut(std::vector<int> v, int width) {
-  
   std::random_device r;
   std::default_random_engine eng{r()};
   std::uniform_int_distribution<int> distrib{0, l - width};
