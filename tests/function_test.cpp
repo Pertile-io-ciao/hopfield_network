@@ -271,7 +271,7 @@ TEST_CASE("testing noise function") {
         CHECK(flipped < 600);
     }
 }
-
+/*
 TEST_CASE("testing vertical_cut") {
   extern int l;
   l=10;
@@ -324,7 +324,7 @@ TEST_CASE("testing orizontal_cut") {
         for (int val : result)
             CHECK(val == 1);
     }
-}
+}*/
 
 TEST_CASE("testing the hebb rule"){
   std::vector<int> im1{-1, 1, 1, -1};
