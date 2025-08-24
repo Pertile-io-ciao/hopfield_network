@@ -184,7 +184,7 @@ int draw() {
         std::vector<int> previous_pattern(total_neurons, -1);
 
         for (int k = 0; k < neurons_per_frame; ++k) {
-          std::uniform_int_distribution<> distrib{0, total_neurons - 1};
+          std::uniform_int_distribution<int> distrib{0, total_neurons - 1};
 
           // Generiamo il numero casuale
           int neuron_to_update = distrib(eng);
