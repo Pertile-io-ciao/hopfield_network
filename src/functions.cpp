@@ -1,16 +1,13 @@
 #include "functions.hpp"
 
-
-
-//namespace hp {
+namespace hp {
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   int width = image.getSize().x;
   int height = image.getSize().y;
 
   std::vector<sf::Color> result;
-  result.reserve(
-      width * height);  
+  result.reserve(width * height);
 
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
@@ -21,7 +18,6 @@ std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   return result;
 }
 
-
 std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
   if (v.empty()) {
     throw std::runtime_error{"[blacknwhite] empty std::vector<int>"};
@@ -31,13 +27,13 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
   for (std::size_t i = 0; i < v.size(); ++i) {
     const sf::Color& c = v[i];
 
-    // Ignora completamente i pixel trasparenti 
+    // ignora completamente i pixel trasparenti
     if (c.a < 10) {
       result.push_back(-1);  // considera come bianco
       continue;
     }
 
-    // Calcola la luminanza percepita
+    // calcola la luminanza percepita
     double luminance = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b);
     int h = (luminance < 127) ? 1 : -1;
     result.push_back(h);
@@ -52,13 +48,13 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
     throw std::runtime_error{
         "[bilinear_interpolation] input size != widht*height"};
   }
-  int l = 56;  // lato immagine 
+  int l = 56;  // lato immagine, dichiarata solo in questo punto!
   std::vector<int> output(l * l);
   for (int y = 0; y < l; ++y) {
     for (int x = 0; x < l; ++x) {
       float gx = ((x + 0.5f) * width) / l -
                  0.5f;  // coordinate dei pixel nell'immagine originale
-      float gy = ((y + 0.5f) * height) / l - 0.5f;  
+      float gy = ((y + 0.5f) * height) / l - 0.5f;
 
       int x0 = std::floor(gx);
       int y0 = std::floor(gy);
@@ -103,7 +99,7 @@ std::vector<int> zoom(const std::vector<int>& v, int zoom_factor) {
     for (int x = 0; x < side; ++x) {
       int value = v[y * side + x];
 
-      // Scrivi valore in blocco n x n
+      // scrivi valore in blocco n x n
       for (int dy = 0; dy < zoom_factor; ++dy) {
         for (int dx = 0; dx < zoom_factor; ++dx) {
           int newX = x * zoom_factor + dx;
@@ -218,14 +214,13 @@ std::vector<std::vector<float>> hebb(
     throw std::runtime_error{
         "[hebb] pxn (matrix were each row is a pattern) is empty"};
   }
-  int n_pattern = pxn.size();     
-  int n_neurons = pxn[0].size();  
+  int n_pattern = pxn.size();
+  int n_neurons = pxn[0].size();
   std::vector<std::vector<float>> W(
       n_neurons,
       std::vector<float>(n_neurons,
                          0.0));  // inizializza la matrice n x n, tutta 0
-  for (int i = 0; i < n_neurons;
-       ++i) {  
+  for (int i = 0; i < n_neurons; ++i) {
     for (int j = 0; j < n_neurons; ++j) {
       float sum = 0;
       for (int k = 0; k < n_pattern; ++k) {
@@ -234,7 +229,7 @@ std::vector<std::vector<float>> hebb(
       if (i != j) {
         W[i][j] = sum / static_cast<float>(n_neurons);  // regola completa
       } else {
-        W[i][j] = 0.0;  
+        W[i][j] = 0.0;
       }
     }
   }
@@ -269,7 +264,7 @@ float energy_function(const std::vector<int>& x,
   }
   float energy = 0.0;
 
-  for (int i = 0; i < n; ++i) {  
+  for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       if (i != j) {
         energy += W[i][j] * x[i] * x[j];
@@ -279,4 +274,4 @@ float energy_function(const std::vector<int>& x,
 
   return -0.5 * energy;
 }
-//}  // namespace hp
+}  // namespace hp

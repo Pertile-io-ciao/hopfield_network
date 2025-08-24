@@ -2,13 +2,13 @@
 #define FUNCTIONS_HPP
 
 #include <SFML/Graphics.hpp>
-#include <vector>
 #include <cmath>
 #include <random>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
-//namespace hp {
+namespace hp {
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image);
 std::vector<int> blacknwhite(const std::vector<sf::Color>& v);
@@ -26,5 +26,5 @@ float energy_function(const std::vector<int>& x,
 std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
 std::vector<int> orizontal_cut(std::vector<int> v, int width = 10);
 std::vector<int> vertical_cut(std::vector<int> v, int width = 10);
-//}  // namespace hp
+}  // namespace hp
 #endif

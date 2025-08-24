@@ -15,5 +15,5 @@ class Hebb {
   void process();
   void save_matrix(const std::vector<std::vector<float>>& matrix) const;
 };
-} 
+}  // namespace hp
 #endif

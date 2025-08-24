@@ -68,6 +68,8 @@ build hopfield_lib: phony RelWithDebInfo/libhopfield_lib.a
 
 build hopfield_network: phony RelWithDebInfo/hopfield_network
 
+build hopfield_network_tests: phony RelWithDebInfo/hopfield_network_tests
+
 build libhopfield_lib.a: phony RelWithDebInfo/libhopfield_lib.a
 
 

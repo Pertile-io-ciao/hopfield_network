@@ -54,7 +54,7 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
   }
   out.close();
 
-  // Stampa un messaggio di successo con le dimensioni della matrice e il
+  // stampa un messaggio di successo con le dimensioni della matrice e il
   // percorso del file.
   std::cout << "[Hebb::save_matrix] saved matrix to: " << outpath << "("
             << matrix.size() << " x " << matrix[0].size() << ")\n";

@@ -31,7 +31,7 @@ int draw() {
 
   bool showNoisedImage = false;
 
-  // Percorsi delle immagini
+  // percorsi delle immagini
   std::vector<std::string> file_names = {"battilana.png", "battilana2.png",
                                          "ferrari.png", "lanzi.png"};
 
@@ -61,9 +61,7 @@ int draw() {
     sprites[i].setTexture(textures[i]);
     sprites[i].setPosition(i * 475.f + 109.5f,
                            80.f);  // distanza tra immagini
-    zoomed_w_noisepath[i] =
-        zoomed_w_noise +
-        file_names[i];  
+    zoomed_w_noisepath[i] = zoomed_w_noise + file_names[i];
 
     if (!textures_original[i].loadFromFile(resized + file_names[i])) {
       throw std::runtime_error("[draw] error: impossible loading image from " +
@@ -136,7 +134,7 @@ int draw() {
 
         for (int i = 0; i < 4; ++i) {
           if (isSpriteClicked(sprites[i], mousePos)) {
-            // Carica immagine corrotta corrispondente
+            // carica immagine corrotta corrispondente
             if (!texturenoised.loadFromFile(zoomed_w_noisepath[i])) {
               throw std::runtime_error(
                   "[draw] error: impossible loading image from " +
@@ -167,9 +165,8 @@ int draw() {
           std::cout << "runningrecall set to true!" << '\n';
           start_index = 0;
         }
-      }  
-
-    }  
+      }
+    }
 
     // dinamica di aggiornamento
     if (runningrecall == 1) {
@@ -197,7 +194,8 @@ int draw() {
         for (int i = 0; i < 4; ++i) {
           if (previous_pattern == original_patterns[i]) {
             std::cout << "convergence!" << '\n';
-            runningrecall = 2; // convergenza: fine della dinamica di aggiornamento
+            runningrecall =
+                2;  // convergenza: fine della dinamica di aggiornamento
           }
         }
       }
@@ -212,15 +210,14 @@ int draw() {
     }
 
     // fase di disegno per ogni frame
-
     window.clear(sf::Color(95, 158, 160));
 
-    // Disegna immagini originali
+    // disegna immagini originali
     for (auto& sprite : sprites) {
       window.draw(sprite);
     }
 
-    // Disegna immagine distorta se presente
+    // disegna immagine distorta se presente
     if (is_noised && showNoisedImage) {
       window.draw(spritenoised);
     }
@@ -232,8 +229,8 @@ int draw() {
     }
 
     window.display();
-  }  
+  }
   return 0;
-}  
+}
 
 }  // namespace hp

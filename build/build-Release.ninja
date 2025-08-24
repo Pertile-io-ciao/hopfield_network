@@ -68,6 +68,8 @@ build hopfield_lib: phony Release/libhopfield_lib.a
 
 build hopfield_network: phony Release/hopfield_network
 
+build hopfield_network_tests: phony Release/hopfield_network_tests
+
 build libhopfield_lib.a: phony Release/libhopfield_lib.a
 
 

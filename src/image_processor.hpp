@@ -4,9 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-
 namespace hp {
-
+  
 class ImageProcessor {
  private:
   std::string sourceFolder;
@@ -16,7 +15,7 @@ class ImageProcessor {
   ImageProcessor(std::string source, std::string destination);
   void process() const;
 
- // metodo specifico di trasformazione virtuale
+  // metodo specifico di trasformazione virtuale
   virtual sf::Image transform(const sf::Image& input) const = 0;
 };
 
@@ -39,6 +38,6 @@ class ImageNoised : public ImageProcessor {
   sf::Image transform(const sf::Image& input) const override;
 };
 
-} 
+}  // namespace hp
 
 #endif
