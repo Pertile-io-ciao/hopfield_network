@@ -87,7 +87,10 @@ int draw() {
   // inizializzo lo sprite in evoluzione
   sf::Texture texturerecall;
   sf::Sprite spriterecall;
-  bool runningrecall = false;
+  int runningrecall = 0;
+
+  std::random_device rd;   // genera un seme casuale
+  std::mt19937 gen(rd());  // motore Mersenne Twister
 
   // inizializzo la scritta per la funzione energia
   sf::Text energyText;
@@ -148,7 +151,7 @@ int draw() {
               showNoisedImage = true;
               is_noised = true;
               selected_image_index = i;  // immagine che sarà usata dalla rete
-              runningrecall = false;     // la rete non parte ancora
+              int runningrecall = 0;     // la rete non parte ancora
             }
           }
         }
@@ -164,7 +167,7 @@ int draw() {
           texturerecall.loadFromImage(img);
           spriterecall.setTexture(texturerecall);
           spriterecall.setPosition(815.f, 450.f);
-          runningrecall = true;  // ora la rete può partire al prossimo frame
+          runningrecall = 1;  // ora la rete può partire al prossimo frame
           std::cout << "runningrecall set to true!" << '\n';
           start_index = 0;
         }
@@ -172,15 +175,19 @@ int draw() {
 
     }  // Closing brace for the pollEvent loop
 
-    if (runningrecall) {
+    if (runningrecall==1) {
       for (int q = 0; q < 4; ++q) {
         int side = rec.pattern_side();
         int total_neurons = side * side;
-        int neurons_per_frame = 24;
-        std::vector<int> previous_pattern(total_neurons, -1); 
+        int neurons_per_frame = 150;
+        std::vector<int> previous_pattern(total_neurons, -1);
 
         for (int k = 0; k < neurons_per_frame; ++k) {
-          int neuron_to_update = rand() % total_neurons;
+          std::uniform_int_distribution<> distrib(0, total_neurons - 1);
+
+          // Generiamo il numero casuale
+          int neuron_to_update = distrib(gen);
+
           rec.update(neuron_to_update);  // usa la funzione interna di Recall
         }
 
@@ -192,40 +199,30 @@ int draw() {
               } */
         previous_pattern = rec.get_pattern_ref();
 
-        // *** THIS CODE STAYS HERE ***
-        sf::Image img =
-            image_from_vector(zoom(rec.get_pattern_ref()));  
-        texturerecall.update(img);                           
+        sf::Image img = image_from_vector(zoom(rec.get_pattern_ref()));
+        texturerecall.update(img);
         spriterecall.setTexture(texturerecall);
 
-        for (int i = 0; i < 4; ++i)
-        {
-          if (previous_pattern == original_patterns[i])
-          {
+        for (int i = 0; i < 4; ++i) {
+          if (previous_pattern == original_patterns[i]) {
             std::cout << "convergence!" << '\n';
-            runningrecall = false;
+            runningrecall = 2;
           }
-          
         }
-        
-        
       }
       rec.compute_energy();
       energyText.setString("Energy: " + std::to_string(rec.get_energy()));
 
-      // Aggiorna lo sfondo in base alle nuove dimensioni del testo
-      background.setSize(sf::Vector2f(
-          energyText.getLocalBounds().width + 20, 
-          energyText.getLocalBounds().height + 20));
-      background.setPosition(
-          energyText.getPosition().x - 10, 
-          energyText.getPosition().y - 5);
+      background.setSize(sf::Vector2f(energyText.getLocalBounds().width + 20,
+                                      energyText.getLocalBounds().height + 20));
+      background.setPosition(energyText.getPosition().x - 10,
+                             energyText.getPosition().y - 5);
+        
     }
 
     // fase di disegno per ogni frame
 
     window.clear(sf::Color(95, 158, 160));
-    // altro in  grafica prova
 
     // Disegna immagini originali
     for (auto& sprite : sprites) {
@@ -237,7 +234,7 @@ int draw() {
       window.draw(spritenoised);
     }
 
-    if (runningrecall) {
+    if (runningrecall==1 || runningrecall==2) {
       window.draw(spriterecall);
       window.draw(background);
       window.draw(energyText);
