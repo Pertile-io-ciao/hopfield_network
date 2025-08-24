@@ -1,16 +1,10 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
-#include <random>
-#include <stdexcept>
-#include <vector>
 
 #include "functions.hpp"
 #include "recall.hpp"
 
 namespace hp {
 
-int selected_image_index = -1;
-int start_index = 0;
 // funzione per verificare se un punto è dentro uno sprite
 bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
@@ -66,10 +60,10 @@ int draw() {
     }
     sprites[i].setTexture(textures[i]);
     sprites[i].setPosition(i * 475.f + 109.5f,
-                           80.f);  // distanza tra immagini, le ho centrate
+                           80.f);  // distanza tra immagini
     zoomed_w_noisepath[i] =
         zoomed_w_noise +
-        file_names[i];  //<-- prende l'immagine noised e zoomata e la salva
+        file_names[i];  
 
     if (!textures_original[i].loadFromFile(resized + file_names[i])) {
       throw std::runtime_error("[draw] error: impossible loading image from " +
@@ -159,7 +153,7 @@ int draw() {
         }
 
         if (isSpriteClicked(spritenoised, mousePos)) {
-          // Carica immagine corrotta corrispondente
+          // carica immagine corrotta corrispondente
           rec.initialize_from_image(noised + file_names[selected_image_index]);
           sf::Image img = image_from_vector(zoom(rec.get_pattern_ref()));
           std::cout << "Image size: " << img.getSize().x << "x"
@@ -173,10 +167,11 @@ int draw() {
           std::cout << "runningrecall set to true!" << '\n';
           start_index = 0;
         }
-      }  // Closing brace for the MouseButtonPressed event
+      }  
 
-    }  // Closing brace for the pollEvent loop
+    }  
 
+    // dinamica di aggiornamento
     if (runningrecall == 1) {
       for (int q = 0; q < 4; ++q) {
         int side = rec.pattern_side();
@@ -186,7 +181,6 @@ int draw() {
 
         for (int k = 0; k < neurons_per_frame; ++k) {
           std::uniform_int_distribution<int> distrib{0, total_neurons - 1};
-          // generiamo il numero casuale
           int neuron_to_update = distrib(eng);
 
           rec.update(neuron_to_update);
@@ -203,10 +197,11 @@ int draw() {
         for (int i = 0; i < 4; ++i) {
           if (previous_pattern == original_patterns[i]) {
             std::cout << "convergence!" << '\n';
-            runningrecall = 2;
+            runningrecall = 2; // convergenza: fine della dinamica di aggiornamento
           }
         }
       }
+      // aggiornamento energia
       rec.compute_energy();
       energyText.setString("Energy: " + std::to_string(rec.get_energy()));
 
@@ -237,8 +232,8 @@ int draw() {
     }
 
     window.display();
-  }  // Closing brace for the window.isOpen() loop
+  }  
   return 0;
-}  // Closing brace for the draw() function
+}  
 
 }  // namespace hp

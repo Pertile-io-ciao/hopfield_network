@@ -1,8 +1,6 @@
 #ifndef HEBB_HPP
 #define HEBB_HPP
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
 #include <string>
 #include <vector>
 

@@ -1,29 +1,24 @@
 #include "image_processor.hpp"
 
 #include <filesystem>
-#include <iostream>
-#include <string>
-#include <stdexcept>
 
 #include "functions.hpp"
 
 namespace hp {
 
-// costruttore di image_processor
 ImageProcessor::ImageProcessor(std::string source, std::string destination) {
   if (!std::filesystem::exists(source)) {
     throw std::runtime_error{
         "[ImageProcessor::ImageProcessor] source folder doesn't exists: " +
         source};
   }
-  this->sourceFolder = source;  // salva le cartelle source e destination
+  this->sourceFolder = source;  
   this->destinationFolder =
-      destination;  // prendendo le immagini da elaborare da source folder e
-                    // salvando i risultati in destination folder
+      destination;  
 }
 
 // funzione che elabora tutte le immagini che sono nella cartella di origine
-void ImageProcessor::process() const {  // metodo process
+void ImageProcessor::process() const {  
   if (!std::filesystem::exists(this->destinationFolder)) {
     std::filesystem::create_directories(this->destinationFolder);
   }
@@ -32,11 +27,10 @@ void ImageProcessor::process() const {  // metodo process
   for (const auto& entry :
        std::filesystem::directory_iterator(this->sourceFolder)) {
     if (entry.is_regular_file()) {
-      auto path = entry.path();  // path=percorso
+      auto path = entry.path();  
       std::string ext = path.extension().string();
       if (ext == ".png") {
         sf::Image img;
-        // carico immagine
         img.loadFromFile(path.string());
 
         if (!img.loadFromFile(path.string())) {
@@ -45,11 +39,10 @@ void ImageProcessor::process() const {  // metodo process
               path.string()};
         }
 
-        sf::Image elaborated = transform(img);  // chiama la funzione
-                                                // transform()
+        sf::Image elaborated = transform(img);  
 
         // salvo risultato in destinationFolder con lo stesso nome
-        std::string outPath =  // outpath=percorso per l'output
+        std::string outPath =  
             this->destinationFolder + "/" + path.filename().string();
         elaborated.saveToFile(outPath);
       }
@@ -57,23 +50,20 @@ void ImageProcessor::process() const {  // metodo process
   }
 }
 
-// classe derivata
 ImageResized::ImageResized(std::string source, std::string destination)
     : ImageProcessor(source, destination) {}
 
-// inizializza la sottoclasse passando i percorsi della classe base
 sf::Image ImageResized::transform(const sf::Image& input) const {
   std::vector<sf::Color> colors = vector_from_image(
-      input);  // vettore di sf::Color(immagine convertita in un vettore)
+      input);  
   std::vector<int> vector1 =
-      blacknwhite(colors);  // converte i colori in bianco e nero
+      blacknwhite(colors);  
   int width = input.getSize().x;
-  int height = input.getSize().y;  // -1 / 1
+  int height = input.getSize().y;  
   std::vector<int> v_interpolated =
       bilinear_interpolation(vector1, width, height);
-  // applica l'interpolazione bilineare x fare resize e renderla quadrata
   sf::Image image =
-      image_from_vector(v_interpolated);  // risorna l'immagine quadrata
+      image_from_vector(v_interpolated); 
   return image;
 }
 
@@ -82,9 +72,9 @@ ImageZoomed::ImageZoomed(std::string source, std::string destination)
 
 sf::Image ImageZoomed::transform(const sf::Image& input) const {
   std::vector<sf::Color> colori =
-      vector_from_image(input);                    // vettore di sf::Color
-  std::vector<int> vector1 = blacknwhite(colori);  // -1 / 1
-  std::vector<int> vector2 = zoom(vector1);        // -1 / 1
+      vector_from_image(input);                    
+  std::vector<int> vector1 = blacknwhite(colori);  
+  std::vector<int> vector2 = zoom(vector1);        
   sf::Image image = image_from_vector(vector2);
   return image;
 }

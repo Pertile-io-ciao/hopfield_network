@@ -1,14 +1,8 @@
 #include "functions.hpp"
 
-#include <SFML/Graphics.hpp>
-#include <cmath>
-#include <iostream>
-#include <random>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 
+//namespace hp {
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   int width = image.getSize().x;
@@ -16,7 +10,7 @@ std::vector<sf::Color> vector_from_image(const sf::Image& image) {
 
   std::vector<sf::Color> result;
   result.reserve(
-      width * height);  // metodo che serve a dare una nuova taglia al vettore
+      width * height);  
 
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
@@ -26,7 +20,7 @@ std::vector<sf::Color> vector_from_image(const sf::Image& image) {
 
   return result;
 }
-// mi trovo un vettore composto da tutti sf::Color che sono praticamente i pixel
+
 
 std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
   if (v.empty()) {
@@ -37,7 +31,7 @@ std::vector<int> blacknwhite(const std::vector<sf::Color>& v) {
   for (std::size_t i = 0; i < v.size(); ++i) {
     const sf::Color& c = v[i];
 
-    // Ignora completamente i pixel trasparenti (opzionale)
+    // Ignora completamente i pixel trasparenti 
     if (c.a < 10) {
       result.push_back(-1);  // considera come bianco
       continue;
@@ -58,13 +52,13 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
     throw std::runtime_error{
         "[bilinear_interpolation] input size != widht*height"};
   }
-  int l = 56; //lato immagine dichiarato solo qui!!!
+  int l = 56;  // lato immagine 
   std::vector<int> output(l * l);
   for (int y = 0; y < l; ++y) {
     for (int x = 0; x < l; ++x) {
       float gx = ((x + 0.5f) * width) / l -
                  0.5f;  // coordinate dei pixel nell'immagine originale
-      float gy = ((y + 0.5f) * height) / l - 0.5f;  //
+      float gy = ((y + 0.5f) * height) / l - 0.5f;  
 
       int x0 = std::floor(gx);
       int y0 = std::floor(gy);
@@ -97,7 +91,7 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
 }
 
 std::vector<int> zoom(const std::vector<int>& v, int zoom_factor) {
-   int side = (int)sqrt(v.size());
+  int side = (int)sqrt(v.size());
 
   if ((size_t)(side * side) != v.size()) {
     throw std::runtime_error{"[zoom] input size!= l*l."};
@@ -163,11 +157,16 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 }
 
 std::vector<int> vertical_cut(std::vector<int> v, int width) {
-  if (width < 0) {throw std::runtime_error{"[vertical_cut] width < 0"};}
-    if (width == 0) {return v;}
-    if (width > 15)
-        {throw std::runtime_error{"[vertical_cut] width > 15"};}
-   int side = (int)sqrt(v.size());
+  if (width < 0) {
+    throw std::runtime_error{"[vertical_cut] width < 0"};
+  }
+  if (width == 0) {
+    return v;
+  }
+  if (width > 15) {
+    throw std::runtime_error{"[vertical_cut] width > 15"};
+  }
+  int side = (int)sqrt(v.size());
   std::random_device r;
   std::default_random_engine eng{r()};
   std::uniform_int_distribution<int> distrib{0, side - width};
@@ -185,11 +184,15 @@ std::vector<int> vertical_cut(std::vector<int> v, int width) {
 }
 
 std::vector<int> orizontal_cut(std::vector<int> v, int width) {
-
-  if (width < 0) {throw std::runtime_error{"[orizontal_cut] width < 0"};}
-    if (width == 0) {return v;}
-    if (width > 15)
-        {throw std::runtime_error{"[orizontal_cut] width > 15"};}
+  if (width < 0) {
+    throw std::runtime_error{"[orizontal_cut] width < 0"};
+  }
+  if (width == 0) {
+    return v;
+  }
+  if (width > 15) {
+    throw std::runtime_error{"[orizontal_cut] width > 15"};
+  }
   int side = (int)sqrt(v.size());
 
   std::random_device r;
@@ -210,19 +213,19 @@ std::vector<int> orizontal_cut(std::vector<int> v, int width) {
 
 // regola di hebb per calcolare la matrice dei pesi
 std::vector<std::vector<float>> hebb(
-    const std::vector<std::vector<int>>& pxn) {  // v è una matrice p x n
+    const std::vector<std::vector<int>>& pxn) {  // matrice pattern x neuroni
   if (pxn.empty()) {
     throw std::runtime_error{
         "[hebb] pxn (matrix were each row is a pattern) is empty"};
   }
-  int n_pattern = pxn.size();     // numero di pattern che voglio memorizzare
-  int n_neurons = pxn[0].size();  // numero di neuroni
+  int n_pattern = pxn.size();     
+  int n_neurons = pxn[0].size();  
   std::vector<std::vector<float>> W(
       n_neurons,
       std::vector<float>(n_neurons,
                          0.0));  // inizializza la matrice n x n, tutta 0
   for (int i = 0; i < n_neurons;
-       ++i) {  // due cicli per considerare ogni neurone
+       ++i) {  
     for (int j = 0; j < n_neurons; ++j) {
       float sum = 0;
       for (int k = 0; k < n_pattern; ++k) {
@@ -231,7 +234,7 @@ std::vector<std::vector<float>> hebb(
       if (i != j) {
         W[i][j] = sum / static_cast<float>(n_neurons);  // regola completa
       } else {
-        W[i][j] = 0.0;  // niente auto-connessioni
+        W[i][j] = 0.0;  
       }
     }
   }
@@ -266,7 +269,7 @@ float energy_function(const std::vector<int>& x,
   }
   float energy = 0.0;
 
-  for (int i = 0; i < n; ++i) {  // solito cicletto for doppio
+  for (int i = 0; i < n; ++i) {  
     for (int j = 0; j < n; ++j) {
       if (i != j) {
         energy += W[i][j] * x[i] * x[j];
@@ -276,3 +279,4 @@ float energy_function(const std::vector<int>& x,
 
   return -0.5 * energy;
 }
+//}  // namespace hp

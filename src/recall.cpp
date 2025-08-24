@@ -1,10 +1,9 @@
 #include "recall.hpp"
 
-#include <cmath>
+
 #include <filesystem>
 #include <fstream>
-#include <random>
-#include <stdexcept>
+#include <iostream>
 
 #include "functions.hpp"
 
@@ -18,7 +17,6 @@ std::vector<std::vector<float>> Recall::load_matrix() {
   std::filesystem::path intpath =
       this->matrix_Folder + "/" + "weight_matrix.txt";
   std::ifstream in(intpath, std::ios::in);
-  // errore se non  apre
   if (!in) {
     throw std::runtime_error{"[Recall::load_matrix] error: impossible to open file " + intpath.string()};
   }
@@ -26,7 +24,7 @@ std::vector<std::vector<float>> Recall::load_matrix() {
   std::string line;
 
   while (std::getline(in, line)) {  // Leggo una riga alla volta
-    std::istringstream iss(line);   // Creo uno stream dalla stringa
+    std::istringstream iss(line);   
     std::vector<float> row;
     float value;
 
@@ -35,7 +33,7 @@ std::vector<std::vector<float>> Recall::load_matrix() {
     }
 
     if (!row.empty()) {
-      W.push_back(row);  // Aggiungo la riga alla matrice
+      W.push_back(row);  
     }
   }
 
@@ -62,8 +60,7 @@ void Recall::initialize_from_image(const std::string& image_file) {
   this->energy = energy_function(this->current_pattern, this->weight_matrix);
 }
 
-// update considerando il pattern i che verrà scelto cliccando sull'immagine in
-// graphics
+// update considerando il neurone i che verrà aggiornato
 void Recall::update(int neuron_index) {
   current_pattern = neuron_update(neuron_index, current_pattern, weight_matrix);
 }
@@ -77,7 +74,6 @@ int Recall::pattern_side() const {
   return static_cast<int>(std::sqrt(static_cast<double>(size)));
 }
 
-// ritorna pattern aggiornato a ogni richiesta
 const std::vector<int>& Recall::get_pattern_ref() const {
   return this->current_pattern;
 }

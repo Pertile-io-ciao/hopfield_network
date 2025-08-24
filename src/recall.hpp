@@ -1,8 +1,6 @@
 #ifndef RECALL_HPP
 #define RECALL_HPP
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
 #include <string>
 #include <vector>
 

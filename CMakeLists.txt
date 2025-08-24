@@ -26,9 +26,7 @@ string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined")
 # SFML
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
-# -----------------------------
-# LIBRERIA INTERNA CON LA LOGICA
-# -----------------------------
+# internal library
 add_library(hopfield_lib
     src/image_processor.cpp
     src/functions.cpp
@@ -43,15 +41,13 @@ target_link_libraries(hopfield_lib
 
 target_include_directories(hopfield_lib PUBLIC src)
 
-# -----------------------------
-# ESEGUIBILE PRINCIPALE
-# -----------------------------
+
+# main executable
 add_executable(hopfield_network src/main.cpp)
 target_link_libraries(hopfield_network PRIVATE hopfield_lib)
 
-# -----------------------------
-# TEST
-# -----------------------------
+
+# tests
 if (BUILD_TESTING)
     add_executable(hopfield_network_tests
         tests/function_test.cpp

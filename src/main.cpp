@@ -1,6 +1,4 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
-#include <vector>
 #include <exception>
 
 #include "graphics.hpp"
@@ -17,11 +15,12 @@ int main() {
                             "resources/images/noised");
     corrump.process();
     hp::ImageZoomed zoom("resources/images/resized", "resources/images/zoomed");
+
     zoom.process();
     hp::ImageZoomed zoom_w_noise("resources/images/noised",
                                  "resources/images/zoomed_w_noise");
     zoom_w_noise.process();
-     // crea matrice di hebb
+
     hp::Hebb create_matrix("resources/images/resized", "data");
     create_matrix.process();
     hp::draw();
