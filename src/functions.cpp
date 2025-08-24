@@ -48,7 +48,7 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
     throw std::runtime_error{
         "[bilinear_interpolation] input size != widht*height"};
   }
-  int l = 56;  // lato immagine, dichiarata solo in questo punto!
+  int l = 56;  // lato immagine, dichiarata solo in questo punto (oltre che in function_test.cpp riga 64)
   std::vector<int> output(l * l);
   for (int y = 0; y < l; ++y) {
     for (int x = 0; x < l; ++x) {
