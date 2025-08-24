@@ -5,12 +5,11 @@
 #include <ctime>    // per time()
 #include <fstream>  //per load matrix
 #include <iostream>
+#include <random>
 #include <sstream>  //per load matrix
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <cstdlib>  //per i cut random
-
 
 // lato immagine
 int l = 56;  // occhio alle variabili globali
@@ -128,11 +127,11 @@ std::vector<int> zoom(const std::vector<int>& v, int zoom_factor) {
 // in input ho vettore di pixel bn di immagine quadrata quindi il lato è radice
 // di size
 sf::Image image_from_vector(const std::vector<int>& bwvector) {
-  
   sf::Image image;
   int side = (int)sqrt(bwvector.size());
-   if (side * side != (int)bwvector.size()) {
-    throw std::invalid_argument{"[image_from_vector] bw image is not a perfet square"};
+  if (side * side != (int)bwvector.size()) {
+    throw std::invalid_argument{
+        "[image_from_vector] bw image is not a perfet square"};
   }
   image.create(side, side);
 
@@ -167,12 +166,18 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 }
 
 std::vector<int> vertical_cut(std::vector<int> v, int width) {
-if (width < 0 || width > 15) {
-    throw std::runtime_error{"[vertical_cut] cut's width must be between 1 and 15"};
-}
-if (width == 0) return v;
- int start = std::rand() % (l-width);
-  int end = start + width-1;
+  if (width < 0 || width > 15) {
+    throw std::runtime_error{
+        "[vertical_cut] cut's width must be between 1 and 15"};
+  }
+  if (width == 0) return v;
+  static std::random_device rd;
+  static std::mt19937 gen(rd());
+  std::uniform_int_distribution<> distrib(0, l - width);
+
+  int start = distrib(gen);
+  int end = start + width - 1;
+
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (j >= start && j <= end) {
@@ -181,15 +186,20 @@ if (width == 0) return v;
     }
   }
   return v;
-}  
+}
 
 std::vector<int> orizontal_cut(std::vector<int> v, int width) {
-if (width < 0 || width > 15) {
-    throw std::runtime_error{"[orizontal_cut] cut's width must be between 1 and 15"};
-}
-if (width == 0) return v;
- int start = std::rand() % (l-width);
-  int end = start + width -1;
+  if (width < 0 || width > 15) {
+    throw std::runtime_error{
+        "[orizontal_cut] cut's width must be between 1 and 15"};
+  }
+  if (width == 0) return v;
+  static std::random_device rd;
+  static std::mt19937 gen(rd());
+  std::uniform_int_distribution<> distrib(0, l - width);
+
+  int start = distrib(gen);
+  int end = start + width - 1;
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
       if (i >= start && i <= end) {
@@ -203,8 +213,9 @@ if (width == 0) return v;
 // regola di hebb per calcolare la matrice dei pesi
 std::vector<std::vector<float>> hebb(
     const std::vector<std::vector<int>>& pxn) {  // v è una matrice p x n
-      if (pxn.empty()) {
-    throw std::runtime_error{"[hebb] pxn (matrix were each row is a pattern) is empty"};
+  if (pxn.empty()) {
+    throw std::runtime_error{
+        "[hebb] pxn (matrix were each row is a pattern) is empty"};
   }
   int n_pattern = pxn.size();     // numero di pattern che voglio memorizzare
   int n_neurons = pxn[0].size();  // numero di neuroni
@@ -252,7 +263,8 @@ float energy_function(const std::vector<int>& x,
                       const std::vector<std::vector<float>>& W) {
   int n = x.size();
   if ((int)W.size() != n || (int)W[0].size() != n) {
-    throw std::runtime_error{"[energy_function] W (hebb matrix) uncompatibile with input vector"};
+    throw std::runtime_error{
+        "[energy_function] W (hebb matrix) uncompatibile with input vector"};
   }
   float energy = 0.0;
 
