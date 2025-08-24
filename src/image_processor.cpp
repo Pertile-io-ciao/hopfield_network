@@ -23,7 +23,7 @@ ImageProcessor::ImageProcessor(std::string source, std::string destination) {
 }
 
 // funzione che elabora tutte le immagini che sono nella cartella di origine
-void ImageProcessor::process() {  // metodo process
+void ImageProcessor::process() const {  // metodo process
   if (!std::filesystem::exists(this->destinationFolder)) {
     std::filesystem::create_directories(this->destinationFolder);
   }
@@ -62,7 +62,7 @@ ImageResized::ImageResized(std::string source, std::string destination)
     : ImageProcessor(source, destination) {}
 
 // inizializza la sottoclasse passando i percorsi della classe base
-sf::Image ImageResized::transform(const sf::Image& input) {
+sf::Image ImageResized::transform(const sf::Image& input) const {
   std::vector<sf::Color> colors = vector_from_image(
       input);  // vettore di sf::Color(immagine convertita in un vettore)
   std::vector<int> vector1 =
@@ -80,7 +80,7 @@ sf::Image ImageResized::transform(const sf::Image& input) {
 ImageZoomed::ImageZoomed(std::string source, std::string destination)
     : ImageProcessor(source, destination) {}
 
-sf::Image ImageZoomed::transform(const sf::Image& input) {
+sf::Image ImageZoomed::transform(const sf::Image& input) const {
   std::vector<sf::Color> colori =
       vector_from_image(input);                    // vettore di sf::Color
   std::vector<int> vector1 = blacknwhite(colori);  // -1 / 1
@@ -92,7 +92,7 @@ sf::Image ImageZoomed::transform(const sf::Image& input) {
 ImageNoised::ImageNoised(std::string source, std::string destination)
     : ImageProcessor(source, destination) {}
 
-sf::Image ImageNoised::transform(const sf::Image& input) {
+sf::Image ImageNoised::transform(const sf::Image& input) const {
   std::vector<sf::Color> colors = vector_from_image(input);
   std::vector<int> vector1 = blacknwhite(colors);
   std::vector<int> vector2 =
