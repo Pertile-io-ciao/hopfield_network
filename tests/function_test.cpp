@@ -99,8 +99,7 @@ TEST_CASE("testing bilinear_interpolation") {
   TEST_CASE("testing zoom function") {
     SUBCASE("zoom 2x2 image with n=2") {
         // Supponiamo che l=2 sia globale
-        extern int l; //senza extern crasha
-        l = 2;
+        int l{2}; 
 
         // Matrice 2x2:
         // 1 -1
@@ -140,8 +139,7 @@ TEST_CASE("testing bilinear_interpolation") {
     }
 
     SUBCASE("zoom 1x1 image with n=3") {
-        extern int l;
-        l = 1;
+        //int l{1};
 
         std::vector<int> input = { -1 };
 
@@ -156,8 +154,7 @@ TEST_CASE("testing bilinear_interpolation") {
     }
 
     SUBCASE("zoom 2x2 all ones with n=1") {
-        extern int l;
-        l = 2;
+        //int l{2};
 
         std::vector<int> input = { 1, 1, 1, 1 };
 
@@ -271,8 +268,7 @@ TEST_CASE("testing noise function") {
         CHECK(flipped < 600);
     }
 }TEST_CASE("vertical_cut test") {
-    extern int l;
-    l = 10;
+    int l = 10;
     std::vector<int> v(l*l, -1);
 
     auto result = vertical_cut(v, 3); // random start
@@ -294,8 +290,7 @@ TEST_CASE("testing noise function") {
 }
 
 TEST_CASE("orizontal_cut test") {
-    extern int l;
-    l = 10;
+    int l{10};
     std::vector<int> v(l*l, -1);
 
     auto result = orizontal_cut(v, 2); // random start

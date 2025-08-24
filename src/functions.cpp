@@ -163,6 +163,10 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 }
 
 std::vector<int> vertical_cut(std::vector<int> v, int width) {
+  if (width < 0) {throw std::runtime_error{"[vertical_cut] width < 0"};}
+    if (width == 0) {return v;}
+    if (width > 15)
+        {throw std::runtime_error{"[vertical_cut] width > 15"};}
    int side = (int)sqrt(v.size());
   std::random_device r;
   std::default_random_engine eng{r()};
@@ -181,6 +185,11 @@ std::vector<int> vertical_cut(std::vector<int> v, int width) {
 }
 
 std::vector<int> orizontal_cut(std::vector<int> v, int width) {
+
+  if (width < 0) {throw std::runtime_error{"[orizontal_cut] width < 0"};}
+    if (width == 0) {return v;}
+    if (width > 15)
+        {throw std::runtime_error{"[orizontal_cut] width > 15"};}
   int side = (int)sqrt(v.size());
 
   std::random_device r;
