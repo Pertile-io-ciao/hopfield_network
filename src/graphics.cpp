@@ -42,12 +42,19 @@ int draw() {
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
   std::string noised = "resources/images/noised/";
+  std::string resized = "resources/images/resized/";
 
   // inizializzo i 4 sprites che andranno in alto (quelli normali)
   std::vector<sf::Texture> textures(4);
   std::vector<sf::Sprite> sprites(4);
   std::vector<std::string> zoomed_w_noisepath(
       4);  // percorsi delle versioni corrotte delle immagini
+
+  // percorsi per le immaagini da cui ricavo i pattern originali
+  std::vector<std::vector<int>> original_patterns(4);
+  std::vector<sf::Image> images(4);
+  std::vector<sf::Texture> textures_original(4);
+  std::vector<std::vector<sf::Color>> colors_original(4);
 
   // carica immagini originali
   for (int i = 0; i < 4; ++i) {
@@ -61,6 +68,15 @@ int draw() {
     zoomed_w_noisepath[i] =
         zoomed_w_noise +
         file_names[i];  //<-- prende l'immagine noised e zoomata e la salva
+
+    if (!textures_original[i].loadFromFile(resized + file_names[i])) {
+      throw std::runtime_error("[draw] error: impossible loading image from " +
+                               resized + file_names[i]);
+    }
+
+    images[i] = textures_original[i].copyToImage();
+    colors_original[i] = vector_from_image(images[i]);
+    original_patterns[i] = blacknwhite(colors_original[i]);
   }
 
   // inizializzo lo sprite noised, in basso a sx
@@ -160,7 +176,7 @@ int draw() {
       for (int q = 0; q < 4; ++q) {
         int side = rec.pattern_side();
         int total_neurons = side * side;
-        int neurons_per_frame = 30;
+        int neurons_per_frame = 24;
         std::vector<int> previous_pattern(total_neurons, -1); 
 
         for (int k = 0; k < neurons_per_frame; ++k) {
@@ -181,6 +197,18 @@ int draw() {
             image_from_vector(zoom(rec.get_pattern_ref()));  
         texturerecall.update(img);                           
         spriterecall.setTexture(texturerecall);
+
+        for (int i = 0; i < 4; ++i)
+        {
+          if (previous_pattern == original_patterns[i])
+          {
+            std::cout << "convergence!" << '\n';
+            runningrecall = false;
+          }
+          
+        }
+        
+        
       }
       rec.compute_energy();
       energyText.setString("Energy: " + std::to_string(rec.get_energy()));
