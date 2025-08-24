@@ -152,7 +152,7 @@ int draw() {
               showNoisedImage = true;
               is_noised = true;
               selected_image_index = i;  // immagine che sarà usata dalla rete
-              int runningrecall = 0;     // la rete non parte ancora
+              runningrecall = 0;     // la rete non parte ancora
             }
           }
         }

@@ -148,7 +148,7 @@ TEST_CASE("testing bilinear_interpolation") {
         int n = 3;
         auto output = zoom(input, n);
 
-        int newL = l * n;
+        // int newL = l * n;
         CHECK(output.size() == 9); // 3x3
         for (auto val : output) {
             CHECK(val == -1); // tutti uguali al valore originale
