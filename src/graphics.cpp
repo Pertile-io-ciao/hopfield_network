@@ -17,8 +17,6 @@ bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
   return sprite.getGlobalBounds().contains(mousePos);
 }
 
-// std::vector<bool> optionSelected(4, false);
-
 int draw() {
   const float virtualWidth = 1900.f;
   const float virtualHeight = 800.f;
@@ -38,8 +36,8 @@ int draw() {
   bool showNoisedImage = false;
 
   // Percorsi delle immagini
-  std::vector<std::string> file_names = {"battilana.png", "battilana2.png", "ferrari.png",
-                                         "lanzi.png"};
+  std::vector<std::string> file_names = {"battilana.png", "battilana2.png",
+                                         "ferrari.png", "lanzi.png"};
 
   std::string zoomed = "resources/images/zoomed/";
   std::string zoomed_w_noise = "resources/images/zoomed_w_noise/";
@@ -85,6 +83,14 @@ int draw() {
   energyText.setCharacterSize(35);
   energyText.setFillColor(sf::Color::Black);
   energyText.setPosition(1280.f, 530.f);
+
+  sf::RectangleShape background;
+  background.setFillColor(
+      sf::Color(255, 255, 255, 200));  // nero semitrasparente
+  background.setSize(sf::Vector2f(energyText.getLocalBounds().width + 10,
+                                  energyText.getLocalBounds().height + 10));
+  background.setPosition(energyText.getPosition().x,
+                         energyText.getPosition().y);
 
   // ciclo principale che racchiude tutta la grafica che si vede a schermo
   while (window.isOpen()) {
@@ -147,7 +153,7 @@ int draw() {
 
                                     file_names[selected_image_index]);
 
-          //int side = rec.pattern_side();
+          // int side = rec.pattern_side();
           sf::Image img = image_from_vector(
               zoom(rec.get_pattern_ref()));  // Remove zoom here
           std::cout << "Image size: " << img.getSize().x << "x"
@@ -173,7 +179,7 @@ int draw() {
         int total_neurons = side * side;
         int neurons_per_frame = 30;
         std::vector<int> previous_pattern(total_neurons,
-                                                 -1);  // Initialize with - 1
+                                          -1);  // Initialize with - 1
 
         // static bool converged = false;
 
@@ -193,16 +199,24 @@ int draw() {
         // *** THIS CODE STAYS HERE ***
         sf::Image img =
             image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here
-        texturerecall.update(img);  // MODIFICA
+        texturerecall.update(img);                           // MODIFICA
         spriterecall.setTexture(texturerecall);
       }
       rec.compute_energy();
       energyText.setString("Energy: " + std::to_string(rec.get_energy()));
+
+      // Aggiorna lo sfondo in base alle nuove dimensioni del testo
+      background.setSize(sf::Vector2f(
+          energyText.getLocalBounds().width + 20,  // un po’ di padding extra
+          energyText.getLocalBounds().height + 20));
+      background.setPosition(
+          energyText.getPosition().x - 10,  // centrato con padding
+          energyText.getPosition().y - 5);
     }
 
     // fase di disegno per ogni frame
 
-    window.clear(sf::Color::Red);
+    window.clear(sf::Color(205, 133, 63));
     // altro in  grafica prova
 
     // Disegna immagini originali
@@ -217,6 +231,7 @@ int draw() {
 
     if (runningrecall) {
       window.draw(spriterecall);
+      window.draw(background);
       window.draw(energyText);
     }
 
