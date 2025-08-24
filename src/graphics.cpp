@@ -8,7 +8,6 @@
 #include "recall.hpp"
 
 namespace hp {
-Recall rec("data");
 
 int selected_image_index = -1;
 int start_index = 0;
@@ -18,6 +17,7 @@ bool isSpriteClicked(const sf::Sprite& sprite, sf::Vector2f mousePos) {
 }
 
 int draw() {
+  Recall rec("data");
   const float virtualWidth = 1900.f;
   const float virtualHeight = 800.f;
 

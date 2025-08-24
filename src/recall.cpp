@@ -8,6 +8,7 @@
 
 #include "functions.hpp"
 
+namespace hp{
 Recall::Recall(const std::string& matrix_path) {
   this->matrix_Folder = matrix_path;  // data
   this->weight_matrix = load_matrix();
@@ -83,4 +84,5 @@ const std::vector<int>& Recall::get_pattern_ref() const {
 
 float Recall::get_energy() const {
   return this->energy;
+}
 }

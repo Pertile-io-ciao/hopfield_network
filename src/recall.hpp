@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+namespace hp{
 class Recall {
   std::string matrix_Folder;
   std::string image_clicked;
@@ -31,5 +31,5 @@ class Recall {
 
   const std::vector<int>& get_pattern_ref() const;
 };
-
+}
 #endif

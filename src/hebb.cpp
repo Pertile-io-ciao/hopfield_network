@@ -14,8 +14,7 @@ Hebb::Hebb(std::string source, std::string destination) {
 }
 
 void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
-  std::filesystem::path outdir(
-      destinationFolder);  // rappresenta la cartella di destinazione
+  std::filesystem::path outdir(destinationFolder);  // rappresenta la cartella di destinazione
 
   // crea la cartella di destinazione se manca
   if (!std::filesystem::exists(outdir)) {
@@ -23,27 +22,23 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
       throw std::runtime_error{"[Hebb::save_matrix] cannot create directory ‘" + outdir.string() + "'"};
     }
   }
+   
+  if (matrix.empty() || matrix[0].empty()) {
+    throw std::runtime_error{"[Hebb::save_matrix] empty matrix"};
+  }
+
   // percorso file completo
   std::filesystem::path outpath = outdir / "weight_matrix.txt";
 
-  // apri file in testo (per file molto grandi preferisci binario)
-  std::ofstream out(outpath, std::ios::out);
-  // se il file non si apre stampa errore e lancia eccezione
+  std::ofstream out(outpath, std::ios::out | std::ios::trunc);
   if (!out.is_open()) {
-    std::string msg =
-        "[Hebb::save_matrix] cannot open file for writing: " + outpath.string();
-    throw std::runtime_error{msg};
+    throw std::runtime_error{"[Hebb::save_matrix] cannot open file for writing: " + outpath.string()};
   }
-
-  // se la matrice è vuota, scriviamo comunque un messaggio e
-  //terminiamo 
-  if (matrix.empty()) { throw std::runtime_error{"[Hebb::save_matrix] empty matrix"}; }
   
-  // formattazione leggibile a 6 numeri decimali
+  // formattazione leggibile a 7 numeri decimali
   out << std::fixed << std::setprecision(7);
 
   // scrivo ogni riga, valori separati da spazio
-
   for (const auto& row : matrix) {
     if (row.empty()) {
       throw std::runtime_error{"[Hebb::save_matrix] found an empty row in the matrix!"};
@@ -60,7 +55,6 @@ void Hebb::save_matrix(const std::vector<std::vector<float>>& matrix) const {
   // Stampa un messaggio di successo con le dimensioni della matrice e il 
   // percorso del file. 
   std::cout << "[Hebb::save_matrix] saved matrix to: " << outpath << "(" << matrix.size() << " x " << matrix[0].size() << ")\n";
-
 }
 
 void Hebb::process() {
