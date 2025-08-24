@@ -46,12 +46,8 @@ int draw() {
   // inizializzo i 4 sprites che andranno in alto (quelli normali)
   std::vector<sf::Texture> textures(4);
   std::vector<sf::Sprite> sprites(4);
-  std::vector<std::string> zoomed_w_noisepath(4);
-  // percorsi delle versioni corrotte delle immagini
-  // std::vector<int> imagenoisedpath;
-  /*forse qui dovremmo aggiungere un altro
-    path per le immagini da dare in input
-    a neuron update? (noised, non zoomed_w_noise)*/
+  std::vector<std::string> zoomed_w_noisepath(
+      4);  // percorsi delle versioni corrotte delle immagini
 
   // carica immagini originali
   for (int i = 0; i < 4; ++i) {
@@ -85,8 +81,7 @@ int draw() {
   energyText.setPosition(1280.f, 530.f);
 
   sf::RectangleShape background;
-  background.setFillColor(
-      sf::Color(255, 255, 255, 200));  // nero semitrasparente
+  background.setFillColor(sf::Color(255, 255, 255, 200));
   background.setSize(sf::Vector2f(energyText.getLocalBounds().width + 10,
                                   energyText.getLocalBounds().height + 10));
   background.setPosition(energyText.getPosition().x,
@@ -94,9 +89,8 @@ int draw() {
 
   // ciclo principale che racchiude tutta la grafica che si vede a schermo
   while (window.isOpen()) {
-    sf::Event event;                 // struttura x gestire eventi
-    while (window.pollEvent(event))  // prende tutti gli eventi disponibili
-    {
+    sf::Event event;
+    while (window.pollEvent(event)) {
       // gestione ridimensionamento (mantiene le proporzioni)
       if (event.type == sf::Event::Resized) {
         float windowRatio =
@@ -117,17 +111,13 @@ int draw() {
         window.setView(view);
       }
 
-      if (event.type == sf::Event::Closed)
-        window.close();  // chiude la finestra se premo x
+      if (event.type == sf::Event::Closed) window.close();
 
       // gestione click
       if (event.type == sf::Event::MouseButtonPressed &&
-          event.mouseButton.button ==
-              sf::Mouse::Left) {  // premere pulsante sinistro
-
-        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(
-            window));  // mapPixelToCoords converte posizione del mouse da pixel
-        // a coordinate della vista
+          event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2f mousePos =
+            window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
         for (int i = 0; i < 4; ++i) {
           if (isSpriteClicked(sprites[i], mousePos)) {
@@ -149,22 +139,15 @@ int draw() {
 
         if (isSpriteClicked(spritenoised, mousePos)) {
           // Carica immagine corrotta corrispondente
-          rec.initialize_from_image(noised +
-
-                                    file_names[selected_image_index]);
-
-          // int side = rec.pattern_side();
-          sf::Image img = image_from_vector(
-              zoom(rec.get_pattern_ref()));  // Remove zoom here
+          rec.initialize_from_image(noised + file_names[selected_image_index]);
+          sf::Image img = image_from_vector(zoom(rec.get_pattern_ref()));
           std::cout << "Image size: " << img.getSize().x << "x"
                     << img.getSize().y << '\n';
-          sf::Vector2u imgSize = img.getSize();  // zoom
-
+          sf::Vector2u imgSize = img.getSize();
           texturerecall.create(imgSize.x, imgSize.y);
           texturerecall.loadFromImage(img);
           spriterecall.setTexture(texturerecall);
           spriterecall.setPosition(815.f, 450.f);
-
           runningrecall = true;  // ora la rete può partire al prossimo frame
           std::cout << "runningrecall set to true!" << '\n';
           start_index = 0;
@@ -178,10 +161,7 @@ int draw() {
         int side = rec.pattern_side();
         int total_neurons = side * side;
         int neurons_per_frame = 30;
-        std::vector<int> previous_pattern(total_neurons,
-                                          -1);  // Initialize with - 1
-
-        // static bool converged = false;
+        std::vector<int> previous_pattern(total_neurons, -1); 
 
         for (int k = 0; k < neurons_per_frame; ++k) {
           int neuron_to_update = rand() % total_neurons;
@@ -198,8 +178,8 @@ int draw() {
 
         // *** THIS CODE STAYS HERE ***
         sf::Image img =
-            image_from_vector(zoom(rec.get_pattern_ref()));  // Remove zoom here
-        texturerecall.update(img);                           // MODIFICA
+            image_from_vector(zoom(rec.get_pattern_ref()));  
+        texturerecall.update(img);                           
         spriterecall.setTexture(texturerecall);
       }
       rec.compute_energy();
@@ -207,10 +187,10 @@ int draw() {
 
       // Aggiorna lo sfondo in base alle nuove dimensioni del testo
       background.setSize(sf::Vector2f(
-          energyText.getLocalBounds().width + 20,  // un po’ di padding extra
+          energyText.getLocalBounds().width + 20, 
           energyText.getLocalBounds().height + 20));
       background.setPosition(
-          energyText.getPosition().x - 10,  // centrato con padding
+          energyText.getPosition().x - 10, 
           energyText.getPosition().y - 5);
     }
 
