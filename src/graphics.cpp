@@ -89,8 +89,9 @@ int draw() {
   sf::Sprite spriterecall;
   int runningrecall = 0;
 
-  std::random_device rd;   // genera un seme casuale
-  std::mt19937 gen(rd());  // motore Mersenne Twister
+
+    std::random_device r;
+    std::default_random_engine eng{r()};
 
   // inizializzo la scritta per la funzione energia
   sf::Text energyText;
@@ -183,10 +184,10 @@ int draw() {
         std::vector<int> previous_pattern(total_neurons, -1);
 
         for (int k = 0; k < neurons_per_frame; ++k) {
-          std::uniform_int_distribution<> distrib(0, total_neurons - 1);
+          std::uniform_int_distribution<> distrib{0, total_neurons - 1};
 
           // Generiamo il numero casuale
-          int neuron_to_update = distrib(gen);
+          int neuron_to_update = distrib(eng);
 
           rec.update(neuron_to_update);  // usa la funzione interna di Recall
         }

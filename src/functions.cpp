@@ -171,11 +171,11 @@ std::vector<int> vertical_cut(std::vector<int> v, int width) {
         "[vertical_cut] cut's width must be between 1 and 15"};
   }
   if (width == 0) return v;
-  static std::random_device rd;
-  static std::mt19937 gen(rd());
-  std::uniform_int_distribution<> distrib(0, l - width);
 
-  int start = distrib(gen);
+  static std::random_device r;
+  std::default_random_engine eng{r()};
+  std::uniform_int_distribution<> distrib{0, l - width};
+  int start = distrib(eng);
   int end = start + width - 1;
 
   for (int i = 0; i < l; ++i) {
@@ -194,11 +194,11 @@ std::vector<int> orizontal_cut(std::vector<int> v, int width) {
         "[orizontal_cut] cut's width must be between 1 and 15"};
   }
   if (width == 0) return v;
-  static std::random_device rd;
-  static std::mt19937 gen(rd());
-  std::uniform_int_distribution<> distrib(0, l - width);
+  static std::random_device r;
+  std::default_random_engine eng{r()};
+  std::uniform_int_distribution<> distrib{0, l - width};
 
-  int start = distrib(gen);
+  int start = distrib(eng);
   int end = start + width - 1;
   for (int i = 0; i < l; ++i) {
     for (int j = 0; j < l; ++j) {
