@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-int l = 56;  // occhio alle variabili globali
+
 
 std::vector<sf::Color> vector_from_image(const sf::Image& image) {
   int width = image.getSize().x;
@@ -58,6 +58,7 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
     throw std::runtime_error{
         "[bilinear_interpolation] input size != widht*height"};
   }
+  int l = 56; //lato immagine dichiarato solo qui!!!
   std::vector<int> output(l * l);
   for (int y = 0; y < l; ++y) {
     for (int x = 0; x < l; ++x) {
@@ -96,15 +97,17 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
 }
 
 std::vector<int> zoom(const std::vector<int>& v, int zoom_factor) {
-  if ((size_t)(l * l) != v.size()) {
+   int side = (int)sqrt(v.size());
+
+  if ((size_t)(side * side) != v.size()) {
     throw std::runtime_error{"[zoom] input size!= l*l."};
   }
-  int newL = l * zoom_factor;
+  int newL = side * zoom_factor;
   std::vector<int> result(newL * newL);
 
-  for (int y = 0; y < l; ++y) {
-    for (int x = 0; x < l; ++x) {
-      int value = v[y * l + x];
+  for (int y = 0; y < side; ++y) {
+    for (int x = 0; x < side; ++x) {
+      int value = v[y * side + x];
 
       // Scrivi valore in blocco n x n
       for (int dy = 0; dy < zoom_factor; ++dy) {
@@ -143,7 +146,6 @@ sf::Image image_from_vector(const std::vector<int>& bwvector) {
 
 std::vector<int> noise(std::vector<int> v, float prob) {
   std::vector<int> result = v;
-
   std::srand(static_cast<unsigned>(std::time(0)));
 
   for (size_t i = 0; i < result.size(); ++i) {
@@ -161,16 +163,17 @@ std::vector<int> noise(std::vector<int> v, float prob) {
 }
 
 std::vector<int> vertical_cut(std::vector<int> v, int width) {
+   int side = (int)sqrt(v.size());
   std::random_device r;
   std::default_random_engine eng{r()};
-  std::uniform_int_distribution<int> distrib{0, l - width};
+  std::uniform_int_distribution<int> distrib{0, side - width};
   int start = distrib(eng);
   int end = start + width - 1;
 
-  for (int i = 0; i < l; ++i) {
-    for (int j = 0; j < l; ++j) {
+  for (int i = 0; i < side; ++i) {
+    for (int j = 0; j < side; ++j) {
       if (j >= start && j <= end) {
-        v[i * l + j] = 1;
+        v[i * side + j] = 1;
       }
     }
   }
@@ -178,16 +181,18 @@ std::vector<int> vertical_cut(std::vector<int> v, int width) {
 }
 
 std::vector<int> orizontal_cut(std::vector<int> v, int width) {
+  int side = (int)sqrt(v.size());
+
   std::random_device r;
   std::default_random_engine eng{r()};
-  std::uniform_int_distribution<int> distrib{0, l - width};
+  std::uniform_int_distribution<int> distrib{0, side - width};
 
   int start = distrib(eng);
   int end = start + width - 1;
-  for (int i = 0; i < l; ++i) {
-    for (int j = 0; j < l; ++j) {
+  for (int i = 0; i < side; ++i) {
+    for (int j = 0; j < side; ++j) {
       if (i >= start && i <= end) {
-        v[i * l + j] = 1;
+        v[i * side + j] = 1;
       }
     }
   }

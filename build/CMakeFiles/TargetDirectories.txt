@@ -28,7 +28,6 @@
 /home/marghe/hopfield_network/build/CMakeFiles/ContinuousSubmit.dir
 /home/marghe/hopfield_network/build/CMakeFiles/hopfield_lib.dir
 /home/marghe/hopfield_network/build/CMakeFiles/hopfield_network.dir
-/home/marghe/hopfield_network/build/CMakeFiles/hopfield_network_tests.dir
 /home/marghe/hopfield_network/build/CMakeFiles/test.dir
 /home/marghe/hopfield_network/build/CMakeFiles/edit_cache.dir
 /home/marghe/hopfield_network/build/CMakeFiles/rebuild_cache.dir
