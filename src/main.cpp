@@ -9,6 +9,7 @@
 #include "recall.hpp"
 
 int main() {
+
   try {
     hp::ImageResized interp("resources/images/source",
                             "resources/images/resized");
