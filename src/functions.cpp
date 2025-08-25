@@ -135,6 +135,9 @@ sf::Image image_from_vector(const std::vector<int>& bwvector) {
 }
 
 std::vector<int> noise(std::vector<int> v, float prob) {
+    if (prob > 0.3) {
+    throw std::runtime_error{"[noise] prob > 0.3"};
+  }
   std::vector<int> result = v;
   std::srand(static_cast<unsigned>(std::time(0)));
 
