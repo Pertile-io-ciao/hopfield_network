@@ -48,7 +48,8 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
     throw std::runtime_error{
         "[bilinear_interpolation] input size != widht*height"};
   }
-  int l = 56;  // lato immagine, dichiarata solo in questo punto (oltre che in function_test.cpp riga 64)
+  int l = 56;  // lato immagine, dichiarata solo in questo punto (oltre che in
+               // function_test.cpp riga 64)
   std::vector<int> output(l * l);
   for (int y = 0; y < l; ++y) {
     for (int x = 0; x < l; ++x) {
@@ -134,7 +135,9 @@ sf::Image image_from_vector(const std::vector<int>& bwvector) {
   return image;
 }
 
-std::vector<int> noise(std::vector<int> v, float prob) {
+std::vector<int> noise(std::vector<int> v,
+                       float prob) {  // 0.0<prob<1.0 (per prob>1.0 ho un
+                                      // comportamento uguale a prob=1.0)
   std::vector<int> result = v;
   std::srand(static_cast<unsigned>(std::time(0)));
 

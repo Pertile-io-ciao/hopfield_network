@@ -35,7 +35,7 @@ Dopo l'avvio, il programma mostra in alto le immagini ridimensionate, in bianco 
 Cliccando su una di esse ne comparirà la versione corrotta in basso a sinistra.
 Cliccando poi sull'immagine corrotta, inizia la dinamica di aggiornamento.
 
-Nota: la corruzione è casuale; per ottenere versioni corrotte diverse è necessario riavviare il programma.
+Nota: la corruzione è casuale; per ottenere versioni delle specifiche immagini corrotte diversamente è necessario riavviare il programma.
 Se si vuole aumentare il livello di rumore/tagli, modificare i parametri nelle funzioni noise, vertical_cut e orizontal_cut in functions.hpp.
 
 Se si vogliono cambiare le immagini:
