@@ -155,8 +155,6 @@ int draw() {
           // carica immagine corrotta corrispondente
           rec.initialize_from_image(noised + file_names[selected_image_index]);
           sf::Image img = image_from_vector(zoom(rec.get_pattern_ref()));
-          std::cout << "Image size: " << img.getSize().x << "x"
-                    << img.getSize().y << '\n';
           sf::Vector2u imgSize = img.getSize();
           texturerecall.create(imgSize.x, imgSize.y);
           texturerecall.loadFromImage(img);
