@@ -20,10 +20,7 @@ int draw() {
   sf::RenderWindow window(sf::VideoMode(virtualWidth, virtualHeight),
                           "hopfield_network", sf::Style::Close);
 
-  /**
-   * per non avere troppo consumo cpu
-   */
-  window.setFramerateLimit(50);
+  window.setFramerateLimit(50);  // per non avere troppo consumo cpu
 
   sf::View view(sf::FloatRect(0, 0, virtualWidth, virtualHeight));
   window.setView(view);

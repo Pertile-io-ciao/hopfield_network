@@ -5,7 +5,7 @@
 #include <string>
 
 namespace hp {
-  
+
 class ImageProcessor {
  private:
   std::string sourceFolder;

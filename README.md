@@ -1,6 +1,13 @@
 # hopfield_network
 
 ##Cosa fa il programma
+Il progetto implementa una rete neurale di Hopfield in C++ con interfaccia grafica basata su **SFML**.  
+La rete è in grado di:
+- memorizzare pattern binari derivati da immagini png caricate nella cartella resorces/images/source (le ulteriori cartelle usate se non esistono vengono create e riempite coerentemente dal programmma);
+- recuperare, grazie alla memorizzazione della matrice dei pesi creata con la regola di hebb e usando il criterio di convergenza di hopfield, i pattern originali anche a partire da versioni corrotte da rumore o tagli;
+- visualizzare in tempo reale il processo di convergenza tramite interfaccia grafica.
+
+Le immagini originali vengono preprocessate (ridimensionamento, binarizzazione, rumore, zoom) e convertite in vettori di valori `{-1, +1}`. La matrice dei pesi viene calcolata con la regola di Hebb e salvata in `data/weight_matrix.txt`.
 
 ##Librerie usate
 - **SFML** – gestione grafica e visualizzazione dei pattern  

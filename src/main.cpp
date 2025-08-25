@@ -1,5 +1,5 @@
-#include <iostream>
 #include <exception>
+#include <iostream>
 
 #include "graphics.hpp"
 #include "hebb.hpp"
@@ -24,12 +24,11 @@ int main() {
     hp::Hebb create_matrix("resources/images/resized", "data");
     create_matrix.process();
     hp::draw();
-   
-  }
-  catch (const std::exception& e) {
-        std::cerr << "Caught exception: " << e.what() << '\n';
-        return EXIT_FAILURE;
-    }
 
-    return EXIT_SUCCESS;
+  } catch (const std::exception& e) {
+    std::cerr << "Caught exception: " << e.what() << '\n';
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
 }

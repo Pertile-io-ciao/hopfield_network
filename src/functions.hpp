@@ -24,7 +24,9 @@ float energy_function(const std::vector<int>& x,
                       const std::vector<std::vector<float>>& W);
 
 std::vector<int> noise(std::vector<int> v, float prob = 0.08f);
-std::vector<int> orizontal_cut(std::vector<int> v, int width = 10); //widht max 14
-std::vector<int> vertical_cut(std::vector<int> v, int width = 10);  //widht max 14
+std::vector<int> orizontal_cut(std::vector<int> v,
+                               int width = 10);  // widht max 14
+std::vector<int> vertical_cut(std::vector<int> v,
+                              int width = 10);  // widht max 14
 }  // namespace hp
 #endif
