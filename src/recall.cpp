@@ -53,8 +53,6 @@ void Recall::initialize_from_image(const std::string& image_file) {
   std::vector<int> pattern = blacknwhite(colors);
   this->current_pattern = pattern;
   std::cout << "image file: " << image_file << '\n';
-  std::cout << "image size: " << img.getSize().x << "x" << img.getSize().y
-            << '\n';
   std::cout << "pattern size: " << pattern.size() << '\n';
   if (pattern.size() != weight_matrix.size()) {
     throw std::runtime_error{

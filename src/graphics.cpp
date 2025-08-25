@@ -27,8 +27,8 @@ int draw() {
 
   sf::Font font;
   if (!font.loadFromFile("resources/arial.ttf")) {
-    throw std::runtime_error(
-        "[draw] error: impossible loading font from resources/arial.ttf");
+    throw std::runtime_error{
+        "[draw] error: impossible loading font from resources/arial.ttf"};
   }
 
   bool showNoisedImage = false;
@@ -58,8 +58,8 @@ int draw() {
   // carica immagini originali
   for (int i = 0; i < 4; ++i) {
     if (!textures[i].loadFromFile(zoomed + file_names[i])) {
-      throw std::runtime_error("[draw] error: impossible loading image from " +
-                               zoomed + file_names[i]);
+      throw std::runtime_error{"[draw] error: impossible loading image from " +
+                               zoomed + file_names[i]};
     }
     sprites[i].setTexture(textures[i]);
     sprites[i].setPosition(i * 475.f + 109.5f,
@@ -67,8 +67,8 @@ int draw() {
     zoomed_w_noisepath[i] = zoomed_w_noise + file_names[i];
 
     if (!textures_original[i].loadFromFile(resized + file_names[i])) {
-      throw std::runtime_error("[draw] error: impossible loading image from " +
-                               resized + file_names[i]);
+      throw std::runtime_error{"[draw] error: impossible loading image from " +
+                               resized + file_names[i]};
     }
 
     images[i] = textures_original[i].copyToImage();
@@ -139,9 +139,9 @@ int draw() {
           if (isSpriteClicked(sprites[i], mousePos)) {
             // carica immagine corrotta corrispondente
             if (!texturenoised.loadFromFile(zoomed_w_noisepath[i])) {
-              throw std::runtime_error(
+              throw std::runtime_error{
                   "[draw] error: impossible loading image from " +
-                  zoomed_w_noisepath[i]);
+                  zoomed_w_noisepath[i]};
             } else {
               spritenoised.setTexture(texturenoised);
               spritenoised.setPosition(283.f, 450.f);
@@ -194,11 +194,7 @@ int draw() {
 
         for (int i = 0; i < 4; ++i) {
           if (previous_pattern == original_patterns[i]) {
-            if (selected_image_index == 3) {
-              std::cout << "bazinga!!!" << '\n';
-            } else {
-              std::cout << "convergence!" << '\n';
-            }
+            std::cout << "convergence!" << '\n';
             runningrecall =
                 2;  // convergenza: fine della dinamica di aggiornamento
           }
@@ -217,12 +213,12 @@ int draw() {
     // fase di disegno per ogni frame
     window.clear(sf::Color(95, 158, 160));
 
-    // disegna immagini originali
+    // disegna immagini in alto
     for (auto& sprite : sprites) {
       window.draw(sprite);
     }
 
-    // disegna immagine distorta se presente
+    // disegna immagine distorta che clicchi
     if (is_noised && showNoisedImage) {
       window.draw(spritenoised);
     }
