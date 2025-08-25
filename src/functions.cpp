@@ -57,30 +57,30 @@ std::vector<int> bilinear_interpolation(const std::vector<int>& input,
                  0.5f;  // coordinate dei pixel nell'immagine originale
       float gy = ((y + 0.5f) * height) / l - 0.5f;
 
-      int x0 = std::floor(gx);
-      int y0 = std::floor(gy);
-      int x1 = std::min(x0 + 1, width - 1);
-      int y1 = std::min(y0 + 1, height - 1);
+      int xLeft = std::floor(gx);
+      int yTop = std::floor(gy);
+      int xRight = std::min(xLeft + 1, width - 1);
+      int yBottom = std::min(yTop + 1, height - 1);
 
-      x0 = std::clamp(x0, 0, width - 1);
-      y0 = std::clamp(y0, 0, height - 1);
+      xLeft = std::clamp(xLeft, 0, width - 1);
+      yTop = std::clamp(yTop, 0, height - 1);
 
-      float dx = gx - x0;
-      float dy = gy - y0;
+      float xWeight = gx - xLeft;
+      float yWeight = gy - yTop;
 
       auto at = [&](int x, int y) -> float {
         return (input[y * width + x] > 0) ? 1.0f : 0.0f;
       };
 
-      float v00 = at(x0, y0);
-      float v10 = at(x1, y0);
-      float v01 = at(x0, y1);
-      float v11 = at(x1, y1);
+      float topLeft = at(xLeft, yTop);
+      float topRight = at(xRight, yTop);
+      float bottomLeft = at(xLeft, yBottom);
+      float bottomRight = at(xRight, yBottom);
 
-      float value = v00 * (1 - dx) * (1 - dy) + v10 * dx * (1 - dy) +
-                    v01 * (1 - dx) * dy + v11 * dx * dy;
+      float interpolated = topLeft * (1 - xWeight) * (1 - yWeight) + topRight * xWeight * (1 - yWeight) +
+                    bottomLeft * (1 - xWeight) * yWeight + bottomRight * xWeight * yWeight;
 
-      output[y * l + x] = (value < 0.5f) ? -1 : 1;
+      output[y * l + x] = (interpolated < 0.5f) ? -1 : 1;
     }
   }
 
